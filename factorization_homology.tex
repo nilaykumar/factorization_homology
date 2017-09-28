@@ -1,0 +1,492 @@
+\documentclass{amsart}
+
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{mathrsfs}
+\usepackage{tikz-cd}
+\usepackage{amssymb}
+\usepackage{centernot}
+
+\usepackage{marginnote}
+\renewcommand*{\marginfont}{\scriptsize\color{red}\sffamily}
+
+\input{macros.tex}
+
+\newcommand{\fsl}[1]{{\centernot{#1}}}
+\renewcommand\d{\mathsf{D}}
+
+\DeclareMathOperator{\Fun}{Fun}
+\DeclareMathOperator{\Emb}{Emb}
+\DeclareMathOperator{\Conf}{Conf}
+\DeclareMathOperator{\hofiber}{hofiber}
+\DeclareMathOperator{\ev}{ev}
+
+\title{Factorization Homology}
+\author{John Francis}
+\date{Fall 2017}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+These are notes from John Francis' ``Factorization homology'' course 
+taught during the Fall quarter of the 2017 year at Northwestern. 
+Errors and inaccuracies are, as usual, due to the notetaker(s).
+
+
+\section{What is factorization homology? [09/20/17]}
+
+What is factorization homology? We can describe it in two ways. If it 
+were an animal, I'd first describe how it's distributed over the face of the earth.
+Next we will describe its phylogeny -- how it evolved from single-celled organisms.
+For the moment you can think of factorization algebra as a sort of 
+generalized-(co)sheaf-homology. This expression can be hyphenated in both ways.
+More specifically, it is a machine/assembly line that takes two inputs:
+one from geometry $M$ , and one from algebra $A$. The output is
+the factorization homology of $M$ $\int_M A$ with coefficients in $A$.
+
+
+\begin{enumerate}
+
+    \item \textbf{Homology.} Here $M$ is a topological space and $A$ is an abelian group.
+        In this case the output is a chain complex
+        \begin{equation*}
+            \int_M A \simeq \HH_\bullet(M,A),
+        \end{equation*}
+        quasiisomorphic to singular homology with coefficients in $A$.
+        \marginnote{John: What is a theorem you can't prove without ordinary homology?}
+
+    \item  \textbf{Hochschild homology.} Here $M$ is a one-dimensional manifold and $A$
+        will be an associative algebra. In this case
+        \begin{equation*}
+            \int_{S^1} A \simeq HH_\bullet A,
+        \end{equation*}
+        the Hochschild homology of $A$.
+        You might be less familiar with this algebraic object than ordinary
+        homology. It's importance comes from how it underlies trace methods
+        in algebra (e.g. characteristic 0 representations of finite groups).
+        Hochschild homology is a recipient of ``the universal trace'' and hence
+        an important part of associative algebra. Note that
+        $HH_0A=A/[A,A]$.
+        
+    \item \textbf{Conformal field theory.} This is in some sense the real starting point
+        for the ideas we will develop in this class. Here $M$ is a smooth complete etc.
+        algebraic curve over $\C$ and $A$ is a vertex algebra. In this case
+        the output $\int_M A$ was constructed by Beilinson and Drinfeld, and
+        is known as chiral homology of $M$ with coefficients in $A$. It is
+        a chain complex, with $\HH_0(\int_M A)$ being the conformal blocks of
+        the conformal field theory.
+
+    \item \textbf{Algebraic curves over $\F_q$.} Here $M$ is an algebraic curve over $\F_q$
+        and $G$ is a connected algebraic group over $\F_q$. In this case $\int_MG$ is known
+        as the Beilinson-Drinfeld Grassmannian, and is a stack. One interesting
+        property that it has is that
+        \begin{equation*}
+            \HH_\bullet(\int_M G,\bar\Q_\ell) \simeq \HH_\bullet(\text{Bun}_G(M),\bar\Q_\ell).
+        \end{equation*}
+        Although the Beilinson-Drinfeld Grassmannian is more complicated, it is
+        more easily manipulated. This equivalence is a form of non-Abelian
+        Poincar\'e duality.
+
+        In particular, one might be interested in computing
+        \begin{equation*}
+            \chi(\text{Bun}_G(M)) = \sum_{[P]}\frac{1}{|\Aut(P)|},
+        \end{equation*}
+        which makes sense over a finite field. The computation of this quantity is
+        known as Weil's conjecture on Tamagawa numbers.
+
+    \item \textbf{Topology of mapping spaces.} Now $M$ is an $n$-manifold without boundary and $A$ will be an
+        $n$-fold loop space, $A=\Omega^nZ=\Maps( (D^n,\partial D^n),(Z,*))$. The
+        output is a space weakly homotopy equivalent to $\Maps_c(M,Z)$ if $\pi_iZ=0$ for $i<n$.
+        This is also known as nonabelian Poincar\'e duality. Again the left hand
+        side is more complicated but more easily manipulated.
+
+    \item \textbf{$n$-disk algebra (perturbative TQFT).}
+        Here $M$ is an $n$-manifold and $A$ is an $n$-disk algebra (or an $E_n$-algebra)
+        in chain complexes. The output is a chain complex and has some sort of interpretation
+        in physics. One thinks of $A$ as the algebra of observables on $\R^n$, and
+        $\int_M A$ is the global observables (in some derived sense). In a rough
+        cartoon of physics, one assigns to opens sets of observables, and a way to copmute
+        expectation values. Factorization homology puts together local observables to global
+        observables:
+        \begin{equation*}
+            \text{Obs}(M) \simeq \int_M A.
+        \end{equation*}
+        if we are working in perturbative QFT.
+
+    \item \textbf{TQFT.} Here $M$ is an $n$-manifold (maybe with a framing) and $A$ is an
+        $(\infty,n)$-category (enriched in $\mathcal{V}$).
+        The output is a space (if enriched, an object of $\mathcal{V}$), which
+        is designed to remove the assumptions from the examples above.
+\end{enumerate}
+
+Next class we'll go over how one might have come up with factorization homology
+if one didn't know all of mathematics. We will focus in this class in learning
+factorization as a \textbf{tool}, instead of aiming to reach some fancy theorem.
+We will start with the examples of the topology of mapping spaces.
+
+\textbf{Pax:} What is the physical interpretation of the first and second chiral
+homologies? \textbf{John:} One might be interested in things like Wilson lines,
+where these higher homology groups come into play.
+
+\section{How to come up with factorization homology yourself [09/22/17]}
+
+Last time we went over where in mathematics one might encounter factorization homology.
+This time we'll go over how you might come up with it yourself. Consider the following
+thought experiment. Suppose you want to study objects in some context $\mathcal{M}$.
+Unfortunately objects here are pretty hard in general. Inside $\mathcal{M}$, however,
+we have $\mathcal{D}\subset \mathcal{M}$ which are particulary simple, and everything else
+in $\mathcal{M}$ is built out of objects in $\mathcal{D}$.
+
+Let's consider the example where $\mathcal{M}$ is a nice category of (homotopy types of)
+topological spaces. Let $\mathcal{D}$ be the single point, i.e. all contractible spaces.
+To study $\mathcal{M}$ we might map functors out of it. Let's start with $\mathcal{D}$
+instead. Consider $\Fun(*, \mathcal{V})$, where $\mathcal{V}$ is some category where
+our invariants will live. Of course this is canonically just $\mathcal{V}$. How do we 
+extend to $\mathcal{M}$? We have a restriction map
+\begin{equation*}
+    \begin{tikzcd}
+        \Fun(*,\mathcal{V}) \rar{ev_*} & \Fun(\mathcal{M},\mathcal{V}).
+    \end{tikzcd}
+\end{equation*}
+We look for a left adjoint to this restriction functor $ev_*$ (John: if you don't know what
+a left-adjoint is you should learn it because I won't tell you. -laughter-. No, I'm not joking, -laughs-).
+There are two different
+things we could do. We could ignore the homotopy-ness of everything, and take the naive
+left-adjoint. If, say $\mathcal{V}$ is the category of chain complexes, this naive
+left-adjoint produces a stupid answer depending on our precise statement. Suppose by $\mathcal{M}$
+we meant the homotopy category of spaces (where objects are spaces and maps are sets of
+homotopy classes of maps). Then we are extending
+\begin{equation*}
+    \begin{tikzcd}
+        *\rar{A}\dar & \mathcal{V}\\
+        \text{hoSpaces}\urar[dashed]
+    \end{tikzcd}
+\end{equation*}
+A naive left-adjoint would take a space $X$ to the stupid answer $A^{\oplus \pi_0X}$.
+Similarly if we take $\mathcal{M}$ to be spaces and all continuous maps, $X$ would
+be sent to $A^{\oplus X}$ here by $X$ we mean the set of elements of $X$.
+
+There is a notion of a derived or homotopy left-adjoint. Suppose now by $\mathcal{M}$
+we mean the topological category of spaces, where the mapping sets are spaces equipped
+with the compact-open topology. Now we take a \textit{homotopy} Kan extension. This
+fancy left-adjoint will now send a space $X$ to the the chain complex $C_*(X, A)$
+(up to equivalence). Hence we see that we can recover homology from this paradigm
+of extending a simpler invariant to the whole category.
+
+How do we choose what $\mathcal{D}$ and $\mathcal{M}$ are? Suppose we want to study
+$\mathcal{F}(M)$ for $M\in\mathcal{M}$. For concreteness, let's say we're studying
+manifolds. The most basic question to ask: is there a local-to-global principle for
+$\mathcal{F}$? The simplest case is for $\mathcal{F}$ to be a sheaf, i.e.
+\begin{equation*}
+    \begin{tikzcd}
+        \mathcal{F}(M) \rar & \lim_{U\in\mathcal{U}} \mathcal{F}(U).
+    \end{tikzcd}
+\end{equation*}
+If so you don't need factorization homology, and you can just leave. -laughter-.
+
+For instance, consider $\mathcal{F}=C_*(\Maps(\cdot, Z))$ taking spaces to chain
+complexes. Is this a sheaf? Well if we forget about $C_*$, we get a sheaf, as a
+map into $Z$ is the same as giving maps on subsets agreeing on overlaps. What does
+taking chains do? Well notice that
+\begin{align*}
+    C_*(\Maps(U\sqcup V,Z)) &= C_*(\Maps(U,Z)\times\Maps(V,Z)\\
+    &= C_*(\Map(U,Z)) \otimes C_*(\Maps(V,Z)).
+\end{align*}
+This is not a sheaf because in this case tensor products and direct sums are never
+the same! (why?) So what can we do? We need to change what we consider $\mathcal{D}$ to be.
+
+Idea: to study $\mathcal{F}$ maybe there are more general arrangements of
+$\mathcal{D}\subset\mathcal{M}$ such that local-to-global principles still apply, without
+$\mathcal{F}$ being a sheaf.
+
+The following problem will guide us for the next few weeks. Let $M$ be a manifold
+and let $Z$ be a space.
+
+\textbf{Problem:} calculate (or provide tools for computing) $H_*\Maps(M,Z)$.
+
+\begin{definition}
+    Let $\mathsf{Mfld}_n$ be the (ordinary) category of smooth $n$-manifolds, with
+    $\Hom(M,N)$ is the set of smooth embeddings of $M$ into $N$.
+\end{definition}
+
+\begin{definition}
+    Let $\mathcal{M}\mathsf{FD}_n$ be the topological category of smooth $n$-manifolds, with
+    $\Maps(M,N)$ the space of smooth embeddings of $M$ into $N$, equipped with the
+    compact open smooth topology.
+\end{definition}
+
+To read about this topology, c.f. Hirsch's book
+on differential topology \cite{hirsch}. Roughly, convergence is both pointwise and also
+pointwise convergence of all derivatives.
+For instance one might take a knot and tighten it until it turns into just
+a line. This would converge in the usual compact-open topology. However, in
+the smooth topology, these would not converge as we would be creating sharp
+kinks. In particular $\pi_0\text{Emb}(S^1,\R^3)$ is very different from
+$\pi_0\text{Emb}^\text{top}(S^1,\R^3)$.
+
+\begin{definition}
+    We define the category $\mathbf{Disk}_n$ to be the full subcategory of
+    $\mathbf{Mfd}_n$ where the objects are finite disjoint unions of standard
+    Euclidean spaces $\sqcup_I\R^n$. Similalry the category $\mathbf{DISK}_n$
+    is the full topological subcategory of $\mathbf{MFD}_n$ where the objects
+    are finite disjoint unions of Euclidean space.
+\end{definition}
+
+Observe that $\Maps_{\mathbf{DISK}_n}(\R^n,\R^n)=\text{Emb}(\R^n,\R^n)$.
+\begin{lemma}
+    The map $\text{Emb}(\R^n,\R^n)\to GL_n(\R)$ given by differentiating
+    is a homotopy equivalence.
+\end{lemma}
+\begin{proof}[Proof sketch]
+    Shrink the embedding\ldots and that's really it. There is an obvious inclusion going
+    the other way, and the composite is the identity. If we shrink our embedding
+    down to zero, we obtain a deformation retraction onto $GL_n(\R)$. In particular,
+    given an embedding $\phi$ and a vector $v\in\R^n$, look at $\phi(v/t)$ as $t\to\infty$.
+\end{proof}
+
+This should fill you with hope -- we can understand the automorphism spacess of the
+building block objects as up to homotopy just finite dimensional manifolds (general
+linear or orthogonal groups). In particular, one should think of the $n$-disks as
+some sort of algebra.
+
+\begin{definition}
+    An $n$-disk algebra in $\mathcal{V}$ is a symmetric monoidal functor
+    $A:\mathbf{DISK}_n\to\mathcal{V}$.
+\end{definition}
+
+Our first goal in this class is to understand $\HH_*\Maps(M,Z)$ using $n$-disk
+algebras and factorization homology.
+
+Question from someone: what's the relation with $E_n$-algebras? John: It turns
+out that $E_n$-algebras are equivalent to $n$-disk algebras with framing.
+
+Question from Tochi: what if you work with manifolds with boundary? John: well
+if you require boundaries to map to boundaries you can make the same definitions.
+You then have to work with Euclidean spaces and half-spaces.
+
+\section{Framed embeddings [09/25/17]}
+
+\begin{definition}
+    A \textbf{framing} of an $n$-manifold $M$ is an isomorphism of vector bundles
+    $TM \cong M\times \R^n$.
+\end{definition}
+
+Of course, not all manifolds have framings. For instance, (as an exercise) one
+can check that all (compact oriented) two-manifolds except for $S^1\times S^1$ do not admit framings.
+You might use the Poincar\'e-Hopf theorem, which expresses the Euler characteristic
+as a sum of the index of the zeroes of a vector field $v$ on $M$ that has isolated
+zeroes. Hence if $M$ is framed, the Euler characteristic of $M$ must be zero.
+
+Here is an example that John does not know how to prove without the use of homology.
+Pax: isn't there a later proof of this via geometric methods by Kirby? John: well ok
+I didn't mean it as a logical statement that it can't be proved without.
+\begin{theorem}[Whitney or Wu]
+    Every orientable three-manifold admits a framing.
+\end{theorem}
+
+Notice that any Lie group has a framing, as one takes a basis for the Lie algebra
+and pushes it forward by the group action. On the other hand, manifolds of dimension
+four generally do not have framings (at least in John's experience).
+
+We can ask the following question: what is a framed open embedding? There are a few options.
+The naive (strict) option is that if we have an open embedding $M\hookrightarrow N$ of
+framed manifolds, since the pullback of $TN$ is $TM$, we have two different trivializations
+of $TM$. We might ask that the map induced $M\times\R^n\to M\times\R^n$ is the identity.
+
+Okay, let's think about framed embeddings. Embeddings are very flexible -- you can stretch
+them and twist them. But strict framed embeddings are very rigid. For instance, they are
+automatically isometries (giving the fibers the usual Euclidean metric). But there aren't
+very many isometric embeddings into a compact manifold. So this options is not what we
+will be interested in working with.
+
+Let's consider a more lax/homotopy-theoretic option. Thinking slightly differently, recall
+that the tangent bundle is classified by a map $TM: M\to \Gr_n\R^\infty$. This map is
+of course only defined up to homotopy. That's fine, just choose a representative. Over
+the infinite Grassmannian we have the Stiefel manifold $V_k(\R^\infty)\to\Gr_n\R^\infty$.
+Choosing a lift
+\begin{equation*}
+    \begin{tikzcd}
+        \; & V_n\R^\infty \dar \\
+        M \rar{TM}\urar[dashed]{\phi_M} & \Gr_n\R^\infty
+    \end{tikzcd}
+\end{equation*}
+is precisely the data of a framing. Suppose now that an embedding $M\hookrightarrow N$
+where $M,N$ are framed by $\phi_M$ and $\phi_N$.
+The lax definition of a framed embedding is now going to be extra data: an embedding
+together with a homotopy between the framings $\phi_M$ and $\phi_N|_M$.
+
+
+\begin{definition}
+    The space of framed embeddings $\Emb^{fr}(M,N)$ is the homotopy pullback
+    \begin{equation*}
+        \begin{tikzcd}
+            \Emb^{fr}(M,N) \rar\dar & \Emb(M,N)\dar  \\
+            \Maps_{V_n\R^\infty}(M,N) \rar & \Maps_{\Gr_n\R^\infty}(M,N)
+        \end{tikzcd}
+    \end{equation*}
+    In particular a framed embedding is an embedding $M\hookrightarrow N$ and
+    a homotopy in $\Map_{\Gr_n\R^\infty}(M,N)$ between the images along both maps.
+\end{definition}
+
+\begin{exercise}
+    Check that $V_n\R^\infty\simeq *$.
+\end{exercise}
+
+It looks like we've made things more complicated, whereas framings should have made
+things simpler. Let's check that it is. Let's calculate $\Emb^{fr}(\R^n, \R^n)$.
+By definition, this sits in the following diagram
+\begin{equation*}
+    \begin{tikzcd}
+        \Emb^{fr}(\R^n, \R^n) \rar\dar & \Emb(\R^n, \R^n)\dar \\
+        \Maps_{V_n\R^\infty}(\R^n, \R^n) \rar & \Maps_{\Gr_n\R^\infty}(\R^n,\R^n).
+    \end{tikzcd}
+\end{equation*}
+Notice that the bottom left object is homotopy equivalent to $\Maps_*(\R^n,\R^n)\simeq *$.
+The bottom right space is homotopy equivalent to the loop space $\Omega\Gr_n\R^\infty\simeq \Omega BO(n)\simeq O(n)$.
+From last time, $\Emb(\R^n,\R^n)\simeq \Diff(\R^n)\simeq GL(n)\simeq O(n)$ (this is
+\textbf{homework 1}). Now the vertical map on the right is a homotopy equivalence.
+This implies (by some machinery) that the vertical map on the left is an equivalence.
+We conclude that $\Emb^{fr}(\R^n,\R^n)\simeq *$. The rest of \textbf{homework 1} is to
+show that $\Emb(\R^n, N)$ is homotopy equivalent to the frame bundle of $TN$. Applying this
+to the diagram above where we replace the second copy of $\R^n$ with $N$, we obtain
+\begin{equation*}
+    \begin{tikzcd}
+        \Emb^{fr}(\R^n, N) \rar\dar & \Emb(\R^n, N)\dar \\
+        \Maps_{V_n\R^\infty}(\R^n, N) \rar & \Maps_{\Gr_n\R^\infty}(\R^n,N).
+    \end{tikzcd}
+\end{equation*}
+Now the same argument will show that the vertical map on the right is an equivalence,
+and that the map of the left is an equivalence. It follows now that $\Emb^{fr}(\R^n,N)\simeq N$.
+Hence we see that we are replacing the role of the orthogonal group by that of a point.
+
+The point of adding these framings is that it will allow for an easier transition between
+algebra and topology.
+\begin{definition}
+    We define the category $\mathbf{DISK}_n^{rect}$ to be a topological category with objects
+    finite disjoint unions of open unit disks, with morphisms being embeddings that are compositions
+    of translations and dilations. These embeddings are what we call rectilinear embeddings.
+\end{definition}
+These embeddings are easy to analyze (we've given the space the obvious space of pointwise
+convergence). This space of embeddings from a single disk to a single disk is a contractible
+subspace of $D^n\times\R_{>0}$ (just move to the origin and expand outwards). More generally,
+one checks that rectilinear embeddings $\Emb^{rect}(\sqcup_k D^n, D^n)$ maps to
+$\Conf_k(D^n)$ and that this map is a homotopy equivalence.
+
+\begin{proposition}
+    There is a homotopy equivalence $\mathbf{DISK}_n^{rect}\simeq \mathbf{DISK}_n^{fr}$.
+\end{proposition}
+
+
+\section{Homotopy pullbacks and framing [09/27/17]}
+
+\begin{definition}
+    Suppose we have a map $X\to B$ together with a point $*\in B$, the homotopy fiber
+    of $X\to B$ over $*\in B$ is the fiber product $\{*\}\times_B\Maps([0,1], B)\times_B X$.
+\end{definition}
+
+\begin{lemma}
+    The formation of homotopy fibers is homotopy invariant. More precisely, given an weak
+    equivalence of spaces $X\to X'$ over $B$ a pointed space via maps $f$ and $g$,
+    then the homotopy fiber of $f$ is weak equivalent to the homotopy fiber of $g$.
+\end{lemma}
+\begin{proof}
+    We can use the long exact sequence of a Serre fibration.
+    \begin{equation*}
+        \begin{tikzcd}
+            \hofiber(f)\dar \ar[rr] & \; & \hofiber(g)\dar \\
+            \Maps([0,1],B)\times_B X \ar[rr]\drar & \; & \{*\}\times_B\Maps([0,1],B)\ar[dl] \\
+            \; & B & 
+        \end{tikzcd}
+    \end{equation*}
+    Some argument about homotopy equivalences allows us to conclude that $\pi_*\hofiber(f)\cong\pi_*\hofiber(g)$.
+\end{proof}
+
+
+\textbf{Homework 2}: homotopy pullbacks are homotopy invariant
+
+Recall last time we were discussing $\Maps_B(M,N)$ for some space $B$. This objects
+is defined to be the homotopy fiber
+\begin{equation*}
+    \begin{tikzcd}
+        \Maps_B(M,N) \rar\dar & \Maps(M,N) \dar \\
+        * \rar & \Maps(M,B)
+    \end{tikzcd}
+\end{equation*}
+Now by homotopy invariance we can argue that $\Maps_{V_n\R^\infty}(M,N)\simeq \Maps(M,N)$
+since $V_n\R^\infty\simeq*$. Hopefully this fills in some of the gaps from last lecture.
+
+Let us now return to our assertion from last time.
+\begin{proposition}
+    There is a functor $\mathbf{DISK}_n^{rect}\to \mathbf{DISK}_n^{fr}$ which is a homotopy
+    equivalence.
+\end{proposition}
+\begin{proof}
+    Notice that we can just calculate from last time,
+    \begin{equation*}
+        \Emb^{fr}(\R^n, \R^n) \simeq * \simeq \Emb^{rect}(D^n, D^n).
+    \end{equation*}
+    More generally, consider $\Emb^{rect}(\sqcup_I D^n, \sqcup_J D^n)=\sqcup_{\pi:I\to J}\prod_J\Emb^{rect}(\sqcup_{\pi^{-1}(j)}\R^n,\R^n)$.
+    So it suffices to show that $\Emb^{fr}(\sqcup_I\R^n,\R^n)\simeq\Emb^{rect}(\sqcup D^n, D^n)$.
+    Recall that $\ev_0:\Emb^{rect}(\sqcup_I D^n,D^n)\to \Conf_I(D^n)$ is a homotopy
+    equivalence, which we argued last time. Returning to our homotopy pullback square
+    \begin{equation*}
+        \begin{tikzcd}
+            \Emb^{rect}(\sqcup_I \R^n, \R^n) \rar\dar & \Emb(\sqcup_I\R^n,\R^n)\dar \\
+            *\simeq \Maps_{EO(n)}(\sqcup_I \R^n,\R^n) \rar & \Maps_{BO(n)}(\sqcup_I \R^n,\R^n)
+        \end{tikzcd}
+    \end{equation*}
+    notice that
+    \begin{equation*}
+        \begin{tikzcd}
+            \text{Fr}(TM)\simeq \Emb(\R^n, M)\dar{\ev_0} & \Emb( (\R^n,0), (M,x))\lar\dar \simeq O(n) \\
+            M & \{x\}\lar
+        \end{tikzcd}
+    \end{equation*}
+    Likewise
+    \begin{equation*}
+        \begin{tikzcd}
+            \Emb(\sqcup_I \R^n, M)\dar{\ev_0} & \prod_I O(n)\lar \dar\\
+            \Conf_I(M) & \{x_1,\ldots,x_I\}\lar
+        \end{tikzcd}
+    \end{equation*}
+    Hence $\Maps_{BO(n)}(\sqcup\R^n,\R^n)\simeq \prod_I\Maps_{BO(n)}(\R^n,\R^n)\simeq\prod_IO(n)$.
+
+    Up to homotopy, we now obtain
+    \begin{equation*}
+        \begin{tikzcd}
+            \Emb^{fr}(\sqcup\R^n,\R^n) \rar\dar & \Conf_I(\R^n)\times \prod_I O(n)\dar \\
+            * \rar & \prod_I O(n)
+        \end{tikzcd}
+    \end{equation*}
+    so we conclude that $\Emb^{fr}(\sqcup_I\R^n,\R^n)\simeq \Conf_I(\R^n)$ which concludes
+    the proof of the proposition.
+\end{proof}
+
+\begin{example}
+    Consider the case $n=1$. What do the framed and rectilinear embeddings look like in this case?
+    Notice that $\Emb^{fr}(\sqcup_I \R^1,\R^1)\simeq \Conf_I(\R^1)$ is discrete up to
+    homotopy, and identified noncanonically with the symmetric group on $I$ letters.
+\end{example}
+
+Recall a definition from the first day.
+\begin{definition}
+    An $\mathcal{E}_n$ algebra in $\mathcal{V}$ is a symmetric monoidal functor
+    $\mathbf{DISK}_n^{rect,\sqcup} \to \mathcal{V}^\otimes$.
+\end{definition}
+Next time we will see that $\mathcal{E}_1$-algebras are, in a suitable sense,
+equivalent to associative algebras.
+
+
+
+
+
+\bibliographystyle{alpha}
+
+\bibliography{references}
+
+
+
+\end{document}
+
