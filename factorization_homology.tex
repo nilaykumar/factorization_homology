@@ -37,18 +37,33 @@ Errors and inaccuracies are, as usual, due to the notetaker(s).
 
 \section{What is factorization homology? [09/20/17]}
 
-What is factorization homology? We can describe it in two ways. If it 
-were an animal, I'd first describe how it's distributed over the face of the earth.
-Next we will describe its phylogeny -- how it evolved from single-celled organisms.
-For the moment you can think of factorization algebra as a sort of 
-generalized-(co)sheaf-homology. This expression can be hyphenated in both ways.
-More specifically, it is a machine/assembly line that takes two inputs:
-one from geometry $M$ , and one from algebra $A$. The output is
-the factorization homology of $M$ $\int_M A$ with coefficients in $A$.
+\subsection{Introduction}
+
+What is factorization homology? Well, if it were an animal, I could describe it in two ways:
+distribution and phylogeny. More specifially, we will first see how factorization
+homology is distributed over the face of the planet.
+Then we will describe how it evolved from single-celled organisms, i.e. how you
+might come up with it yourself.
+
+For the moment you can think of factorization homology as a sort of 
+\begin{quote}
+    \textbf{generalized (co)sheaf homology.}
+\end{quote}
+Notice that this phrase can be hyphenated in two different ways. In one sense it is a
+generalization of the ideas of sheaf cohomology, and in the other it is a homology theory
+for generalized sheaves (or sheaf-like objects).
+In particular, factorization homology is a machine that takes two inputs:
+a geometry $M$ and an algebraic object $A$. The output is
+\begin{equation*}
+    \int_M A,
+\end{equation*}
+the factorization homology of with coefficients in $A$.
 
 
+\subsection{Examples}
+Let's look at the first description: what are some examples of factorization homology
+that appear naturally in mathematics?
 \begin{enumerate}
-
     \item \textbf{Homology.} Here $M$ is a topological space and $A$ is an abelian group.
         In this case the output is a chain complex
         \begin{equation*}
@@ -57,10 +72,10 @@ the factorization homology of $M$ $\int_M A$ with coefficients in $A$.
         quasiisomorphic to singular homology with coefficients in $A$.
         \marginnote{John: What is a theorem you can't prove without ordinary homology?}
 
-    \item  \textbf{Hochschild homology.} Here $M$ is a one-dimensional manifold and $A$
-        will be an associative algebra. In this case
+    \item  \textbf{Hochschild homology.} Here $M$ is a one-dimensional manifold -- let's
+        take in particular $M=S^1$ -- and $A$ will be an associative algebra. In this case
         \begin{equation*}
-            \int_{S^1} A \simeq HH_\bullet A,
+            \int_{S^1} A \simeq \text{HH}_\bullet A,
         \end{equation*}
         the Hochschild homology of $A$.
         You might be less familiar with this algebraic object than ordinary
@@ -68,26 +83,27 @@ the factorization homology of $M$ $\int_M A$ with coefficients in $A$.
         in algebra (e.g. characteristic 0 representations of finite groups).
         Hochschild homology is a recipient of ``the universal trace'' and hence
         an important part of associative algebra. Note that
-        $HH_0A=A/[A,A]$.
+        $\text{HH}_0A=A/[A,A]$.
         
     \item \textbf{Conformal field theory.} This is in some sense the real starting point
         for the ideas we will develop in this class. Here $M$ is a smooth complete etc.
         algebraic curve over $\C$ and $A$ is a vertex algebra. In this case
         the output $\int_M A$ was constructed by Beilinson and Drinfeld, and
         is known as chiral homology of $M$ with coefficients in $A$. It is
-        a chain complex, with $\HH_0(\int_M A)$ being the conformal blocks of
+        a chain complex, with $\HH_0(\int_M A)$ being the space of conformal blocks of
         the conformal field theory.
 
     \item \textbf{Algebraic curves over $\F_q$.} Here $M$ is an algebraic curve over $\F_q$
         and $G$ is a connected algebraic group over $\F_q$. In this case $\int_MG$ is known
-        as the Beilinson-Drinfeld Grassmannian, and is a stack. One interesting
+        as the Beilinson-Drinfeld Grassmannian and is a stack. One interesting
         property that it has is that
         \begin{equation*}
-            \HH_\bullet(\int_M G,\bar\Q_\ell) \simeq \HH_\bullet(\text{Bun}_G(M),\bar\Q_\ell).
+            \HH_\bullet\left(\int_M G,\bar\Q_\ell\right) \simeq \HH_\bullet(\text{Bun}_G(M),\bar\Q_\ell),
         \end{equation*}
-        Although the Beilinson-Drinfeld Grassmannian is more complicated, it is
-        more easily manipulated. This equivalence is a form of non-Abelian
-        Poincar\'e duality.
+        where here we are taking $\ell$-adic cohomology.
+        Although the Beilinson-Drinfeld Grassmannian is more complicated than the
+        stack of principal $G$-bundles, it is more easily manipulated.
+        We note that the equivalence above is a form of nonabelian Poincar\'e duality.
 
         In particular, one might be interested in computing
         \begin{equation*}
@@ -111,9 +127,9 @@ the factorization homology of $M$ $\int_M A$ with coefficients in $A$.
         expectation values. Factorization homology puts together local observables to global
         observables:
         \begin{equation*}
-            \text{Obs}(M) \simeq \int_M A.
+            \text{Obs}(M) \simeq \int_M A,
         \end{equation*}
-        if we are working in perturbative QFT.
+        at least if we are working in perturbative QFT.
 
     \item \textbf{TQFT.} Here $M$ is an $n$-manifold (maybe with a framing) and $A$ is an
         $(\infty,n)$-category (enriched in $\mathcal{V}$).
@@ -121,10 +137,11 @@ the factorization homology of $M$ $\int_M A$ with coefficients in $A$.
         is designed to remove the assumptions from the examples above.
 \end{enumerate}
 
-Next class we'll go over how one might have come up with factorization homology
-if one didn't know all of mathematics. We will focus in this class in learning
-factorization as a \textbf{tool}, instead of aiming to reach some fancy theorem.
-We will start with the examples of the topology of mapping spaces.
+That's all the examples for now. Next class we'll go over how one might have come up
+with factorization homology. It is worth noting that in this class we will focus
+on learning factorization homology as a \textbf{tool} instead of aiming to reach
+some fancy theorem. Hopefully this will teach you how to apply it in contexts you
+might be interested in.
 
 \textbf{Pax:} What is the physical interpretation of the first and second chiral
 homologies? \textbf{John:} One might be interested in things like Wilson lines,
@@ -132,46 +149,51 @@ where these higher homology groups come into play.
 
 \section{How to come up with factorization homology yourself [09/22/17]}
 
-Last time we went over where in mathematics one might encounter factorization homology.
-This time we'll go over how you might come up with it yourself. Consider the following
+\subsection{Kan extensions}
+
+Consider the following
 thought experiment. Suppose you want to study objects in some context $\mathcal{M}$.
 Unfortunately objects here are pretty hard in general. Inside $\mathcal{M}$, however,
-we have $\mathcal{D}\subset \mathcal{M}$ which are particulary simple, and everything else
-in $\mathcal{M}$ is built out of objects in $\mathcal{D}$.
+we have some objects $\mathcal{D}\subset \mathcal{M}$ that are particulary simple,
+and moreover we know that everything else in $\mathcal{M}$ is ``built out of'' objects in $\mathcal{D}$.
 
 Let's consider the example where $\mathcal{M}$ is a nice category of (homotopy types of)
-topological spaces. Let $\mathcal{D}$ be the single point, i.e. all contractible spaces.
-To study $\mathcal{M}$ we might map functors out of it. Let's start with $\mathcal{D}$
-instead. Consider $\Fun(*, \mathcal{V})$, where $\mathcal{V}$ is some category where
-our invariants will live. Of course this is canonically just $\mathcal{V}$. How do we 
-extend to $\mathcal{M}$? We have a restriction map
+topological spaces. Let $\mathcal{D}$ consist of the point, i.e. all contractible spaces.
+Now to study $\mathcal{M}$ we might map functors out of it into some category $\mathcal{V}$.
+Let's start with $\mathcal{D}$ instead. Consider $\Fun(*, \mathcal{V})$.
+Of course this is canonically just $\mathcal{V}$. How do we extend this to studying $\mathcal{M}$?
+We have an obvious restriction map
 \begin{equation*}
     \begin{tikzcd}
-        \Fun(*,\mathcal{V}) \rar{ev_*} & \Fun(\mathcal{M},\mathcal{V}).
+        \Fun(\mathcal{M},\mathcal{V}) \rar{\ev_*} & \Fun(*, \mathcal{V}).
     \end{tikzcd}
 \end{equation*}
-We look for a left adjoint to this restriction functor $ev_*$ (John: if you don't know what
-a left-adjoint is you should learn it because I won't tell you. -laughter-. No, I'm not joking, -laughs-).
+We want to look for a left adjoint to this functor $\ev_*$
+\marginnote{John: If you don't know what a left adjoint is you should learn it because I won't tell you.
+No, I'm not joking (laughs).}
 There are two different
 things we could do. We could ignore the homotopy-ness of everything, and take the naive
-left-adjoint. If, say $\mathcal{V}$ is the category of chain complexes, this naive
-left-adjoint produces a stupid answer depending on our precise statement. Suppose by $\mathcal{M}$
-we meant the homotopy category of spaces (where objects are spaces and maps are sets of
-homotopy classes of maps). Then we are extending
+categorical left-adjoint. If, say $\mathcal{V}$ is the category of chain complexes, this naive
+left-adjoint produces a stupid answer\ldots depending on what our precise definitions are.
+Let's suppose that by $\mathcal{M}$ we meant the homotopy category of spaces (here objects are spaces
+and maps are sets of homotopy classes of maps).
+Then we are extending
 \begin{equation*}
     \begin{tikzcd}
         *\rar{A}\dar & \mathcal{V}\\
-        \text{hoSpaces}\urar[dashed]
+        \mathsf{hoSpaces}\urar[dashed]
     \end{tikzcd}
 \end{equation*}
-A naive left-adjoint would take a space $X$ to the stupid answer $A^{\oplus \pi_0X}$.
-Similarly if we take $\mathcal{M}$ to be spaces and all continuous maps, $X$ would
-be sent to $A^{\oplus X}$ here by $X$ we mean the set of elements of $X$.
+A naive left adjoint would take a space $X$ to the stupid answer $A^{\oplus \pi_0X}$.
+\marginnote{Why?}
+Similarly if we take $\mathcal{M}$ to be just spaces and all continuous maps, $X$ would
+be sent to $A^{\oplus X}$. Here by $X$ we mean the underlying set of elements of $X$.
 
-There is a notion of a derived or homotopy left-adjoint. Suppose now by $\mathcal{M}$
+There is a more sophisticated notion of a derived or homotopy left adjoint.
+Suppose now that by $\mathcal{M}$
 we mean the topological category of spaces, where the mapping sets are spaces equipped
 with the compact-open topology. Now we take a \textit{homotopy} Kan extension. This
-fancy left-adjoint will now send a space $X$ to the the chain complex $C_*(X, A)$
+fancy left adjoint will now send a space $X$ to the the chain complex $C_*(X, A)$
 (up to equivalence). Hence we see that we can recover homology from this paradigm
 of extending a simpler invariant to the whole category.
 
@@ -181,90 +203,96 @@ manifolds. The most basic question to ask: is there a local-to-global principle 
 $\mathcal{F}$? The simplest case is for $\mathcal{F}$ to be a sheaf, i.e.
 \begin{equation*}
     \begin{tikzcd}
-        \mathcal{F}(M) \rar & \lim_{U\in\mathcal{U}} \mathcal{F}(U).
+        \mathcal{F}(M) \rar{\sim} & \lim_{U\in\mathcal{U}} \mathcal{F}(U).
     \end{tikzcd}
 \end{equation*}
-If so you don't need factorization homology, and you can just leave. -laughter-.
+If so you don't need factorization homology, and you can just leave.
 
 For instance, consider $\mathcal{F}=C_*(\Maps(\cdot, Z))$ taking spaces to chain
 complexes. Is this a sheaf? Well if we forget about $C_*$, we get a sheaf, as a
-map into $Z$ is the same as giving maps on subsets agreeing on overlaps. What does
+map into $Z$ is the same as giving maps on subsets of the domain that agree on overlaps.
+What does
 taking chains do? Well notice that
 \begin{align*}
-    C_*(\Maps(U\sqcup V,Z)) &= C_*(\Maps(U,Z)\times\Maps(V,Z)\\
+    C_*(\Maps(U\sqcup V,Z)) &= C_*(\Maps(U,Z)\times\Maps(V,Z))\\
     &= C_*(\Map(U,Z)) \otimes C_*(\Maps(V,Z)).
 \end{align*}
 This is not a sheaf because in this case tensor products and direct sums are never
-the same! (why?) So what can we do? We need to change what we consider $\mathcal{D}$ to be.
+the same for these chain complexes! \marginnote{Why?}
+So what can we do? We need to change what we consider $\mathcal{D}$ to be from
+open coverings to something else.
 
-Idea: to study $\mathcal{F}$ maybe there are more general arrangements of
+\textbf{Idea:} to study $\mathcal{F}$ maybe there are more general arrangements of
 $\mathcal{D}\subset\mathcal{M}$ such that local-to-global principles still apply, without
 $\mathcal{F}$ being a sheaf.
 
-The following problem will guide us for the next few weeks. Let $M$ be a manifold
-and let $Z$ be a space.
+\subsection{Manifolds}
 
-\textbf{Problem:} calculate (or provide tools for computing) $H_*\Maps(M,Z)$.
+The following problem will guide us for the next few weeks.
+\begin{quote}
+    Let $M$ be a manifold and let $Z$ be a space.
+    Calculate the homology of the mapping space $\HH_\bullet\Maps(M,Z)$.
+\end{quote}
 
+To begin, let us specify which categories we will be working with.
 \begin{definition}
     Let $\mathsf{Mfld}_n$ be the (ordinary) category of smooth $n$-manifolds, with
-    $\Hom(M,N)$ is the set of smooth embeddings of $M$ into $N$.
-\end{definition}
-
-\begin{definition}
-    Let $\mathcal{M}\mathsf{FD}_n$ be the topological category of smooth $n$-manifolds, with
-    $\Maps(M,N)$ the space of smooth embeddings of $M$ into $N$, equipped with the
+    $\Hom(M,N)=\Emb(M,N)$ the set of smooth embeddings of $M$ into $N$.
+    Similarly, 
+    let $\mathcal{M}\mathsf{fld}_n$ be the \textit{topological} category of smooth $n$-manifolds, with
+    $\Hom(M,N)=\Emb(M,N)$ the \textit{space} of smooth embeddings of $M$ into $N$, equipped with the
     compact open smooth topology.
 \end{definition}
 
-To read about this topology, c.f. Hirsch's book
-on differential topology \cite{hirsch}. Roughly, convergence is both pointwise and also
-pointwise convergence of all derivatives.
-For instance one might take a knot and tighten it until it turns into just
-a line. This would converge in the usual compact-open topology. However, in
-the smooth topology, these would not converge as we would be creating sharp
-kinks. In particular $\pi_0\text{Emb}(S^1,\R^3)$ is very different from
+The compact open smooth topology takes a bit of work to define, so we'll leave that
+as background reading. A good reference is Hirsch's book on differential topology \cite{hirsch}.
+Roughly, convergence in this topology is pointwise in the map as well as all its derivatives.
+To get a feel for what this entails, consider a knot. Locally tighten the knot
+until the knot turns (locally) into a line. These knots would would converge in the usual compact-open
+topology to another knot, but in the smooth topology, they do not converge as the
+tightening procedure creates sharp kinks.
+In particular $\pi_0\text{Emb}(S^1,\R^3)$ is very different from
 $\pi_0\text{Emb}^\text{top}(S^1,\R^3)$.
 
 \begin{definition}
-    We define the category $\mathbf{Disk}_n$ to be the full subcategory of
-    $\mathbf{Mfd}_n$ where the objects are finite disjoint unions of standard
-    Euclidean spaces $\sqcup_I\R^n$. Similalry the category $\mathbf{DISK}_n$
-    is the full topological subcategory of $\mathbf{MFD}_n$ where the objects
+    We define the category $\mathsf{Disk}_n$ to be the full subcategory of
+    $\mathsf{Mfld}_n$ where the objects are finite disjoint unions of standard
+    Euclidean spaces $\coprod_I\R^n$. Similarly the category $\mathcal{D}\mathsf{isk}_n$
+    is the full \textit{topological} subcategory of $\mathcal{M}\mathbf{fld}_n$ where the objects
     are finite disjoint unions of Euclidean space.
 \end{definition}
 
-Observe that $\Maps_{\mathbf{DISK}_n}(\R^n,\R^n)=\text{Emb}(\R^n,\R^n)$.
+Observe that $\Hom_{\mathcal{D}\mathsf{isk}_n}(\R^n,\R^n)=\text{Emb}(\R^n,\R^n)$.
 \begin{lemma}
-    The map $\text{Emb}(\R^n,\R^n)\to GL_n(\R)$ given by differentiating
-    is a homotopy equivalence.
+    The map $\Emb(\R^n,\R^n)\to GL_n(\R)\simeq O_n\R$ given by differentiating
+    at the origin is a homotopy equivalence.
 \end{lemma}
 \begin{proof}[Proof sketch]
-    Shrink the embedding\ldots and that's really it. There is an obvious inclusion going
-    the other way, and the composite is the identity. If we shrink our embedding
-    down to zero, we obtain a deformation retraction onto $GL_n(\R)$. In particular,
-    given an embedding $\phi$ and a vector $v\in\R^n$, look at $\phi(v/t)$ as $t\to\infty$.
+    There is an obvious map $GL_n\R \to \Emb(\R^n,\R^n)$. One of the composites is
+    thus clearly the identity. It remains to show that the other composition is
+    homotopic to the identity. The homotopy is given by shrinking the embedding
+    down to zero.
 \end{proof}
 
-This should fill you with hope -- we can understand the automorphism spacess of the
-building block objects as up to homotopy just finite dimensional manifolds (general
-linear or orthogonal groups). In particular, one should think of the $n$-disks as
-some sort of algebra.
+This fact should fill you with hope. The objects which are building blocks of manifolds
+have automorphism spaces that are, up to homotopy, just finite-dimensional manifolds.
+Actually it will be useful to think of the $n$-disks as some sort of algebra.
 
 \begin{definition}
     An $n$-disk algebra in $\mathcal{V}$ is a symmetric monoidal functor
-    $A:\mathbf{DISK}_n\to\mathcal{V}$.
+    $A:\mathcal{D}\mathsf{isk}_n\to\mathcal{V}$.
 \end{definition}
 
-Our first goal in this class is to understand $\HH_*\Maps(M,Z)$ using $n$-disk
-algebras and factorization homology.
+As we stated before, our first goal in this class is to understand the homology 
+$\HH_*\Maps(M,Z)$ using $n$-disk algebras and factorization homology.
 
 Question from someone: what's the relation with $E_n$-algebras? John: It turns
 out that $E_n$-algebras are equivalent to $n$-disk algebras with framing.
 
 Question from Tochi: what if you work with manifolds with boundary? John: well
 if you require boundaries to map to boundaries you can make the same definitions.
-You then have to work with Euclidean spaces and half-spaces.
+You then have to work with Euclidean spaces and half-spaces. You'll end up
+with two types of algebras instead of just $n$-disk algebras.
 
 \section{Framed embeddings [09/25/17]}
 
@@ -273,18 +301,18 @@ You then have to work with Euclidean spaces and half-spaces.
     $TM \cong M\times \R^n$.
 \end{definition}
 
-Of course, not all manifolds have framings. For instance, (as an exercise) one
+Of course, not all manifolds have framings. For instance, one
 can check that all (compact oriented) two-manifolds except for $S^1\times S^1$ do not admit framings.
 You might use the Poincar\'e-Hopf theorem, which expresses the Euler characteristic
 as a sum of the index of the zeroes of a vector field $v$ on $M$ that has isolated
 zeroes. Hence if $M$ is framed, the Euler characteristic of $M$ must be zero.
 
-Here is an example that John does not know how to prove without the use of homology.
-Pax: isn't there a later proof of this via geometric methods by Kirby? John: well ok
-I didn't mean it as a logical statement that it can't be proved without.
+Here is an example of a theorem that John does not know how to prove without the use of homology.
 \begin{theorem}[Whitney or Wu]
     Every orientable three-manifold admits a framing.
 \end{theorem}
+Pax: isn't there a later proof of this via geometric methods by Kirby? John: well ok
+I didn't mean it as a formal statement that it can't be proved without\ldots
 
 Notice that any Lie group has a framing, as one takes a basis for the Lie algebra
 and pushes it forward by the group action. On the other hand, manifolds of dimension
