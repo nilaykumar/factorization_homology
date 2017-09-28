@@ -22,6 +22,13 @@
 \DeclareMathOperator{\hofiber}{hofiber}
 \DeclareMathOperator{\ev}{ev}
 
+\newcommand{\disk}{\mathsf{Disk}_n}
+\newcommand{\diskf}{\mathsf{Disk}_n^\text{fr}}
+\newcommand{\diskr}{\mathsf{Disk}_n^\text{rect}}
+\newcommand{\Disk}{\mathscr{D}\mathsf{isk}_n}
+\newcommand{\Diskf}{\mathscr{D}\mathsf{isk}_n^\text{fr}}
+\newcommand{\Diskr}{\mathscr{D}\mathsf{isk}_n^\text{rect}}
+
 \title{Factorization Homology}
 \author{John Francis}
 \date{Fall 2017}
@@ -147,6 +154,8 @@ might be interested in.
 homologies? \textbf{John:} One might be interested in things like Wilson lines,
 where these higher homology groups come into play.
 
+
+\newpage
 \section{How to come up with factorization homology yourself [09/22/17]}
 
 \subsection{Kan extensions}
@@ -294,7 +303,10 @@ if you require boundaries to map to boundaries you can make the same definitions
 You then have to work with Euclidean spaces and half-spaces. You'll end up
 with two types of algebras instead of just $n$-disk algebras.
 
-\section{Framed embeddings [09/25/17]}
+\newpage
+\section{Framings [09/25/17]}
+
+\subsection{Framed embeddings, naively}
 
 \begin{definition}
     A \textbf{framing} of an $n$-manifold $M$ is an isomorphism of vector bundles
@@ -312,27 +324,31 @@ Here is an example of a theorem that John does not know how to prove without the
     Every orientable three-manifold admits a framing.
 \end{theorem}
 Pax: isn't there a later proof of this via geometric methods by Kirby? John: well ok
-I didn't mean it as a formal statement that it can't be proved without\ldots
+\textit{I} don't know how to prove it without homology\ldots
 
 Notice that any Lie group has a framing, as one takes a basis for the Lie algebra
 and pushes it forward by the group action. On the other hand, manifolds of dimension
 four generally do not have framings (at least in John's experience).
 
 We can ask the following question: what is a framed open embedding? There are a few options.
-The naive (strict) option is that if we have an open embedding $M\hookrightarrow N$ of
-framed manifolds, since the pullback of $TN$ is $TM$, we have two different trivializations
-of $TM$. We might ask that the map induced $M\times\R^n\to M\times\R^n$ is the identity.
+The naive (strict) option is as follows. Suppose that we have an open embedding $M\hookrightarrow N$
+of framed manifolds. The pullback of $TN$ is $TM$, we have two different trivializations
+of $TM$. We might ask that the induced map of trivial bundles $M\times\R^n\to M\times\R^n$
+be the identity. In other words, we ask the two framings to be the same.
 
-Okay, let's think about framed embeddings. Embeddings are very flexible -- you can stretch
-them and twist them. But strict framed embeddings are very rigid. For instance, they are
-automatically isometries (giving the fibers the usual Euclidean metric). But there aren't
-very many isometric embeddings into a compact manifold. So this options is not what we
-will be interested in working with.
+Okay fine, but lets think about what we want the answer to be. Embeddings are very flexible
+you can stretch them and twist them.
+But strict framed embeddings are very rigid the way we've defined them above.
+For instance, they are automatically isometries (giving the fibers the usual Euclidean metric).
+But of course there aren't very many isometric embeddings into a compact manifold.
+Thus the strict definition of a framed embedding is not what we want to work with.
 
-Let's consider a more lax/homotopy-theoretic option. Thinking slightly differently, recall
-that the tangent bundle is classified by a map $TM: M\to \Gr_n\R^\infty$. This map is
-of course only defined up to homotopy. That's fine, just choose a representative. Over
-the infinite Grassmannian we have the Stiefel manifold $V_k(\R^\infty)\to\Gr_n\R^\infty$.
+\subsection{Framed embeddings, homotopically}
+
+Let's consider a more lax definition. Thinking homotopy theoretically,
+recall that the tangent bundle is classified by a map $TM: M\to \Gr_n\R^\infty$. This map is
+of course defined only up to homotopy. That's fine, just choose a representative. Over
+the infinite Grassmannian we have the infinite Stiefel manifold $V_k(\R^\infty)\to\Gr_n\R^\infty$.
 Choosing a lift
 \begin{equation*}
     \begin{tikzcd}
@@ -340,11 +356,11 @@ Choosing a lift
         M \rar{TM}\urar[dashed]{\phi_M} & \Gr_n\R^\infty
     \end{tikzcd}
 \end{equation*}
-is precisely the data of a framing. Suppose now that an embedding $M\hookrightarrow N$
-where $M,N$ are framed by $\phi_M$ and $\phi_N$.
+is precisely the data of a framing. \marginnote{Why?}
+Suppose now that we have an embedding $M\hookrightarrow N$ where $M,N$ are framed by
+$\phi_M$ and $\phi_N$ respectively.
 The lax definition of a framed embedding is now going to be extra data: an embedding
 together with a homotopy between the framings $\phi_M$ and $\phi_N|_M$.
-
 
 \begin{definition}
     The space of framed embeddings $\Emb^{fr}(M,N)$ is the homotopy pullback
@@ -355,15 +371,18 @@ together with a homotopy between the framings $\phi_M$ and $\phi_N|_M$.
         \end{tikzcd}
     \end{equation*}
     In particular a framed embedding is an embedding $M\hookrightarrow N$ and
-    a homotopy in $\Map_{\Gr_n\R^\infty}(M,N)$ between the images along both maps.
+    a homotopy in $\Map_{\Gr_n\R^\infty}(M,N)$ between the images along each map.
 \end{definition}
 
 \begin{exercise}
     Check that $V_n\R^\infty\simeq *$.
 \end{exercise}
 
-It looks like we've made things more complicated, whereas framings should have made
-things simpler. Let's check that it is. Let's calculate $\Emb^{fr}(\R^n, \R^n)$.
+With all this talk of homotopy pullbacks (which we'll talk about in more detail
+next time)
+it looks like we've made things more complicated, whereas we introduced framings
+to make things simpler.
+Let's calculate $\Emb^{fr}(\R^n, \R^n)$ as an example.
 By definition, this sits in the following diagram
 \begin{equation*}
     \begin{tikzcd}
@@ -376,7 +395,11 @@ The bottom right space is homotopy equivalent to the loop space $\Omega\Gr_n\R^\
 From last time, $\Emb(\R^n,\R^n)\simeq \Diff(\R^n)\simeq GL(n)\simeq O(n)$ (this is
 \textbf{homework 1}). Now the vertical map on the right is a homotopy equivalence.
 This implies (by some machinery) that the vertical map on the left is an equivalence.
-We conclude that $\Emb^{fr}(\R^n,\R^n)\simeq *$. The rest of \textbf{homework 1} is to
+We conclude that
+\begin{equation*}
+    \Emb^{fr}(\R^n,\R^n)\simeq *.
+\end{equation*}
+The rest of \textbf{homework 1} is to
 show that $\Emb(\R^n, N)$ is homotopy equivalent to the frame bundle of $TN$. Applying this
 to the diagram above where we replace the second copy of $\R^n$ with $N$, we obtain
 \begin{equation*}
@@ -386,79 +409,119 @@ to the diagram above where we replace the second copy of $\R^n$ with $N$, we obt
     \end{tikzcd}
 \end{equation*}
 Now the same argument will show that the vertical map on the right is an equivalence,
-and that the map of the left is an equivalence. It follows now that $\Emb^{fr}(\R^n,N)\simeq N$.
-Hence we see that we are replacing the role of the orthogonal group by that of a point.
-
-The point of adding these framings is that it will allow for an easier transition between
-algebra and topology.
+and that the map of the left is an equivalence. It follows now that
+\begin{equation*}
+    \Emb^{fr}(\R^n,N)\simeq N.
+\end{equation*}
+Hence we see that by adding framings we are replacing the role of the orthogonal group
+by that of a point. Indeed, this will allow for an easier transition between algebra and topology.
 \begin{definition}
-    We define the category $\mathbf{DISK}_n^{rect}$ to be a topological category with objects
-    finite disjoint unions of open unit disks, with morphisms being embeddings that are compositions
-    of translations and dilations. These embeddings are what we call rectilinear embeddings.
+    We define the category $\Diskr$ to be the topological category consisting of 
+    finite disjoint unions of open unit disks $\coprod_I D$ under rectilinear
+    embeddings. In other words, embeddings which can be written as a composition
+    of translations and dilations. Here we use the usual topology indcued from
+    the smooth compact-open topology.
 \end{definition}
-These embeddings are easy to analyze (we've given the space the obvious space of pointwise
-convergence). This space of embeddings from a single disk to a single disk is a contractible
-subspace of $D^n\times\R_{>0}$ (just move to the origin and expand outwards). More generally,
-one checks that rectilinear embeddings $\Emb^{rect}(\sqcup_k D^n, D^n)$ maps to
-$\Conf_k(D^n)$ and that this map is a homotopy equivalence.
+One advantage of rectilinear embeddings is that they are easy to analyze.
+For instance, the space of embeddings from a single disk to a single disk is contractible:
+take an embedding, translate it to the origin, and the expand it outwards. In this
+way $\Diskr(D,D)=\Emb^\text{rect}(D,D)$ deformation retracts onto the identity map.
+More generally, one checks that there is a homotopy equivalence
+\begin{equation*}
+    \begin{tikzcd}
+        \Diskr(\coprod D^n, D^n) \rar{\sim} & \Conf_k(D^n)
+    \end{tikzcd}
+\end{equation*}
 
+Next time we will prove the following.
 \begin{proposition}
-    There is a homotopy equivalence $\mathbf{DISK}_n^{rect}\simeq \mathbf{DISK}_n^{fr}$.
+    There is a homotopy equivalence $\Diskr \simeq \Diskf$.
 \end{proposition}
 
 
+\newpage
 \section{Homotopy pullbacks and framing [09/27/17]}
 
+Let's define more precisely some of the terms we used last time.
+
+\subsection{Homotopy pullbacks}
+
 \begin{definition}
-    Suppose we have a map $X\to B$ together with a point $*\in B$, the homotopy fiber
-    of $X\to B$ over $*\in B$ is the fiber product $\{*\}\times_B\Maps([0,1], B)\times_B X$.
+    Suppose we have a map $f:X\to B$ together with a point $*\in B$. The homotopy fiber
+    of $X\to B$ over $*\in B$ is the fiber product
+    \begin{equation*}
+        \hofiber(f:X\to B) := \{*\}\times_B\Maps([0,1], B)\times_B X.
+    \end{equation*}
+    In particular it is the space of triples $(*, \phi, x)$ where $\phi(0)=*$
+    and $\phi(1)=f(x)$.
+    \begin{equation*}
+        \begin{tikzcd}
+            \hofiber(f) \rar \dar & X\dar \\
+            * \rar & B
+        \end{tikzcd}
+    \end{equation*}
 \end{definition}
 
 \begin{lemma}
     The formation of homotopy fibers is homotopy invariant. More precisely, given an weak
     equivalence of spaces $X\to X'$ over $B$ a pointed space via maps $f$ and $g$,
-    then the homotopy fiber of $f$ is weak equivalent to the homotopy fiber of $g$.
+    \begin{equation*}
+        \begin{tikzcd}
+            X \ar[rr]\ar[rd]{f} &  & X'\ar[ld]{g} \\
+            & B &
+        \end{tikzcd}
+    \end{equation*}
+    then the homotopy fiber of $f$ is weakly equivalent to the homotopy fiber of $g$.
 \end{lemma}
 \begin{proof}
-    We can use the long exact sequence of a Serre fibration.
+    Simply apply the (naturality of the) long exact sequence on homotopy groups for a
+    Serre fibration to the map of fibrations \marginnote{Why are these fibrations?}
     \begin{equation*}
         \begin{tikzcd}
             \hofiber(f)\dar \ar[rr] & \; & \hofiber(g)\dar \\
-            \Maps([0,1],B)\times_B X \ar[rr]\drar & \; & \{*\}\times_B\Maps([0,1],B)\ar[dl] \\
+            \Maps([0,1],B)\times_B X \ar[rr]\drar & \; & \Maps([0,1],B)\times_B X'\ar[dl] \\
             \; & B & 
         \end{tikzcd}
     \end{equation*}
-    Some argument about homotopy equivalences allows us to conclude that $\pi_*\hofiber(f)\cong\pi_*\hofiber(g)$.
+    We conclude that $\pi_*\hofiber(f)\cong\pi_*\hofiber(g)$.
 \end{proof}
 
+\textbf{Homework 2}: Show, more generally, that homotopy pullbacks are homotopy invariant.
 
-\textbf{Homework 2}: homotopy pullbacks are homotopy invariant
-
-Recall last time we were discussing $\Maps_B(M,N)$ for some space $B$. This objects
-is defined to be the homotopy fiber
+Recall last time we were discussing $\Maps_B(M,N)$ for some space $B$: maps ``over'' $B$.
+This object is defined to be the homotopy fiber
 \begin{equation*}
     \begin{tikzcd}
         \Maps_B(M,N) \rar\dar & \Maps(M,N) \dar \\
         * \rar & \Maps(M,B)
     \end{tikzcd}
 \end{equation*}
-Now by homotopy invariance we can argue that $\Maps_{V_n\R^\infty}(M,N)\simeq \Maps(M,N)$
-since $V_n\R^\infty\simeq*$. Hopefully this fills in some of the gaps from last lecture.
+Returning to last lecture, notice that by homotopy invariance we can argue that
+$\Maps_{V_n\R^\infty}(M,N)\simeq \Maps(M,N)$ since $V_n\R^\infty\simeq*$.
+Hopefully this background fills in some of the gaps we left open during last lecture.
+\marginnote{But here we are using homotopy invariance in the base?}
 
-Let us now return to our assertion from last time.
+\subsection{Framed vs rectilinear}
+
+Let us now return to our assertion from last time. \marginnote{What is a homotopy equivalence of topological categories?}
 \begin{proposition}
-    There is a functor $\mathbf{DISK}_n^{rect}\to \mathbf{DISK}_n^{fr}$ which is a homotopy
-    equivalence.
+    There is a functor $\Diskr \to \Diskf$ which is a homotopy equivalence.
 \end{proposition}
 \begin{proof}
-    Notice that we can just calculate from last time,
+    Using the computations from last lecture we see that 
     \begin{equation*}
-        \Emb^{fr}(\R^n, \R^n) \simeq * \simeq \Emb^{rect}(D^n, D^n).
+        \Diskf(\R^n, \R^n) \simeq * \simeq \Diskr(D^n, D^n).
     \end{equation*}
-    More generally, consider $\Emb^{rect}(\sqcup_I D^n, \sqcup_J D^n)=\sqcup_{\pi:I\to J}\prod_J\Emb^{rect}(\sqcup_{\pi^{-1}(j)}\R^n,\R^n)$.
-    So it suffices to show that $\Emb^{fr}(\sqcup_I\R^n,\R^n)\simeq\Emb^{rect}(\sqcup D^n, D^n)$.
-    Recall that $\ev_0:\Emb^{rect}(\sqcup_I D^n,D^n)\to \Conf_I(D^n)$ is a homotopy
-    equivalence, which we argued last time. Returning to our homotopy pullback square
+    More generally, consider
+    \begin{equation*}
+        \Diskr\left(\coprod_I D^n, \coprod_J D^n\right)=\coprod_{\pi:I\to J}\prod_J\Diskr\left(\coprod_{\pi^{-1}(j)}D^n,D^n\right).
+    \end{equation*}
+    So it suffices to show that
+    \begin{equation*}
+        \Diskf\left( \coprod_I\R^n,\R^n \right) \simeq \Diskr\left( \coprod_I D^n,D^n \right).
+    \end{equation*}
+    Recall that $\ev_0:\Diskr(\coprod D^n,D^n)\to \Conf_I(D^n)$ is a homotopy
+    equivalence, which we mentioned ast time. Returning to our homotopy pullback square
     \begin{equation*}
         \begin{tikzcd}
             \Emb^{rect}(\sqcup_I \R^n, \R^n) \rar\dar & \Emb(\sqcup_I\R^n,\R^n)\dar \\
@@ -509,6 +572,7 @@ equivalent to associative algebras.
 
 
 
+\newpage
 
 \bibliographystyle{alpha}
 
