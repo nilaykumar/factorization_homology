@@ -223,7 +223,7 @@ map into $Z$ is the same as giving maps on subsets of the domain that agree on o
 What does
 taking chains do? Well notice that
 \begin{align*}
-    C_*(\Maps(U\sqcup V,Z)) &= C_*(\Maps(U,Z)\times\Maps(V,Z))\\
+    C_*(\Maps(U\coprod V,Z)) &= C_*(\Maps(U,Z)\times\Maps(V,Z))\\
     &= C_*(\Map(U,Z)) \otimes C_*(\Maps(V,Z)).
 \end{align*}
 This is not a sheaf because in this case tensor products and direct sums are never
@@ -489,13 +489,14 @@ Let's define more precisely some of the terms we used last time.
 \textbf{Homework 2}: Show, more generally, that homotopy pullbacks are homotopy invariant.
 
 Recall last time we were discussing $\Maps_B(M,N)$ for some space $B$: maps ``over'' $B$.
-This object is defined to be the homotopy fiber
+This object is defined to be the homotopy
 \begin{equation*}
     \begin{tikzcd}
         \Maps_B(M,N) \rar\dar & \Maps(M,N) \dar \\
         * \rar & \Maps(M,B)
     \end{tikzcd}
 \end{equation*}
+In our case the map on the bottom is (a choice of) the map classifying the tangent bundle of $M$.
 Returning to last lecture, notice that by homotopy invariance we can argue that
 $\Maps_{V_n\R^\infty}(M,N)\simeq \Maps(M,N)$ since $V_n\R^\infty\simeq*$.
 Hopefully this background fills in some of the gaps we left open during last lecture.
@@ -524,8 +525,8 @@ Let us now return to our assertion from last time. \marginnote{What is a homotop
     equivalence, which we mentioned ast time. Returning to our homotopy pullback square
     \begin{equation*}
         \begin{tikzcd}
-            \Emb^{rect}(\sqcup_I \R^n, \R^n) \rar\dar & \Emb(\sqcup_I\R^n,\R^n)\dar \\
-            *\simeq \Maps_{EO(n)}(\sqcup_I \R^n,\R^n) \rar & \Maps_{BO(n)}(\sqcup_I \R^n,\R^n)
+            \Emb^{rect}(\coprod \R^n, \R^n) \rar\dar & \Emb(\coprod\R^n,\R^n)\dar \\
+            *\simeq \Maps_{EO(n)}(\coprod \R^n,\R^n) \rar & \Maps_{BO(n)}(\coprod \R^n,\R^n)
         \end{tikzcd}
     \end{equation*}
     notice that
@@ -538,33 +539,33 @@ Let us now return to our assertion from last time. \marginnote{What is a homotop
     Likewise
     \begin{equation*}
         \begin{tikzcd}
-            \Emb(\sqcup_I \R^n, M)\dar{\ev_0} & \prod_I O(n)\lar \dar\\
+            \Emb(\coprod \R^n, M)\dar{\ev_0} & \prod_I O(n)\lar \dar\\
             \Conf_I(M) & \{x_1,\ldots,x_I\}\lar
         \end{tikzcd}
     \end{equation*}
-    Hence $\Maps_{BO(n)}(\sqcup\R^n,\R^n)\simeq \prod_I\Maps_{BO(n)}(\R^n,\R^n)\simeq\prod_IO(n)$.
+    Hence $\Maps_{BO(n)}(\coprod\R^n,\R^n)\simeq \prod_I\Maps_{BO(n)}(\R^n,\R^n)\simeq\prod_IO(n)$.
 
     Up to homotopy, we now obtain
     \begin{equation*}
         \begin{tikzcd}
-            \Emb^{fr}(\sqcup\R^n,\R^n) \rar\dar & \Conf_I(\R^n)\times \prod_I O(n)\dar \\
+            \Emb^{fr}(\coprod\R^n,\R^n) \rar\dar & \Conf_I(\R^n)\times \prod_I O(n)\dar \\
             * \rar & \prod_I O(n)
         \end{tikzcd}
     \end{equation*}
-    so we conclude that $\Emb^{fr}(\sqcup_I\R^n,\R^n)\simeq \Conf_I(\R^n)$ which concludes
+    so we conclude that $\Emb^{fr}(\coprod\R^n,\R^n)\simeq \Conf_I(\R^n)$ which concludes
     the proof of the proposition.
 \end{proof}
 
 \begin{example}
     Consider the case $n=1$. What do the framed and rectilinear embeddings look like in this case?
-    Notice that $\Emb^{fr}(\sqcup_I \R^1,\R^1)\simeq \Conf_I(\R^1)$ is discrete up to
-    homotopy, and identified noncanonically with the symmetric group on $I$ letters.
+    Well $\Diskf(\coprod_I\R^1,\R^1)\simeq \Conf_I(\R^1)$ is discrete up to
+    homotopy, and thus identified noncanonically with the symmetric group on $I$ letters.
 \end{example}
 
 Recall a definition from the first day.
 \begin{definition}
     An $\mathcal{E}_n$ algebra in $\mathcal{V}$ is a symmetric monoidal functor
-    $\mathbf{DISK}_n^{rect,\sqcup} \to \mathcal{V}^\otimes$.
+    $\Diskr \to \mathcal{V}^\otimes$.
 \end{definition}
 Next time we will see that $\mathcal{E}_1$-algebras are, in a suitable sense,
 equivalent to associative algebras.
