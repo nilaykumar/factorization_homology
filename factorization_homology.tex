@@ -193,8 +193,10 @@ Then we are extending
         \mathsf{hoSpaces}\urar[dashed]
     \end{tikzcd}
 \end{equation*}
-A naive left adjoint would take a space $X$ to the stupid answer $A^{\oplus \pi_0X}$.
-\marginnote{Why?}
+A naive left adjoint would take the functor $A$ to the functor sending a space $X$ to the
+stupid answer $A^{\oplus \pi_0X}$ (on morphisms take summands to summands corresponding
+to where the connected components are sent).
+\marginnote{Why is this a left adjoint?}
 Similarly if we take $\mathcal{M}$ to be just spaces and all continuous maps, $X$ would
 be sent to $A^{\oplus X}$. Here by $X$ we mean the underlying set of elements of $X$.
 
@@ -574,10 +576,11 @@ equivalent to associative algebras.
 
 \newpage
 
-\section{??? [09/29/2017]}
+\section{Examples of $n$-disk algebras [09/29/2017]}
 
 Notice that we have a functor $\Diskf\to \Disk$. In particular, the former
 category has \textit{less} structure than the latter.
+\marginnote{Why is this?}
 
 Let's recall the following way of thinking about a commutative algebra.
 \begin{definition}
@@ -593,9 +596,12 @@ Let's recall the following way of thinking about a commutative algebra.
 
 This probably looks a little unfamiliar, so let's unpack it. Observe that the
 underlying object is $A=A(*)$. The unit morphism is
-$A(\varnothing)=1_{\mathcal{V}}\to A(*)$. Here $1$ is the symmetric monoidal unit in $\mathcal{V}$.
-The multiplicative structure comes from the $\Sigma_2$ action on $\{0,1\}\to *$. In
-particular, $A^{\otimes\{0,1\}}\to A$, invariant with respect to $\Sigma_2$.
+$A(\varnothing)=1_{\mathcal{V}}\to A(*)$. Here $1_{\mathcal{V}}$ is the symmetric monoidal unit in $\mathcal{V}$.
+The multiplicative structure comes from the map from the two-point set to the one-point
+set, and the commutativity follows from the fact that this map is $\Sigma_2$-invariant
+and that $A$ is a \textit{symmetric} monoidal functor so that $A^{\otimes 2}\to A$ is
+$\Sigma_2$-invariant as well.
+
 
 \begin{definition}
     For $\mathcal{V}$ a symmetric monoidal topological category, an \textbf{$n$-disk algebra}
@@ -604,10 +610,8 @@ particular, $A^{\otimes\{0,1\}}\to A$, invariant with respect to $\Sigma_2$.
     is a symmetric monoidal functor $\Diskr\to\mathcal{V}$.
 \end{definition}
 
-Today we will discuss examples of such objects for $\mathcal{V}$ being chain
+Today we will discuss examples of $n$-disk algebras for $\mathcal{V}$ being chain
 complexes and toplogical spaces.
-
-Let's start with $\mathcal{V}=\mathsf{Ch}_\Z$.
 \begin{enumerate}
     \item There are the trivial $n$-disk algebras. For instance, consider $A=\Z$, which 
         sends
@@ -630,24 +634,26 @@ Let's start with $\mathcal{V}=\mathsf{Ch}_\Z$.
             \Z\oplus \Z\otimes B\oplus B\otimes\Z \oplus B\otimes B \xrightarrow{\id_\Z\oplus\id_B\oplus\id_B\oplus 0} \Z\oplus B.
         \end{equation*}
         You can generalize this for larger $I$ -- just take the product on the $B$ factors to be zero.
+        \marginnote{This map looks weird. Fix it.}
 
     \item Now let $A:(\mathsf{Fin},\coprod) \to(\mathsf{Ch},\otimes)$ be a commutative dg algebra.
-        There is a functor $\pi_0:(\Disk,\coprod)\to (\mathsf{Fin},\coprod)$ which takes
+        There is a natural symmetric monoidal functor $\pi_0:(\Disk,\coprod)\to (\mathsf{Fin},\coprod)$
+        which sends
         $\coprod_I\R^n\mapsto\pi_0(\coprod_I\R^n)=I$. The composition of these maps gives us
         an $n$-disk algebra. The idea here is that in an $n$-disk algebra there is not just
         one way of multiplying things. Indeed, there are $\Emb(\coprod_2\R^n,\R^n)$ multplications.
-        For $n$-disk algebras coming commutative algebras, as we've just defined, all of these
-        multiplications are the same.
+        What we have just done is used the $\pi_0$ functor to reduce these various multiplications
+        into the unique multiplication coming from the unique map from the two-point set to the
+        one-point set.
 
-    \item The next example is that of an $n$-fold loop space. We will construct a functor
-        $\Disk\to\mathsf{Top}$ and then postcompose with $C_*$ to obtain a chain complex.
-        This first functor is $\Omega^nZ:\Disk\to\mathsf{Top}$ for $Z$ a pointed space, which
-        we will now define.
+    \item The next example is that of an $n$-fold loop space of a pointed space $(Z,*)$.
+        We will construct a functor $\Disk\to\mathsf{Top}$ and then postcompose with $C_*$ to obtain a chain complex.
+        This first functor is $\Omega^nZ:\Disk\to\mathsf{Top}$, which we will now define.
         Recall that for $M$ a space and $Z$ a pointed space, we say that a map $M\to Z$ is \textbf{compactly
         supported} if there exists $K\subset M$ with $K$ compact and such that $g|_{M\setminus K}=*\in Z$.
         Then we define
         \begin{equation*}
-            \Omega^nZ := \Maps_c( -, Z): (\Disk,\coprod)\to(\mathsf{Top},\times)
+            \Omega^nZ := \Maps_c( -, Z): (\Disk,\coprod)\to(\mathsf{Top},\times).
         \end{equation*}
         If you haven't thought much about compactly supported maps then there is something you have to check.
         Observe that if 
@@ -673,7 +679,9 @@ Let's start with $\mathcal{V}=\mathsf{Ch}_\Z$.
         \begin{equation*}
             \Disk \xrightarrow{\Maps_c(-,Z)} \mathsf{Top} \xrightarrow{C_*} \mathsf{Ch}
         \end{equation*}
-        whose composite we write $C_*\Omega Z$.
+        whose composite we write $C_*\Omega^nZ$.
+        \marginnote{What happens if we don't use compactly supported and take values in
+        cochains? What is this $n$-disk algebra in terms of things we know?}
 
     \item At the opposite end of the spectrum from trivial algebras are free algebras.
         The \textbf{free $\mathcal{E}_n$ algebra} on $V\in (\mathsf{Ch},\otimes)$,
@@ -683,23 +691,27 @@ Let's start with $\mathcal{V}=\mathsf{Ch}_\Z$.
         \end{equation*}
         sends
         \begin{equation*}
-            \R^n \mapsto \oplus_{k\geq 0}C_*\left( \Emb^\text{rect}(\coprod_kD^n,D^n) \right)\otimes_{\Sigma_k}V^{\otimes k}.
+            \R^n \mapsto \bigoplus_{k\geq 0}C_*\left( \Emb^\text{rect}(\coprod_kD^n,D^n) \right)\otimes_{\Sigma_k}V^{\otimes k}.
         \end{equation*}
         Here the $\Sigma_k$ denotes the diagonal quotient. We will define what it does
         on morphisms in a moment.
 
         This has the universal property that given any map of chain complexes $V\to A$
-        for $A$ an $\mathcal{E}_n$-algebra,
-        there exists a unique map of $\mathcal{E}_n$-algebras such that the diagram
+        for $A$ an $\mathcal{E}_n$-algebra (by this we mean a map of chain complexes
+        $V\to A(\R^n)$), there exists a unique map of $\mathcal{E}_n$-algebras such that the diagram
         \begin{equation*}
             \begin{tikzcd}
-                V \rar\dar & A \\
+                V \rar{\mu}\dar & A \\
                 \mathcal{F}_{\mathcal{E}_n}(V) \ar[ur,dashed]
             \end{tikzcd}
         \end{equation*}
-        commutes. What is this dashed map? For each $k$ we need a map
+        commutes. The vertical map $V\to \mathcal{F}_{\mathcal{E}_n}$ is given by the
+        inclusion into the $k=1$ summand which is just $V$.
+        % TODO change R^n to D^n
+        
+        What is this dashed map? For each $k$ we need a map
         \begin{equation*}
-            C_*\left( \Emb^\text{rect}(\coprod_k D^n,D^n) \right)\otimes_{\Sigma_k} V^{\otimes k} \to A.
+            C_*\left( \Emb^\text{rect}(\coprod_k D^n,D^n) \right)\otimes_{\Sigma_k} V^{\otimes k} \to A(\R^n).
         \end{equation*}
         To do this we use the map
         \begin{equation*}
@@ -707,19 +719,24 @@ Let's start with $\mathcal{V}=\mathsf{Ch}_\Z$.
             \xrightarrow{\mu^{\otimes k}} C_*\left( \Emb^\text{rect}(\coprod_kD^n,D^n) \right)\otimes_{\Sigma_k}A^{\otimes k}
         \end{equation*}
         and then use the multiplication for $A$. Let's explain this. Notice that $A:\Diskr\to\mathsf{Ch}$
-        and we have $\Emb^{rect}(\coprod_k D^n,D^n)\to \Maps_\mathsf{Ch}(A^{\otimes k}, A)$ which by
+        and we have $\Emb^{rect}(\coprod_k D^n,D^n)\to \Maps_\mathsf{Ch}(A^{\otimes k}(D^n), A(D^n))$ which by
         Dold-Kan (recall that everything is enriched in $\mathsf{Top}$) corresponds to a map
         \begin{equation*}
-            C_*\left( \Emb^\text{rect}(\coprod_k D^n,D^n) \right)\to \underline{\Hom}(A^{\otimes k},A)
+            C_*\left( \Emb^\text{rect}(\coprod_k D^n,D^n) \right)\to \underline{\Hom}_\mathsf{Ch}(A^{\otimes k}(D^n),A(D^n))
         \end{equation*}
         that is $\Sigma_k$-equivariant. Because of the equivariance it factors to the quotient, which
-        gives us the multiplication map. Okay, but we haven't yet shown that the free thing is actually
+        gives us the multiplication map. 
+        Now apply (equivariant) tensor-hom adjunction to obtain this multiplication map.
+        Okay, but we haven't yet shown that the free thing is actually
         an $\mathcal{E}_n$-algebra, but we're out of time.
     \item The last example we were gonna talk about is pretty awesome. Too bad we're out of time.
 \end{enumerate}
 
 Notice that if $Z$ was an Eilenberg-MacLane space, there is overlap between examples 2 and 3.
 
+\appendix
+
+% TODO write out this adjoint argument as far as we got
 
 \newpage
 
