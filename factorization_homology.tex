@@ -734,6 +734,131 @@ complexes and toplogical spaces.
 
 Notice that if $Z$ was an Eilenberg-MacLane space, there is overlap between examples 2 and 3.
 
+\newpage
+
+\section{Examples, continued [10/02/2017]}
+
+Last lecture we ran out of time in the proof of the following result.
+\begin{proposition}
+    The functor $\mathcal{F}_{\mathcal{E}_n}(V)$ sending 
+    \begin{equation*}
+        D^n \mapsto \bigoplus_{k\geqslant 0}C_*\left( \Emb^\text{rect}(\coprod_kD^n,D^n) \right)\otimes_{\Sigma_k}V^{\otimes k}
+    \end{equation*}
+    is the free $\mathcal{E}_n$-algebra on $V\in\mathsf{Ch}$.
+\end{proposition}
+\begin{proof}
+    Last time we showed that this functor satisfied the correct universal property though
+    we hadn't yet specified what it did on morphisms. To define what it does to morphisms
+    we need to construct a map
+    \begin{equation*}
+        \Emb^\text{rect}(\coprod_I D^n, D^n)\to \Maps_\mathsf{Ch}(\mathcal{F}_{\mathcal{E}_n}(V)^{\otimes I}, \mathcal{F}_{\mathcal{E}_n}(V)).
+    \end{equation*}
+    By the Dold-Kan correspondence this is equivalent to specifying a map
+    \begin{equation*}
+        C_*(\Emb^\text{rect}(\coprod_I D^n, D^n)) \to \underline{Hom}(\mathcal{F}_{\mathcal{E}_n}(V)^{\otimes I}, \mathcal{F}_{\mathcal{E}_n}(V))
+    \end{equation*}
+    which by the tensor-(internal)hom adjunction, is equivalent to the data of a map
+    \begin{equation*}
+        C_*(\Emb^\text{rect}(\coprod_I D^n, D^n)) \otimes \mathcal{F}_{\mathcal{E}_n} \to \mathcal{F}_{\mathcal{E}_n}(V),
+    \end{equation*}
+    in other words, a map
+    \begin{equation*}
+        C_*(\Emb^\text{rect}(\coprod_I D^n, D^n)) \otimes \left( \bigoplus_{k\geqslant 0}C_*(\Emb(\coprod_k D^n,D^n))\otimes_{\Sigma_k}V^{\otimes k} \right)^{\otimes I} \to \mathcal{F}_{\mathcal{E}_n}(V).
+    \end{equation*}
+    Let's maybe just look at the left hand side in the case where $I\cong\{0,1\}$:
+    \begin{align*}
+        C_*(\Emb^\text{rect}(\coprod_2 D^n, D^n)\otimes \bigoplus_{k_0,k_1}\left( C_*(\Emb^\text{rect}(\coprod_{k_0}D^n, D^n))\otimes_{\Sigma_{k_0}}V^{\otimes k_0}
+        \otimes C_*(\Emb^\text{rect}(\coprod_{k_1}D^n, D^n))\otimes_{\Sigma_{k_1}} V^{\otimes k_1}\right) \\
+        = \bigoplus_{k_0,k_1\geq 0} C_*\left( \Emb^\text{rect}(\coprod_2D^n,D^n)\times \Emb^\text{rect}(\coprod_{k_0}D^n,D^n)\times \Emb^\text{rect}(\coprod_{k_1}D^n,D^n) \right)\otimes_{\Sigma_{k_0}\times \Sigma_{k_1}} V^{\otimes(k_0+k_1)}
+    \end{align*}
+    But from this last expression it is easy to see now that we have a map 
+    from what's in the parentheses to
+    $\Emb^\text{rect}(\coprod_{k_0+k_1} D^n, D^n)\otimes_{\Sigma_{k_0+k_1}} V^{\otimes(k_0+k_1)}$
+    by composing the embeddings (up to keeping track of the symmetric group).
+\end{proof}
+
+
+Let's talk about the example that we didn't have time to discuss at the end of last class.
+This is the class of $\mathcal{E}_n$ enveloping algebras of Lie algebras. Let $\fr g$ be
+a Lie algebra. For simplicity we'll work over $\R$. \marginnote{John: this works for Lie
+algebras valued in spectra too, up to some changes.}
+
+We define a functor $\Disk\to \mathsf{Alg}_\mathsf{Lie}(\mathsf{Ch}_\R)$ which sends
+$U\mapsto \Omega^*_c(U,\fr g)$, i.e. a Euclidean space to its space of compactly supported
+de Rham forms. Notice that this construction sends disjoint unions to direct sums.
+We now postcompose with the Chevalley complex $C_*^\mathsf{Lie}$ (or if you like
+$C_*^\mathsf{Lie}(\fr g)\simeq \R\otimes_{\mathcal{U}\fr g}^\mathbb{L}\R$).
+We will write this composite functor as $C_*^\mathsf{Lie}(\Omega_c^*(\bullet, \fr g))$,
+and it sends disjoint unions to tensor products.
+\begin{equation*}
+    \begin{tikzcd}
+        \Disk \rar & \mathsf{Alg}_\mathsf{Lie}(\mathsf{Ch}_\R) \rar & \mathsf{Ch}_\R
+    \end{tikzcd}
+\end{equation*}
+
+We will use the fact that
+\begin{equation*}
+    C_*^\mathsf{Lie}(\fr g\oplus \fr g') \simeq C_*^\mathsf{Lie}(\fr g)\oplus C_*^\mathsf{Lie}(\fr g').
+\end{equation*}
+We claim that for $n=1$,
+\begin{equation*}
+    C_*^\mathsf{Lie}(\Omega_c^*(\R^1,\fr g)) \simeq \mathcal{U}\fr g.
+\end{equation*}
+In particular this functor which maps Lie algebras to $\mathcal{E}_n$-algebras is
+left-adjoint to the forgetful functor $\mathsf{Alg}_{\mathcal{E}_n}\to \mathsf{Alg}_\mathsf{Lie}$.
+
+Here's a small aside. Where is this Lie algebra structure coming from? Well notice
+that we have a map
+\begin{equation*}
+    C_*(\Emb^\text{rect}(\coprod_2 D^n,D^n))\otimes A^{\otimes 2}\to A.
+\end{equation*}
+But notice that the left-hand side is homotopic to $C_*(S^{n-1})$ (do this exercise!).
+At the level of homology, this gives a map $\HH_*S^{n-1}\otimes_\R (\HH_*A)^{\otimes 2}\to \HH_*A$.
+There are two generators for the homology of $S^{n-1}$ and so we a degree 0 map
+\begin{equation*}
+    \HH_*A\otimes\HH_*A \to \HH_*A,
+\end{equation*}
+which is the associative algebra structure. However, we have another map coming from
+the fundamental class of $S^{n-1}$,
+\begin{equation*}
+    (\HH_*A \otimes \HH_*A)[n-1] \to \HH_*A,
+\end{equation*}
+is a Lie algebra structure on $\HH_*A[1-n]$. (Everything here should be valued in $\mathsf{Ch}$)
+A reference for this forgetful functor is a paper by F. Cohen.
+
+Since we're almost out of time, let me give you a hint of what we'll be doing next.
+In factorization homology we are given some functor $A:\Disk\to\mathsf{Ch}$ (or
+into $\mathsf{Top}).$ Factorization homology is an extension
+\begin{equation*}
+    \int_M A = \text{hocolim } ( {\Disk}_{/M}\xrightarrow{A} \mathsf{Ch})
+\end{equation*}
+an extension that fits into
+\begin{equation*}
+    \begin{tikzcd}
+        {\Disk}_{/M} \rar{A} \dar & \mathsf{Ch} \\
+        \mathsf{Mfld}_n \ar[ur,dashed] &
+    \end{tikzcd}
+\end{equation*}
+
+We need to define not only the homotopy colimit but also what we mean by ${\Disk}_{/M}$.
+What do we want it to be? Its mapping spaces should fit into the homotopy
+pullback diagram
+\begin{equation*}
+    \begin{tikzcd}
+        \Maps_{ {\Disk}_{/M}}(U,V) \rar\dar & \Emb(U,V)\dar{V\hookrightarrow M} \\
+        * \rar{U\hookrightarrow M} & \Emb(U,M)
+    \end{tikzcd}
+\end{equation*}
+As usual, if we require this to be a pullback instead of a homotopy pullback this
+space will be too small. In fact, it will be empty.
+Okay, you say -- so let's just define a category of $n$-disks with these mapping spaces.
+The problem that you will run into here is that the composition will be associative only up to homotopy
+due to the composition of the paths in $\Emb(U,M)$ required by the adjective ``homotopy''.
+So we'll have to dip our toes into the theory of infinity-categories, which neatly
+deals with both this issues and homotopy colimits.
+
+
+
 \appendix
 
 % TODO write out this adjoint argument as far as we got
