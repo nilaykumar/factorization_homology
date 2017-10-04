@@ -19,7 +19,9 @@
 \DeclareMathOperator{\Fun}{Fun}
 \DeclareMathOperator{\Emb}{Emb}
 \DeclareMathOperator{\Conf}{Conf}
+\DeclareMathOperator{\cyl}{cyl}
 \DeclareMathOperator{\hofiber}{hofiber}
+\DeclareMathOperator{\hocolim}{hocolim}
 \DeclareMathOperator{\ev}{ev}
 
 \newcommand{\disk}{\mathsf{Disk}_n}
@@ -857,7 +859,133 @@ due to the composition of the paths in $\Emb(U,M)$ required by the adjective ``h
 So we'll have to dip our toes into the theory of infinity-categories, which neatly
 deals with both this issues and homotopy colimits.
 
+\newpage
 
+\section{Homotopy colimits - [10/04/2017]}
+
+Today we are going to prove the following theorem (mostly a sketch -- the details are homework).
+\begin{theorem}
+    The homotopy colimit is homotopy-invariant. More precisely, given two functors $F,G: \mathcal{C}\to\mathsf{Top}$
+    and any natural transformation $\alpha:F\implies G$ such that for all $c\in\mathcal{C}$,
+    $\alpha(c):F(c)\to G(c)$ is a homotopy equivalence, then
+    \begin{equation*}
+        \hocolim_{\mathcal{C}} F \simeq \hocolim_{\mathcal{C}} G
+    \end{equation*}
+    is a homotopy equivalence.
+\end{theorem}
+Notice that we can replace homotopy equivalence everywhere with weak homotopy equivalence.
+
+There is a problem in the usual theory of colimits: they are not homotopy invariant.
+Consider the following diagram.
+\begin{equation*}
+    \begin{tikzcd}
+        S^{n-1} \rar\dar & D^n\dar \\
+        D^n \rar & \colim = S^n
+    \end{tikzcd}
+\end{equation*}
+On the other hand we could write
+\begin{equation*}
+    \begin{tikzcd}
+        S^{n-1} \rar\dar & *\dar \\
+        * \rar & \colim =* 
+    \end{tikzcd}
+\end{equation*}
+but $S^n\not\simeq *$ of course.
+
+We have two tools that we might use to fix this: Mayer-Vietoris and Seifert-van Kampen.
+\begin{lemma}
+    Mapping cones are homotopy invariant. More precisely, given
+    \begin{equation*}
+        \begin{tikzcd}
+            X \rar{f}\dar{\sim} & Y\dar{\sim}\\
+            X' \rar{f'} & Y'
+        \end{tikzcd}
+    \end{equation*}
+    we have that $\cone f\simeq \cone f'$.
+\end{lemma}
+\begin{proof}
+    Recall that $\cone f = *\sqcup_{X\times\{0\}}X\times[0,1]\sqcup_{X\times\{1\}}Y$.
+    Notice that we have maps $\cyl f \to \cyl f'$ inducing an $H_*$-isomorphism
+    by Mayer-Vietoris applied to the obvious cover. It remains to argue about the
+    fundamental group. Applying the Seifert-van Kampen (for fundamental groupoids)
+    to this cover shows that the fundamental groupoids are equivalent. We conclude
+    that $\cyl f \simeq \cyl f'$.
+    \marginnote{John: the most important thing you should take away from a point-set
+        topology course is that a closed embedding of compact Hausdorff spaces is a
+        cofibration.}
+\end{proof}
+Likewise for the homotopy pushout. Given $Y \xleftarrow{}X\xrightarrow{} Z$ the
+homotopy pushout is $Y\sqcup_{X\times 0}X\times[0,1]\sqcup_{X\times 1}Z$. This is
+homotopy invariant as well, which is proved in an identical fashion.
+
+Recall that $\Delta$ is the category of finite nonempty ordered sets with
+nondecreasing functions between them.
+\begin{definition}
+    A \textbf{simplicial space} is a functor $X_\bullet:\Delta^\text{op}\to \mathsf{Top}$.
+    The \textbf{geometric realization} $|X_\bullet|$ is the colimit
+    \begin{equation*}
+        \begin{tikzcd}
+            X_\bullet|& \coprod_{n\geq 0}X_n\times \Delta^n\lar & \coprod_{[m]\to[l]}X_l\times \Delta^m % draw in the two arrows here
+        \end{tikzcd}
+    \end{equation*}
+\end{definition}
+The basic principle is that the ``generators'' are given by coproducts and the ``relations''
+are given by reflexive coequalizers. For homotopy colimits the generators will still be
+coproducts, but the relations will be given by geometric realizations.
+
+\begin{definition}
+    For $X_\bullet$ a simplicial space, the \textbf{$n$th latching object} $L_nX_\bullet$ is
+    \begin{equation}
+        L_nX_\bullet = \colim_{(\Delta^\text{op}_{<n})_{/[n]}} X_m \subset X_n
+    \end{equation}
+    The index category is the category of maps $[n]\to [m]$ for $m<n$. \marginnote{Think of
+    this as all the degenerate simplices induced from everything below $n$.}
+
+    We say that $X$ is \textbf{Reedy cofibrant} if the map $L_nX\bullet\to X_n$
+    is a cofibration for all $n$.
+\end{definition}
+
+\begin{lemma}
+    If we have a map of simplicial spaces $X_\bullet\to Y_\bullet$ such that both $X$
+    and $Y$ are Reedy cofibrant with the induced maps $X_n\simeq Y_n$ homotopy equivalences
+    then $|X_\bullet|\simeq |Y_\bullet|$.
+\end{lemma}
+\begin{proof}[Proof outline]
+    We proceed by induction on skeleta. In particular we have the geometric realization
+    of the $n$-skeleton
+    \begin{equation*}
+        \begin{tikzcd}
+            sk_n X_\bullet | & \coprod_{k\leqslant n}X_k\times \Delta^k & \coprod_{[m]\to[l]; m,l\leqslant n}X_l\times \Delta^m
+        \end{tikzcd}
+    \end{equation*}
+    These skeleta sit inside the total geometric realization as closed embeddings whence
+    $|X_\bullet| = \lim |sk_n X_\bullet|$. So we will prove $|X_\bullet|\simeq |Y_\bullet|$
+    by proving that $|sk_n X_\bullet|\simeq|sk_n Y_\bullet$. The base case just says that
+    $sk_0X_\bullet X_0\simeq Y_0 = sk_0 Y_0$. For the inductive step check that
+    there is a pushout
+    \begin{equation*}
+        \begin{tikzcd}
+            L_nX\times \Delta^n\coprod_{L_n X\times\partial \Delta^n} X_n\times\partial\Delta^n \rar & sk_{n-1} X_\bullet|\dar \\
+            X_n\times\Delta^n \rar & sk_n X_\bullet|
+        \end{tikzcd}
+    \end{equation*}
+    Likewise for $Y$. By the inductive hypothesis we know that the map from the
+    top right of the diagram for $X$ to the top right of the diagram for $Y$ is a homotopy
+    equivalence. By assumption the same is true for the bottom left corner. Similarly
+    one has to prove that the top left is a homotopy equivalence. It is then important that
+    the top and left arrows are cofibrations to conclude that the $n$-skeleton of $X$
+    is homotopy equivalent to the $n$-skeleton of $Y$.
+\end{proof}
+Write out the details of this proof as homework 4.
+
+Let's now turn to homotopy colimits. Given $\mathcal{C}$ a category we have a simplicial
+object $N\mathcal{C}_*:\Delta^\text{op}\to\mathsf{Set}$, the nerve of $\mathcal{C}$.
+Observe that the ordinary colimit always receives a surjective map from the coproduct
+of the functor applied to all the objects in the indexing category. In particular the
+colimit will always be this coproduct quotiented by a relation coming from morphisms
+in $\mathcal{C}$.
+For homotopy colimits we will get a map $F:N\mathcal{C}\to \mathsf{Top}$ sending
+$[p]\mapsto\sqcup_{N\mathcal{C}_p}F$ and $\hocolim_{\mathcal{C}} F = |F_\bullet|$.
 
 \appendix
 
