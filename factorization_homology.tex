@@ -23,6 +23,7 @@
 \DeclareMathOperator{\hofiber}{hofiber}
 \DeclareMathOperator{\hocolim}{hocolim}
 \DeclareMathOperator{\ev}{ev}
+\DeclareMathOperator{\sk}{sk}
 
 \newcommand{\disk}{\mathsf{Disk}_n}
 \newcommand{\diskf}{\mathsf{Disk}_n^\text{fr}}
@@ -863,9 +864,9 @@ deals with both this issues and homotopy colimits.
 
 \section{Homotopy colimits - [10/04/2017]}
 
-Today we are going to prove the following theorem (mostly a sketch -- the details are homework).
+We are interested in proving the following result.
 \begin{theorem}
-    The homotopy colimit is homotopy-invariant. More precisely, given two functors $F,G: \mathcal{C}\to\mathsf{Top}$
+    The homotopy colimit is homotopy invariant. More precisely, given two functors $F,G: \mathcal{C}\to\mathsf{Top}$
     and any natural transformation $\alpha:F\implies G$ such that for all $c\in\mathcal{C}$,
     $\alpha(c):F(c)\to G(c)$ is a homotopy equivalence, then
     \begin{equation*}
@@ -874,37 +875,36 @@ Today we are going to prove the following theorem (mostly a sketch -- the detail
     is a homotopy equivalence.
 \end{theorem}
 Notice that we can replace homotopy equivalence everywhere with weak homotopy equivalence.
-
+Actually we will sketch the proof. The details will be left as \textbf{homework 4.}
 There is a problem in the usual theory of colimits: they are not homotopy invariant.
-Consider the following diagram.
+Consider the following simple example. We have a map of spans
 \begin{equation*}
     \begin{tikzcd}
-        S^{n-1} \rar\dar & D^n\dar \\
-        D^n \rar & \colim = S^n
+        D^n\dar & S^{n-1}\lar\dar\rar & D^n\dar \\
+        * & S^{n-1}\lar\rar & *
     \end{tikzcd}
 \end{equation*}
-On the other hand we could write
-\begin{equation*}
-    \begin{tikzcd}
-        S^{n-1} \rar\dar & *\dar \\
-        * \rar & \colim =* 
-    \end{tikzcd}
-\end{equation*}
-but $S^n\not\simeq *$ of course.
+where the vertical arrows are homotopy equivalences. But the colimits of
+the top and bottom rows are $S^n$ and $*$ respectively, which are of course not
+homotopy equivalent.
 
-We have two tools that we might use to fix this: Mayer-Vietoris and Seifert-van Kampen.
+We have two basic tools that we will use to fix this: Mayer-Vietoris and Seifert-van Kampen.
 \begin{lemma}
-    Mapping cones are homotopy invariant. More precisely, given
+    Mapping cones are homotopy invariant. More precisely, if we have a commutative diagram
     \begin{equation*}
         \begin{tikzcd}
             X \rar{f}\dar{\sim} & Y\dar{\sim}\\
             X' \rar{f'} & Y'
         \end{tikzcd}
     \end{equation*}
-    we have that $\cone f\simeq \cone f'$.
+    where the vertical arrows are homotopy equivalences then there is an
+    induced homotopy equivalence on cones, $\cone f\simeq \cone f'$.
 \end{lemma}
 \begin{proof}
-    Recall that $\cone f = *\sqcup_{X\times\{0\}}X\times[0,1]\sqcup_{X\times\{1\}}Y$.
+    Recall that the cone is written as the colimit
+    \begin{equation*}
+        \cone f = *\sqcup_{X\times\{0\}}X\times[0,1]\sqcup_{X\times\{1\}}Y.
+    \end{equation*}
     Notice that we have maps $\cyl f \to \cyl f'$ inducing an $H_*$-isomorphism
     by Mayer-Vietoris applied to the obvious cover. It remains to argue about the
     fundamental group. Applying the Seifert-van Kampen (for fundamental groupoids)
@@ -925,7 +925,7 @@ nondecreasing functions between them.
     The \textbf{geometric realization} $|X_\bullet|$ is the colimit
     \begin{equation*}
         \begin{tikzcd}
-            X_\bullet|& \coprod_{n\geq 0}X_n\times \Delta^n\lar & \coprod_{[m]\to[l]}X_l\times \Delta^m % draw in the two arrows here
+            \;|X_\bullet|& \coprod_{n\geq 0}X_n\times \Delta^n\lar & \coprod_{[m]\to[l]}X_l\times \Delta^m \ar[l, shift left]\ar[l, shift right] % draw in the two arrows here
         \end{tikzcd}
     \end{equation*}
 \end{definition}
@@ -955,18 +955,18 @@ coproducts, but the relations will be given by geometric realizations.
     of the $n$-skeleton
     \begin{equation*}
         \begin{tikzcd}
-            sk_n X_\bullet | & \coprod_{k\leqslant n}X_k\times \Delta^k & \coprod_{[m]\to[l]; m,l\leqslant n}X_l\times \Delta^m
+            \;|\sk_n X_\bullet | & \coprod_{k\leqslant n}X_k\times \Delta^k\lar & \coprod_{[m]\to[l]; m,l\leqslant n}X_l\times \Delta^m\ar[l,shift left]\ar[l, shift right]
         \end{tikzcd}
     \end{equation*}
     These skeleta sit inside the total geometric realization as closed embeddings whence
-    $|X_\bullet| = \lim |sk_n X_\bullet|$. So we will prove $|X_\bullet|\simeq |Y_\bullet|$
-    by proving that $|sk_n X_\bullet|\simeq|sk_n Y_\bullet$. The base case just says that
-    $sk_0X_\bullet X_0\simeq Y_0 = sk_0 Y_0$. For the inductive step check that
+    $|X_\bullet| = \lim |\sk_n X_\bullet|$. So we will prove $|X_\bullet|\simeq |Y_\bullet|$
+    by proving that $|\sk_n X_\bullet|\simeq|\sk_n Y_\bullet$. The base case just says that
+    $\sk_0X_\bullet X_0\simeq Y_0 = \sk_0 Y_0$. For the inductive step check that
     there is a pushout
     \begin{equation*}
         \begin{tikzcd}
-            L_nX\times \Delta^n\coprod_{L_n X\times\partial \Delta^n} X_n\times\partial\Delta^n \rar & sk_{n-1} X_\bullet|\dar \\
-            X_n\times\Delta^n \rar & sk_n X_\bullet|
+            L_nX\times \Delta^n\coprod_{L_n X\times\partial \Delta^n} X_n\times\partial\Delta^n \rar\dar & \sk_{n-1} X_\bullet|\dar \\
+            X_n\times\Delta^n \rar & \sk_n X_\bullet|
         \end{tikzcd}
     \end{equation*}
     Likewise for $Y$. By the inductive hypothesis we know that the map from the
@@ -986,6 +986,110 @@ colimit will always be this coproduct quotiented by a relation coming from morph
 in $\mathcal{C}$.
 For homotopy colimits we will get a map $F:N\mathcal{C}\to \mathsf{Top}$ sending
 $[p]\mapsto\sqcup_{N\mathcal{C}_p}F$ and $\hocolim_{\mathcal{C}} F = |F_\bullet|$.
+
+\newpage
+
+\section{Homotopy colimits, continued - [10/06/2017]}
+
+Recall that if we have an ordinary functor $F:\mathcal{C}\to \mathsf{Top}$ then
+the colimit $\colim_\mathcal{C} F$ can be expressed as a coequalizer: a quotient
+of the coproduct of $F(c)$ for all $c\in \mathcal{C}$ by the maps in $\mathcal{C}$
+(every colimit is a reflexive coequalizer of coproducts).
+
+\begin{definition}
+    Given $F:\mathcal{C}\to \mathsf{Top}$ we write $F_\bullet:\Delta^\text{op} \to \mathsf{Top}$
+    for the functor sending $[n]\mapsto \coprod_{N\mathcal{C}_n} F(c_0)$ (where $c_0$ is the
+    first object in the simplex). The simplicial structure maps are given by copmosition and
+    identities as usual. Then we define the \textbf{Bousfield-Kan} homotopy colimit
+    \begin{equation*}
+        \hocolim_{\mathcal{C}} F := |F_\bullet|
+    \end{equation*}
+\end{definition}
+
+Notice that every homotopy colimit is a geometric realization of coproducts.
+\begin{theorem}[Homotopy invariance of $\hocolim$]
+    Suppose we have two functors $F,G:\mathcal{C}\to\mathsf{Top}$ such that $F(c)$ and $G(c)$
+    are cofibrant (i.e. CW complexes) for all $c\in\mathcal{C}$, and there is a
+    natural transformation $\alpha$ such that $\alpha(c)$ is a homotopy equivalence.
+    Then $\hocolim_\mathcal{C}F\simeq \hocolim_{\mathcal{C}}G$.
+\end{theorem}
+\begin{proof}
+    This is homework 4 (from last time). Recall that the lemma from last time tells us
+    that given a map of Reedy cofibrant simplicial spaces $X_\bullet\to Y_\bullet$ inducing
+    equivalences on $n$-simplices for every $n$, the geometric realizations are equivalent.
+    Hence we need only check Reedy cofibrancy for $F_\bullet$ and $G_\bullet$.
+
+    In this case the $n$th latching object of $F_\bullet$ is
+    \begin{equation*}
+        L_n F_\bullet = \coprod F(c_0)
+    \end{equation*}
+    where the coproduct is taken over all degenerate $n$-simplices of $N\mathcal{C}$.
+    But by the CW complex assumption above the maps $L_n F_\bullet\hookrightarrow F_\bullet$
+    is a cofibration, as desired.
+\end{proof}
+
+\begin{definition}
+    We define ${\disk}_{/M}$ to be the category of $n$-disks embedding in $M$ with
+    morphisms given by inclusion (it is equivalent to the subposet of opens on $M$
+    such that the image is diffeomorphic to an $n$-disk).
+\end{definition}
+
+We can make the following predefinition (easier to make, harder to work with). Given
+$A:\disk\to\mathsf{Top}$ we define the factorization homology 
+\begin{equation*}
+    \int_M A := \hocolim_{ {\disk}_{/M} } A.
+\end{equation*}
+Really we should be working with the topological version ${\Disk}_{/M}$ but it
+will end up being homotopy equivalent.
+
+We want factorization homology $\int_M A$ to be $M$, where we replace $\R^n$
+with $A(\R^n)$.
+\begin{example}[Desiderata]
+    \begin{enumerate}
+        \item if $A=*$? Then we would like $\int_M* \simeq *$.
+        \item if $A(\coprod_I\R^n)=\coprod_I\R^n$ then $\int_M \id \simeq M.$
+        \item be able to compute $\int_M A$ for $A$ belonging to the examples
+            we discussed earlier. For instance, commutative algebras, $n$-fold
+            loop spaces, free $n$-disk algebras, trivial $n$-disk algebras,
+            and enveloping algebra of a Lie algebra.
+        \item if $A$ lands in $\mathsf{Ch}$ sending $\coprod_I\R^n\mapsto A^{\oplus I}$
+            then $\int_M A \simeq C_*(M,A)$ (and likewise for spectra).
+    \end{enumerate}
+\end{example}
+
+We need tools for computing homotopy colimits. For instance, it is useful to
+introduce the topological version,
+\begin{equation*}
+    {\disk}_{/M} \to {\Disk}_{/M},
+\end{equation*}
+and it turns out that homotopy colimits over these two categories are equivalent.
+To make statements like this, we need crieria for when two homotopy colimits are
+equivalent when they're indexed by different categories.
+
+Since we don't have time left to introduce $\infty$-categories, let's go over some
+properties of $\hocolim$.
+\begin{theorem}[Quillen's theorem A]
+    Let $g:\mathcal{C}\to \mathcal{D}$ is a functor. If $F$ is some functor from $\mathcal{D}$
+    to some target (such as topological spaces). Then
+    \begin{equation*}
+        \hocolim_{\mathcal{C}}F \simeq \hocolim_{\mathcal{D}} F
+    \end{equation*}
+    if and only if $g$ is \textbf{final}. In other words, for $d\in\mathcal{D}$,
+    define $\mathcal{C}^{d/}:=\mathcal{C}\times_{\mathcal{D}}\mathcal{D}^{d/}$,
+    and say that $g$ is final if $B(\mathcal{C}^{d/})\simeq *$ where $B\mathcal{C}:=\hocolim *$.
+\end{theorem}
+
+There is another key property of homotopy colimits involving hypercovers. Suppose
+we have a functor $\mathcal{C}\to\text{Opens}(X)\hookrightarrow\mathsf{Top}$. When is
+\begin{equation*}
+    \hocolim_{\mathcal{C}}F\simeq X?
+\end{equation*}
+Define, for $x\in X$, $\mathcal{C}_x$ to be the full subcategory of objects $c$ such that $x\in F(c)$.
+If $B\mathcal{C}_x\simeq *$ for each $x\in X$ then $\hocolim_{\mathcal{C}} F\simeq X$.
+
+\begin{exercise}
+    $\hocolim_* F=F(*)$.
+\end{exercise}
 
 \appendix
 
