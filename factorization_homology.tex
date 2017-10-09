@@ -19,6 +19,7 @@
 \DeclareMathOperator{\Fun}{Fun}
 \DeclareMathOperator{\Emb}{Emb}
 \DeclareMathOperator{\Conf}{Conf}
+\DeclareMathOperator{\Sing}{Sing}
 \DeclareMathOperator{\cyl}{cyl}
 \DeclareMathOperator{\hofiber}{hofiber}
 \DeclareMathOperator{\hocolim}{hocolim}
@@ -1049,6 +1050,7 @@ will end up being homotopy equivalent.
 We want factorization homology $\int_M A$ to be $M$, where we replace $\R^n$
 with $A(\R^n)$.
 \begin{example}[Desiderata]
+    \mbox{}
     \begin{enumerate}
         \item if $A=*$? Then we would like $\int_M* \simeq *$.
         \item if $A(\coprod_I\R^n)=\coprod_I\R^n$ then $\int_M \id \simeq M.$
@@ -1099,119 +1101,170 @@ If $B\mathcal{C}_x\simeq *$ for each $x\in X$ then $\hocolim_{\mathcal{C}} F\sim
 
 \section{$\infty$-categories [10/09/2017]}
 
-There are various definitions of $\infty$-categories, and they have their own advantages
-and disadvantages. To back up for a moment, suppose we have a category $\mathcal{T}$ with
-products, and we have a functor $\Delta\to\mathcal{T}$, then $\Maps_{\mathcal{T}}(s,t)$
-is a simplicial set whose $p$-simplices is $\Hom_\mathcal{T}(s\times [p],t)$.
-This also, by geometric realization, gives us a space of mappings. If for instance we
-take $\mathcal{T}$ to be $\mathsf{Top}$, a topological category, the functor sends
-$p\mapsto\Delta^p$. Then $\Maps_\mathsf{Top}(X,Y)_\bullet=\text{Sing}(\Maps(X,Y))$
-(recall the adjunction $X\times\Delta^p\to Y \implies \Delta^p\to \Maps(X,Y)$) % TODO two sided arrow
+\subsection{Topological enrichment}
 
-This allows us to give many categories a topological enrichment. For example consider
-the functor $\Delta\to \mathsf{CAlg}_\R^\text{op}$ which sends $p\mapsto\Omega^*(\Delta^p)$.
+Suppose we have a category $\mathcal{T}$ with products as well as a functor $\Delta\to\mathcal{T}$
+from the ordinal category.  Then $\Maps_{\mathcal{T}}(s,t)$ is a simplicial set with
+\begin{equation*}
+    \Maps_\mathcal{T}(s,t)_p = \Hom_\mathcal{T}(s\times [p], t),
+\end{equation*}
+where by $[p]$ we denote the image of the functor. If we now apply geometric realization,
+we obtain mapping spaces.
+
+Consider for example $\mathcal{T}=\mathsf{Top}$ (as a non-enriched, ordinary category).
+There is a functor $\Delta\to\mathsf{Top}$ which sends $[p]$ to the geometric $p$-simplex.
+Then we get a simplicial set $\Maps_\mathsf{Top}(X,Y)_\bullet$, and notice that
+\begin{equation*}
+    \Maps_\mathsf{Top}(X\times\Delta^p, Y) \cong \Maps_\mathsf{Top}(\Delta^p, \Maps_\mathsf{Top}(X,Y))
+\end{equation*}
+where we equip the set $\Maps_\mathsf{Top}(X,Y)$ with the compact-open topology, as usual.
+Hence the simplicial set $\Maps_\mathsf{Top}(X,Y)_\bullet$ is isomorphic to the singular
+simplicial set $\Sing\Maps_\mathsf{Top}(X,Y)$. If we apply the geometric realization,
+since $|\Sing A|\simeq A$, we see that we obtain the usual topological enrichment (at least
+up to homotopy) on the category $\mathsf{Top}$.
+
+
+This trick allows us to enrich various categories in $\mathsf{Top}$. As we have seen above
+the category of topological spaces is an immediate example, and it is not hard to do
+similarly for the category of simplicial sets. Another two familiar examples are
+those of chain complexes and natural transformations of functors. For a slightly
+unfamiliar example one could use the functor $\Delta\to \mathsf{CAlg}_\R^\text{op}$
+of de Rham forms on simplices, which sends $[p]\mapsto\Omega^*(\Delta^p)$, to give
+the (opposite) category of commutative $\R$-algebras a topological enrichment.
+
+This leads us to the following general idea, which highlights the importance of
+topological enrichment.
 \begin{quote}
     \textbf{Principle:} Everywhere where there is a notion of homotopy, there exists
     an enrichment in $\mathsf{Top}$ such that this is an actual homotopy.
 \end{quote}
-The first few examples are of course clear: spaces and simplicial sets. But then
-there are the notions of chain complexes and natural transformations of functors.
 
-\begin{definition}
-    Let $F:\mathcal{C}\to \mathcal{D}$ be a functor between topological categories.
-    We say that $F$ is a \textbf{homotopy equivalence} if for each $c,c'\in \mathcal{C}$,
-    $\Maps_\mathcal{C} \simeq \Maps_\mathcal{D}(Fc,Fc')$ and every object $d\in\mathcal{D}$
-    is homotopy equivalent to some $F(c)$ for $c\in\mathcal{C}$, i.e. there exists a map
-    $d\to Fc$ such that $\Maps_\mathcal{D}(e, d)\to \Maps(e,Fc)$ is a homotopy equivalence
-    for all $e\in\mathcal{D}$.
-\end{definition}
+\subsection{Complete Segal spaces and quasicategories}
 
-Whatever $\infty$-categories are, they are supposed to have two properties:
+Now, whatever $\infty$-categories are, they should have two properties:
 \begin{enumerate}
     \item The collection of $\infty$-categories up to some notion of equivalence
         should be equal to the collection of topological categories modulo
-        homotopy equivalence.
+        homotopy equivalence (see below for the formal definition).
     \item Colimits, limits, functor categories, over/undercategories in
         $\infty$-categories are homotopy colimits, homotopy limits, etc. in
         the corresponding topological category.
 \end{enumerate}
 
-When it comes to defining $\infty$-categories, there is a more economical option
-and a more conceptual option: quasicategories and complete Segal spaces, respectively.
-Let me tell you very briefly about complete Segal spaces (though the main reference is framed
-in terms of quasicategories).
+\begin{definition}
+    Let $F:\mathcal{C}\to \mathcal{D}$ be a functor between topological categories.
+    We say that $F$ is a \textbf{homotopy equivalence} if for each $c,c'\in \mathcal{C}$,
+    $\Maps_\mathcal{C}(c,c') \simeq \Maps_\mathcal{D}(Fc,Fc')$ and every object $d\in\mathcal{D}$
+    is homotopy equivalent to some $F(c)$ for $c\in\mathcal{C}$. In other words, there exists a map
+    $d\to Fc$ such that $\Maps_\mathcal{D}(e, d)\to \Maps(e,Fc)$ is a homotopy equivalence
+    for all $e\in\mathcal{D}$.
+\end{definition}
 
-When $\mathcal{C}$ is a category, there is a set of objects and a set of morphisms.
-However, the only way we ever use categories is up to equivalence, and these sets have
-no invariance properties with respect to equivalence. So how can we think of a category
-in a way that better reflects this homotopy theory of categories. Well there is a space
-of objects of $\mathcal{C}$. Consider the underlying groupoid $\mathcal{C}^0$ where
-we have thrown out the noninvertible maps. We can then construct the nerve/classifying space
-of $\mathcal{C}^0$. There is also a space of morphisms. The morphisms of $\mathcal{C}$
-sits inside of $\Fun^\text{iso}([1], \mathcal{C})$ --- here objects are functors and morphisms
-are natural transformations by isomorphisms. This is another groupoid and we can take
-its nerve and regard that as the space of morphisms.
+So that's roughly the philosophy of $\infty$-categories. They are a nice ground to work
+on when dealing with homotopy invariance. When it comes to actually defining $\infty$-categories,
+there is a conceptual option and a more economical option: complete Segal spaces and quasicategories,
+respectively. Let me tell you briefly about complete Segal spaces.
 
-Observe now that if $\mathcal{C}\simeq \mathcal{C}'$ then the spaces of objects and morphisms
-are equivalent. This construction is a functor $C_\bullet:\mathsf{Cat}\to \Fun(\Delta^\text{op},\mathsf{Spaces})$
-sending a category $\mathcal{C}$ to the simplicial space that sends $[p]\mapsto B\left( \Fun^\text{iso}([p],\mathcal{C}) \right)$.
-This functor is a fully faithful embedding. It moreover has the property that
-there are two different maps
+When we are given $\mathcal{C}$ a category, there is a set of objects and a set of morphisms.
+However, the only way we ever use categories is up to equivalence, and these underlying sets have
+no invariance properties with respect to equivalence of categories (for instance the sets of objects
+or corresponding sets of morphisms need not have the same number of elements).
+This leads us to the question: how can we think of a category in a way that better reflects 
+the homotopy theory (i.e. equivalences) of categories.
+
+It turns out that we can construct \textit{spaces} of objects and morphisms of $\mathcal{C}$ in the following way.
+Consider the underlying groupoid $\mathcal{C}^0\subset \mathcal{C}$ where
+we have thrown out all the noninvertible maps. Taking the nerve (classifying space) $N\mathcal{C}^0$
+gives us a simplicial set. The associated space is of course the geometric realization $|N\mathcal{C}^0|$. 
+For morphisms, consider the category $\Fun^\text{iso}([1], \mathcal{C})$ of functors $[1]\to\mathcal{C}$
+with natural transformations through isomorphisms. This category is a also a groupoid, so we obtain
+a space $|N\Fun^\text{iso}([1],\mathcal{C})|$.
+
+Observe now that if we have two equivalent categories $\mathcal{C}\simeq \mathcal{C}'$ then
+the spaces of objects and morphisms that we have defined above will be homotopy equivalent.
+Generalizing these constructions for higher $[p]$ we obtain a fully faithful functor
+\begin{equation*}
+    C_\bullet:\mathsf{Cat}\hookrightarrow \Fun(\Delta^\text{op},\mathsf{Top})
+\end{equation*}
+sending a category $\mathcal{C}$ to the simplicial space that sends $[p]\mapsto N\Fun^\text{iso}([p],\mathcal{C})$.
+It moreover has the property that the diagram
 \begin{equation*}
     \begin{tikzcd}
-        \mathcal{C}_\bullet([2]) \rar\dar & \mathcal{C}_\bullet(\{1<2\})\dar \\
-        \mathcal{C}_\bullet(\{0<1\}) \rar & \mathcal{C}_\bullet(\{1\})
+        \mathcal{C}_\bullet[2] \rar\dar & \mathcal{C}_\bullet\{1<2\}\dar \\
+        \mathcal{C}_\bullet\{0<1\} \rar & \mathcal{C}_\bullet\{1\}
     \end{tikzcd}
 \end{equation*}
-forming a homotopy pullback. This more or less characterizes the image of this functor.
-Hence one should think that colimits/limits will be mapped to homotopy colimits/limits, etc.
-However, this gets somewhat complicated as we quickly run into bisimplicial sets.
+is actually a homotopy pullback square (this turns out to more or less characterizes the
+image of $C_\bullet$). In particular, one should suspect (correctly) that colimits
+and limits will be mapped to homotopy colimits and homotopy limits.
+Unfortunately, going down this path to $\infty$-categories quickly turns into messing around with
+bisimplicial sets, which starts to get a bit complicated.
 
-This leads us to the economical option of quasicategories which only deal with
-simplicial sets (also there is thousands of pages of reference on it).
+This leads us to the more economical option of quasicategories. For quasicategories
+there is only one simplicial index involved and there is the important advantage
+that there are thousands of pages of reference material.
 \begin{definition}
     A \textbf{quasicategory} $\mathcal{C}$ is a simplicial set such that every
     inner horn (for $n\geq 2$) has a filler.
 \end{definition}
-Let's explain these terms. Write $\Delta[n]$ for the geometric $n$-simplex (i.e. the
-functor $\Delta^\text{op}\to \mathsf{Set}$ given $\Delta[n]=\Hom(-,[n])$).
-There are a number of maps $\Delta[n-1]\to \Delta[n]$ given by skipping $i$. We will
-define the inner horn $\Lambda_i[n]=\cup\Delta[n-1]$ where the union is over all
-those except the $i$th spot. For instance there are three horns of the 2-simplex.
-An inner horn is a horn where the missing $n-1$ piece is not the $0$th or $n$th.
-Now what does it mean to have a inner filler (for $n\geq 2$)? It means that for
-every inner horn $\Lambda_i[n]$ mapping into $\mathcal{C}$,
+Let's explain these terms. Write $\Delta[n]$ for the geometric $n$-simplex (the
+functor $\Delta^\text{op}\to \mathsf{Set}$ given $\Delta[n]=\Hom_\Delta(-,[n])$).
+There are a number of maps $\Delta[n-1]\to \Delta[n]$ induced by maps
+$[n-1]\to[n]$ that skipping some $i$.
+Then the $i$th horn of the geometric $n$-simplex is defined to be
+\begin{equation*}
+    \Lambda_i[n]=\bigcup\Delta[n-1]
+\end{equation*}
+where the union is over all faces $\Delta[n-1]\hookrightarrow\Delta[n]$ except for the
+$i$th. For instance there are three horns of the 2-simplex.
+An inner horn is a horn where the missing face is neither the $0$th face or the
+$n$th face (so the 2-simplex has only one inner horn, $\Lambda_1[2]$).
+Now we can define what it means for a simplicial set $\mathcal{C}$ to have
+inner horn fillings. It means that for every map $\Lambda_i[n]\to\mathcal{C}$
+there is a lift, or ``filling'',
 \begin{equation*}
     \begin{tikzcd}
-        \Lambda_i[n] \ar[r]\dar & \mathcal{C} \\
+        \Lambda_i[n] \ar[r]\ar[d,hook] & \mathcal{C} \\
         \Delta[n]\ar[ur, dashed]
     \end{tikzcd}
 \end{equation*}
-there exists a commutative diagram.
+of the map to the simplex making the diagram commute.
 
 \begin{example}
+    Spaces and categories are two natural sources of quasicategories.
     \begin{enumerate}
-        \item Consider $\mathcal{C}=\text{Sing}(X)$. Observe that there exists a retraction
-            of the geometric simplex to the geometric horn. Now solving the lifting
-            problem is equivalent to solving the lifting problem on the geometric side
-            (by adjunction), using this retraction.
+        \item Consider $\mathcal{C}=\text{Sing}(X)$. By the adjunction between geometric
+            realization and $\Sing$ the data of a map $\Lambda_i[n]\to \Sing X$ is precisely
+            the data of a map $|\Lambda_i[n]|\to X$. Now one can choose (there is no unique
+            choice) say a retraction $|\Delta[n]|\to |\Lambda_i[n]|$. Composing with the map
+            to $X$ and again applying adjointness, we obtain a map $\Delta[n]\to \Sing X$
+            making the relevant diagram commute. We conclude that the singular simplicial
+            set of a space is a quasicategory.
         \item Given a category $C$ consider the nerve $\mathcal{C}=NC$. By the Yoneda lemma
-            a map $\Lambda_1[2]\to NC$ is precisely the data of giving a composable pair of
+            a map $\Lambda_1[2]\to NC$ is precisely the data of a composable pair of
             morphisms in $C$. In particular there is a unique way of filling the
-            horn into the simplex by composition.
+            horn into the simplex by using the composition of these two maps. A similar
+            argument holds for higher-dimensional horns. We conclude that the nerve of any
+            category is a quasicategory.
     \end{enumerate}
 \end{example}
 
 What we will do next is give the definitions of colimits, limits, functor categories,
-and over/undercategories in quasicategories. We will also discuss some variant of
-the nerve functor $N:\mathsf{TopCat}\to\mathsf{QuasiCat}$, which in good cases will
+and over/undercategories in quasicategories. We will also discuss a variant of
+the nerve functor, $N:\mathsf{TopCat}\to\mathsf{QuasiCat}$, which in good cases will
 send $\hocolim\mapsto\colim$.
 
-Question from Greisha: is there some statement that complete Segal spaces are better?
-John: I don't know if this is getting at your question but here's an example.
-There is an inclusion $\mathsf{Cat}_\infty\subset\Fun(\Delta^\text{op},\mathsf{spaces})$ so it's
-easy to give an internal definition. However the same is not true for quasicategories,
-there is no such inclusion.
+\textbf{Greisha}: I understand your philosophy that complete Segal spaces are
+more compelling than quasicategories. Is there some concrete statement that backs
+this claim up?
+\textbf{John}: I don't know if this is getting at your question but here's an example.
+There is an inclusion $\mathsf{Cat}_\infty\subset\Fun(\Delta^\text{op},\mathsf{Top})$
+so it's easy to give an internal definition of the $\infty$-category of $\infty$-categories.
+However the same is not true for quasicategories.
+
+\newpage
+
+\section{??? [10/11/2-17]}
 
 
 \appendix
