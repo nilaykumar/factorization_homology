@@ -1254,17 +1254,153 @@ and over/undercategories in quasicategories. We will also discuss a variant of
 the nerve functor, $N:\mathsf{TopCat}\to\mathsf{QuasiCat}$, which in good cases will
 send $\hocolim\mapsto\colim$.
 
-\textbf{Greisha}: I understand your philosophy that complete Segal spaces are
+\textbf{Grisha}: I understand your philosophy that complete Segal spaces are
 more compelling than quasicategories. Is there some concrete statement that backs
 this claim up?
 \textbf{John}: I don't know if this is getting at your question but here's an example.
 There is an inclusion $\mathsf{Cat}_\infty\subset\Fun(\Delta^\text{op},\mathsf{Top})$
 so it's easy to give an internal definition of the $\infty$-category of $\infty$-categories.
-However the same is not true for quasicategories.
+However the corresponding construction is not so easy with quasicategories.
 
 \newpage
 
-\section{??? [10/11/2-17]}
+
+\section{More on $\infty$-categories [10/11/2017]}
+
+Recall the definition of a colimit. Suppose we have a functor $F:\mathcal{C}\to \mathcal{D}$.
+The \textbf{right cone} $C^>$ is defined to be $\mathcal{C}^>=\mathcal{C}\coprod *$ on objects.
+The set of morphisms from $x$ to $y$ is the usual set, unless $y=*$, in which case it will
+be a single element set, and unless $x=*$, in which case it will be empty.
+The \textbf{undercategory} $\mathcal{D}^{/F}$ is the fiber over $F$,
+\begin{equation*}
+    \begin{tikzcd}
+        \mathcal{D}^{F/} \dar\rar & \Fun(\mathcal{C}^>, \mathcal{D})\dar \\
+        \{F\} \rar & \Fun(\mathcal{C},\mathcal{D})
+    \end{tikzcd}
+\end{equation*}
+i.e. has objects $d\in\mathcal{D}$ together with a natural transformation
+$F\implies \underline{d}$, where $\underline{d}$ is the constant functor.
+\begin{definition}
+    An object $d\in\mathcal{D}$ is a \textbf{colimit} of the functor $F:\mathcal{C}\to \mathcal{D}$
+    if there exists a functor $\overline F:\mathcal{C}^>\to \mathcal{D}$ 
+    with $\overline F(*)\cong d$ and such that the natural restriction
+    $\mathcal{D}^{\overline F/} \to \mathcal{D}^{F/}$ is an equivalence.
+\end{definition}
+
+If you're a bit confused about why this is a colimit, observe that the category $\mathcal{C}^>$ has a final object. 
+For any $\mathcal{C}'$ which has a final object with a functor $G:\mathcal{C}'\to \mathcal{D}$
+then $\mathcal{D}^{G/}\cong \mathcal{D}^{G(*)/}$.
+
+We'd like to make a similar definition for quasicategories. We will need to
+be able to define equivalence, right cones, and undercategories in that context.
+
+\begin{definition}
+    For $\mathcal{C}$ a quasicategory and any objects $x$ and $y$ (i.e. $x,y\in\mathcal{C}[0]$)
+    we define the mapping space $\Maps_\mathcal{C}(x,y)$ as the fiber
+    \begin{equation*}
+        \begin{tikzcd}
+            \Maps_\mathcal{C} \dar\rar & \Maps(\Delta[1],\mathcal{C})\dar{\ev_0\times\ev_1} \\
+            \{x,y\} \rar & \Maps(\Delta[0],\mathcal{C})\times\Maps(\Delta[0],\mathcal{C})
+        \end{tikzcd}
+    \end{equation*}
+    Here $\Maps(X,Y)$ for $X$ and $Y$ simplicial sets is a simplicial set
+    whose set of $n$-simplices is the set $\Hom_{\mathsf{sSet}}(X\times\Delta[n],Y)$.
+\end{definition}
+
+Recall that Kan complexes---simplicial sets that satisfy the horn filling condition
+for all horns (not just inner horns)---are the combinatorial analog of spaces.
+\begin{lemma}
+    As defined above, $\Maps_\mathcal{C}(x,y)$ is a Kan complex.
+\end{lemma}
+
+\begin{definition}
+    If $F:\mathcal{C}\to \mathcal{D}$ is a functor between quasicategories
+    (i.e. a map of simplicial sets), then $F$ is a \textbf{categorical equivalence}
+    if
+    \begin{enumerate}
+        \item the induced map $F:h\mathcal{C}\to h\mathcal{D}$ is an equivalence
+            of categories, where $h\mathcal{C}$ is the category with objects that
+            of $\mathcal{C}$ and morphisms the set $\pi_0\Maps(X,Y)_n$.
+        \item for any $x,y\in\mathcal{C}$ the induced map $F:\Maps_\mathcal{C}(x,y)\to\Maps_\mathcal{D}(Fx,Fy)$
+            is a homotopy equivalence (equivalently a homotopy equivalence after
+            geometric realization).
+    \end{enumerate}
+\end{definition}
+
+Now we need the notion of the right cone of a simplicial set. Well for a hint
+of what this definition should be, let's look at the nerve of the right cone construction
+above:
+\begin{align*}
+    N(\mathcal{C}^>)_k &= \Fun([k],\mathcal{C}^>) = \coprod_{i\leqslant k}\Fun([i],\mathcal{C})\times \{*\} \sqcup *
+    &= \coprod_{i\leqslant k} N(\mathcal{C})_i \times \{*\}\sqcup *.
+\end{align*}
+This leads us to the following definition.
+\begin{definition}
+    For $S$ a simplicial set, define the \textbf{right cone} on $S$ to be
+    \begin{equation*}
+        S^>_k = \coprod_{i\leqslant k}S_i \sqcup *.
+    \end{equation*}
+\end{definition}
+It is easy to see that this naturally forms a simplicial set.
+
+\begin{definition}
+    For $F:\mathcal{C}\to \mathcal{D}$ a functor of quasicategories, we define
+    the undercategory $\mathcal{D}^{F/}$ to be the fiber
+    \begin{equation*}
+        \begin{tikzcd}
+            \mathcal{D}^{F/} \rar\dar & \Fun(\mathcal{C}^>,\mathcal{D})\dar\\
+            \{F\} \rar & \Fun(\mathcal{C},\mathcal{D})
+        \end{tikzcd}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}
+    We say that $d\in \mathcal{D}$ is a colimit of $F$ if there exists a functor
+    $\overline F:\mathcal{C}^>\to \mathcal{D}$ with $F(*)=d$ and
+    $\mathcal{D}^{F/}\simeq \mathcal{D}^{\overline F/}$ is a categorical equivalence.
+\end{definition}
+
+\begin{theorem}
+    \begin{enumerate}
+        \item Colimits in a quasicategory are invariant upto categorical equivalence. In other words,
+            if we have an equivalence $\mathcal{C}\simeq \mathcal{C}'$ and $\mathcal{D}\simeq \mathcal{D}'$
+            with a commutative diagram
+            \begin{equation*}
+                \begin{tikzcd}
+                    \mathcal{C} \rar\dar{F} &\mathcal{C}'\dar{F'}\\
+                    \mathcal{D} \rar &\mathcal{D}'
+                \end{tikzcd}
+            \end{equation*}
+            then $\colim_\mathcal{C} F = \colim_{C'}F'.$
+        \item The simplicial set $\Fun(\mathcal{C},\mathcal{D})$ is a quasicategory
+            if $\mathcal{C},\mathcal{D}$ are quasicategories, and is invariant
+            up to categorical equivalence. In other words, there is a categorical equivalence
+            of quasicategories $\Fun(\mathcal{C},\mathcal{D})\simeq \Fun(\mathcal{C}',\mathcal{D}')$.
+    \end{enumerate}
+\end{theorem}
+
+The proof is a straightforward exercise in model categorical language and we might
+work through this in the future. But first let's see why these results are nice,
+and motivate working with quasicategories.
+
+Consider ${\Diskr}_\infty = \lim_{\to\infty}\Diskr$ the sequential limit.
+One finds that ${\Diskr}_\infty\simeq \mathsf{Fin}$. In particular recall that
+$\Emb^\text{rect}(\coprod_2 D^n,D^n)\simeq S^{n-1}$ and as $n$ grows large
+these approach $S^\infty$, which is contractible. A basic question is
+whether there is a factorization
+\begin{equation*}
+    \begin{tikzcd}
+        {\Diskr}_\infty \rar\dar & \mathsf{Top} \\
+        \mathsf{Fin}\ar[ur,dashed]
+    \end{tikzcd}
+\end{equation*}
+It turns out that there does not exist such a factorization in general:
+\begin{equation*}
+    \Fun(\mathsf{Fin},\mathsf{Top}) \not\simeq \Fun({\Diskr}_\infty, \mathsf{Top})
+\end{equation*}
+This is stemming from the fact that infinite loop spaces are not the same
+as topological groups.
+
 
 
 \appendix
