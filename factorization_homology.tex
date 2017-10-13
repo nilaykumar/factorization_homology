@@ -1265,31 +1265,43 @@ However the corresponding construction is not so easy with quasicategories.
 \newpage
 
 
-\section{More on $\infty$-categories [10/11/2017]}
+\section{Colimits in $\infty$-categories [10/11/2017]}
 
-Recall the definition of a colimit. Suppose we have a functor $F:\mathcal{C}\to \mathcal{D}$.
-The \textbf{right cone} $C^>$ is defined to be $\mathcal{C}^>=\mathcal{C}\coprod *$ on objects.
-The set of morphisms from $x$ to $y$ is the usual set, unless $y=*$, in which case it will
-be a single element set, and unless $x=*$, in which case it will be empty.
-The \textbf{undercategory} $\mathcal{D}^{/F}$ is the fiber over $F$,
+Recall the definition of a colimit of a functor $F:\mathcal{C}\to \mathcal{D}$ in the theory of ordinary categories.
+We define the \textbf{right cone} $\mathcal{C}^\triangleright$ of $\mathcal{C}$ as follows.
+It has objects the objects of $\mathcal{C}$ together with an object we denote $*$. For morphisms
+we take
+\begin{equation*}
+    \Hom_{\mathcal{C}^\triangleright}(x,y) = 
+    \begin{cases}
+        * & y=* \\
+        \varnothing & x=* \\
+        \Hom_\mathcal{C}(x,y) & \text{otherwise}
+    \end{cases}
+\end{equation*}
+Next we define the \textbf{undercategory} $\mathcal{D}^{F/}$ as the fiber
 \begin{equation*}
     \begin{tikzcd}
-        \mathcal{D}^{F/} \dar\rar & \Fun(\mathcal{C}^>, \mathcal{D})\dar \\
+        \mathcal{D}^{F/} \dar\rar & \Fun(\mathcal{C}^\triangleright, \mathcal{D})\dar \\
         \{F\} \rar & \Fun(\mathcal{C},\mathcal{D})
     \end{tikzcd}
 \end{equation*}
-i.e. has objects $d\in\mathcal{D}$ together with a natural transformation
+It has as objects pairs $d\in\mathcal{D}$ with a natural transformation
 $F\implies \underline{d}$, where $\underline{d}$ is the constant functor.
+\marginnote{What are the morphisms in the undercategory?}
+With these definitions we can now define colimits.
 \begin{definition}
     An object $d\in\mathcal{D}$ is a \textbf{colimit} of the functor $F:\mathcal{C}\to \mathcal{D}$
-    if there exists a functor $\overline F:\mathcal{C}^>\to \mathcal{D}$ 
+    if there exists a functor $\overline F:\mathcal{C}^\triangleright\to \mathcal{D}$ 
     with $\overline F(*)\cong d$ and such that the natural restriction
     $\mathcal{D}^{\overline F/} \to \mathcal{D}^{F/}$ is an equivalence.
 \end{definition}
 
-If you're a bit confused about why this is a colimit, observe that the category $\mathcal{C}^>$ has a final object. 
-For any $\mathcal{C}'$ which has a final object with a functor $G:\mathcal{C}'\to \mathcal{D}$
-then $\mathcal{D}^{G/}\cong \mathcal{D}^{G(*)/}$.
+If you're a bit confused about why this is a colimit, observe that the category
+$\mathcal{C}^\triangleright$ has a final object. 
+For any $\mathcal{C}'$ which has a final object, if we have a functor
+$G:\mathcal{C}'\to \mathcal{D}$ then there is an equivalence
+$\mathcal{D}^{G/}\cong \mathcal{D}^{G(*)/}$.
 
 We'd like to make a similar definition for quasicategories. We will need to
 be able to define equivalence, right cones, and undercategories in that context.
@@ -1401,6 +1413,131 @@ It turns out that there does not exist such a factorization in general:
 This is stemming from the fact that infinite loop spaces are not the same
 as topological groups.
 
+\newpage
+
+\section{??? [10/13/2017]}
+
+Recall there was to show that there is a continuous assignment $\Maps_c(U,Z)\to\Maps_c(V,Z)$.
+Here we give $\Maps_c(U,Z)$ the subspace topology as inherited from $\Maps_*(U^+,Z)$. If we
+view it as a subspace of $\Maps(U,Z)$ this is statement is not true. For the next homework
+revise this. In addition, do the following exercise, for \textbf{Homework 5}.
+
+\begin{exercise}
+    Prove that there is a homeomorphism $|\Delta[n]|\cong\Delta^n$. Moreover, show that
+    the geometric realization $|X|$ of a simplicial set $X$ has the structure of a CW
+    complex with an $n$-cell for each nondegenerate $n$-simplex.
+\end{exercise}
+
+I want to give you a good taste of proofs in quasicategory theory, without having
+to prove absolutely everything. The following should be a good pedagogical example
+with which we can ``get in and get out'' of the theory of quasicategories.
+\begin{proposition}[HTT proposition 1.2.9.3]
+    Let $P:\mathcal{C}\to\mathcal{D}$ be a map of quasicategories and $j:K\to\mathcal{C}$
+    be any map. Then if $P$ is an equivalence, so is the induced map
+    \begin{equation*}
+        \begin{tikzcd}
+            \mathcal{C}^{j/} \rar{\sim} & \mathcal{D}^{P\circ j/}.
+        \end{tikzcd}
+    \end{equation*}
+\end{proposition}
+Matt asked how this relates to pointwise homotopy invariance. John: this result is a bit harder than that one.
+
+Let's outline the proof:
+\begin{enumerate}
+    \item $\mathcal{C}^{j/}$ is a quasicategory
+    \item $\mathcal{C}^{j/}\to\mathcal{C}$ is a left fibration
+    \item Given two left fibrations $\mathcal{C}', \mathcal{C}''$ over $\mathcal{C}$, 
+        and a compatible map $g$ between them, then $g$ is an equivalence if it is
+        an equivalence on fibers. In other words it is an equivalence if for all $x\in \mathcal{C}$
+        the map $\mathcal{C}'\times_{\mathcal{C}}\{x\} \to \mathcal{C}''\times_{x}$ is
+        an equivalence of Kan complexes.
+\end{enumerate}
+
+We'll begin by showing (2). We first need a definition
+\begin{definition}
+    For $X,Y$ simplicial sets, the join $X\star Y$ is the simplicial set given on
+    totally ordered sets as
+    \begin{equation*}
+        (X\star Y)(J) = \coprod_{J=I\coprod I'} X(I)\times Y(I')
+    \end{equation*}
+    where in the coproduct, every element of $I$ is less than every element of $I'$.
+    Equivalently,
+    \begin{equation*}
+        (X\star Y)([n]) = X_n \sqcup \left( \coprod_{i+j=n-1}X_i\times Y_j \right)\sqcup Y_n
+    \end{equation*}
+\end{definition}
+In the case where $C, D$ are categories, one can check that
+the usual join $C\star D$, which has
+\begin{equation*}
+    \Hom_{C\star D}(x,y) =
+    \begin{cases}
+        \Hom(x,y) & x,y\in C\text{ or }x,y\in D \\
+        * & x\in C, y\in D \\
+        \varnothing & \text{otherwise}
+    \end{cases}
+\end{equation*}
+has the property that its nerve is the quasicategorical join of the corresponding
+nerves of $C$ and $D$. Similarly for spaces.
+Another thing to check is that $X^\triangleright=X\star \Delta[0]$.
+\textbf{Homework 6:} Check that $\Delta[n]\star\Delta[m]\cong \Delta[n+m+1]$
+\begin{definition}
+    A class of morphisms $S\subset C$ (for $C$ an ordinary category) is \textbf{weakly saturated}
+    if it is
+    \begin{enumerate}
+        \item closed under pushouts,
+        \item closed under (transfinite) composition,
+        \item and closed under retracts.
+    \end{enumerate}
+\end{definition}
+This notion is important because any map that has a lifting property with respect
+to some class of morphisms $S$ then it will also have the lifting property with respect to 
+the weakly saturated closure (?).
+
+\begin{definition}
+    We say that $A\to B$ is \textbf{left/right/inner anodyne} if it belongs to
+    the smallest weakly saturated class containing (for $n\geq 1$),
+    $\{\Lambda_i[n]\hookrightarrow \Delta[n], i<n\}$ (left),
+    $\{\Lambda_i[n]\hookrightarrow \Delta[n], i>n\}$ (right),
+    $\{\Lambda_i[n]\hookrightarrow \Delta[n], 0<i<n\}$ (inner).
+\end{definition}
+Notice that ``anodyne'' is an english word meaning roughly inoffensive, bland, unproblematic.
+
+\begin{lemma}[HTT proposition 2.1.2.3]
+    Given inclusions of simplicial sets $f:A_0\subset A, g:B_0\subset B$ such that
+    $f$ is right anodyne or $g$ is left anodyne, then
+    \begin{equation*}
+        A_0\star B \coprod_{A_0\star B_0} A\star B_0\hookrightarrow A\star B
+    \end{equation*}
+    is inner anodyne.
+\end{lemma}
+\begin{proof}
+    The two cases are dual so we will just do the case where $f$ is right anodyne.
+    Define $\text{class}=\{f \mid \hookrightarrow \text{ is inner anodyne}\}$, where
+    by the arrow we mean the desired inclusion. We claim that this class is weakly
+    saturated. It suffices to show that it contains $\Lambda_i[n]\subset\Delta[n]$
+    for $0 < i \leqslant n$. Reduce $g: \partial\Delta[m]\subset \Delta[m]$,
+    where the domain is gen. the weakly saturated class of inclusions.
+    We now have
+    \begin{equation*}
+        \Lambda_i[n]\star \Delta[m] \coprod_{\Lambda_i[n]\star\partial\Delta[m]}\Delta[n]\star \partial\Delta[m]\hookrightarrow \Delta[n+m+1].
+    \end{equation*}
+    \textbf{More homework:} $\Lambda_i[n]\star\partial\Delta[m]\cong \Lambda_i[n+m+1]$, which
+    concludes the proof.
+\end{proof}
+
+\begin{definition}
+    We say that $X\to Y$ is a \textbf{inner/left/right fibration} if it has the right
+    lifting property with respect to inner/left/right anodyne maps.
+\end{definition}
+
+\begin{proposition}[HTT proposition 2.1.2.1]
+    Given $A\subset B\xrightarrow{p} X\xrightarrow{q} S$, with $r=q\circ p$ and $r_0:A\subset B$,
+    with $q$ an inner fibration. Then $X^{p/}\to X^{p_0/}\times_{S^{r_0/}}S^{r/}$ is a left fibration.
+\end{proposition}
+
+This is all to show that $\mathcal{C}^{p/}\to \mathcal{C}$ is a left fibration (and that the domain
+is a quasicategory).
+Sam: what does a left fibration geometrically realize to? A quasifibration? John: Yeah.
 
 
 \appendix
