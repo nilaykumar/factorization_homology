@@ -32,6 +32,7 @@
 \newcommand{\Disk}{\mathscr{D}\mathsf{isk}_n}
 \newcommand{\Diskf}{\mathscr{D}\mathsf{isk}_n^\text{fr}}
 \newcommand{\Diskr}{\mathscr{D}\mathsf{isk}_n^\text{rect}}
+\newcommand{\Diskir}{\mathscr{D}\mathsf{isk}_\infty^\text{rect}}
 
 \title{Factorization Homology}
 \author{John Francis}
@@ -1297,22 +1298,23 @@ With these definitions we can now define colimits.
     $\mathcal{D}^{\overline F/} \to \mathcal{D}^{F/}$ is an equivalence.
 \end{definition}
 
-If you're a bit confused about why this is a colimit, observe that the category
+If you're a bit confused, like Nilay is, about why this is a colimit, observe that the category
 $\mathcal{C}^\triangleright$ has a final object. 
 For any $\mathcal{C}'$ which has a final object, if we have a functor
 $G:\mathcal{C}'\to \mathcal{D}$ then there is an equivalence
-$\mathcal{D}^{G/}\cong \mathcal{D}^{G(*)/}$.
+$\mathcal{D}^{G/}\cong \mathcal{D}^{G'/}$, where $G':\mathcal{C}\to \mathcal{D}$
+is the restriction of $G$.
 
 We'd like to make a similar definition for quasicategories. We will need to
 be able to define equivalence, right cones, and undercategories in that context.
 
 \begin{definition}
     For $\mathcal{C}$ a quasicategory and any objects $x$ and $y$ (i.e. $x,y\in\mathcal{C}[0]$)
-    we define the mapping space $\Maps_\mathcal{C}(x,y)$ as the fiber
+    we define the \textbf{mapping space} $\Maps_\mathcal{C}(x,y)$ as the fiber
     \begin{equation*}
         \begin{tikzcd}
-            \Maps_\mathcal{C} \dar\rar & \Maps(\Delta[1],\mathcal{C})\dar{\ev_0\times\ev_1} \\
-            \{x,y\} \rar & \Maps(\Delta[0],\mathcal{C})\times\Maps(\Delta[0],\mathcal{C})
+            \Maps_\mathcal{C}(x,y) \dar\rar & \Hom_\mathsf{sSet}(\Delta[1],\mathcal{C})\dar{\ev_0\times\ev_1} \\
+            \{x,y\} \rar & \Hom_\mathsf{sSet}(\Delta[0],\mathcal{C})\times\Maps(\Delta[0],\mathcal{C})
         \end{tikzcd}
     \end{equation*}
     Here $\Maps(X,Y)$ for $X$ and $Y$ simplicial sets is a simplicial set
@@ -1343,36 +1345,37 @@ Now we need the notion of the right cone of a simplicial set. Well for a hint
 of what this definition should be, let's look at the nerve of the right cone construction
 above:
 \begin{align*}
-    N(\mathcal{C}^>)_k &= \Fun([k],\mathcal{C}^>) = \coprod_{i\leqslant k}\Fun([i],\mathcal{C})\times \{*\} \sqcup *
-    &= \coprod_{i\leqslant k} N(\mathcal{C})_i \times \{*\}\sqcup *.
+    N(\mathcal{C}^\triangleright)_k &= \Fun([k],\mathcal{C}^\triangleright) = *\sqcup \coprod_{i=0}^k\Fun([i],\mathcal{C}) \\
+    &= *\sqcup \coprod_{i=0}^k N(\mathcal{C})_i.
 \end{align*}
 This leads us to the following definition.
 \begin{definition}
     For $S$ a simplicial set, define the \textbf{right cone} on $S$ to be
     \begin{equation*}
-        S^>_k = \coprod_{i\leqslant k}S_i \sqcup *.
+        S^\triangleright_k =* \sqcup  \coprod_{i\leqslant k}S_i.
     \end{equation*}
 \end{definition}
-It is easy to see that this naturally forms a simplicial set.
+One checks that this naturally forms a simplicial set.
 
 \begin{definition}
     For $F:\mathcal{C}\to \mathcal{D}$ a functor of quasicategories, we define
-    the undercategory $\mathcal{D}^{F/}$ to be the fiber
+    the \textbf{undercategory} $\mathcal{D}^{F/}$ to be the fiber
     \begin{equation*}
         \begin{tikzcd}
-            \mathcal{D}^{F/} \rar\dar & \Fun(\mathcal{C}^>,\mathcal{D})\dar\\
+            \mathcal{D}^{F/} \rar\dar & \Fun(\mathcal{C}^\triangleright,\mathcal{D})\dar\\
             \{F\} \rar & \Fun(\mathcal{C},\mathcal{D})
         \end{tikzcd}
     \end{equation*}
 \end{definition}
 
 \begin{definition}
-    We say that $d\in \mathcal{D}$ is a colimit of $F$ if there exists a functor
-    $\overline F:\mathcal{C}^>\to \mathcal{D}$ with $F(*)=d$ and
+    We say that $d\in \mathcal{D}$ is a \textbf{colimit} of $F$ if there exists a functor
+    $\overline F:\mathcal{C}^\triangleright\to \mathcal{D}$ with $F(*)=d$ and
     $\mathcal{D}^{F/}\simeq \mathcal{D}^{\overline F/}$ is a categorical equivalence.
 \end{definition}
 
 \begin{theorem}
+    \mbox{}
     \begin{enumerate}
         \item Colimits in a quasicategory are invariant upto categorical equivalence. In other words,
             if we have an equivalence $\mathcal{C}\simeq \mathcal{C}'$ and $\mathcal{D}\simeq \mathcal{D}'$
@@ -1383,7 +1386,8 @@ It is easy to see that this naturally forms a simplicial set.
                     \mathcal{D} \rar &\mathcal{D}'
                 \end{tikzcd}
             \end{equation*}
-            then $\colim_\mathcal{C} F = \colim_{C'}F'.$
+            then $\colim_\mathcal{C} F = \colim_{\mathcal{C}'}F'.$
+            \marginnote{What does this mean?}
         \item The simplicial set $\Fun(\mathcal{C},\mathcal{D})$ is a quasicategory
             if $\mathcal{C},\mathcal{D}$ are quasicategories, and is invariant
             up to categorical equivalence. In other words, there is a categorical equivalence
@@ -1392,35 +1396,41 @@ It is easy to see that this naturally forms a simplicial set.
 \end{theorem}
 
 The proof is a straightforward exercise in model categorical language and we might
-work through this in the future. But first let's see why these results are nice,
-and motivate working with quasicategories.
+work through this in the future. First let's explain why these results are so great,
+and why they motivate working with quasicategories.
 
-Consider ${\Diskr}_\infty = \lim_{\to\infty}\Diskr$ the sequential limit.
-One finds that ${\Diskr}_\infty\simeq \mathsf{Fin}$. In particular recall that
+Consider $\Diskir = \varinjlim\Diskr$ the sequential limit.
+One finds that $\Diskir\simeq \mathsf{Fin}$.
+For motivation for why this might be true, recall that
 $\Emb^\text{rect}(\coprod_2 D^n,D^n)\simeq S^{n-1}$ and as $n$ grows large
-these approach $S^\infty$, which is contractible. A basic question is
-whether there is a factorization
+we obtain $S^\infty$, which is contractible. A basic question one might ask
+is whether there is a factorization
 \begin{equation*}
     \begin{tikzcd}
-        {\Diskr}_\infty \rar\dar & \mathsf{Top} \\
+        \Diskir \rar\dar & \mathsf{Top} \\
         \mathsf{Fin}\ar[ur,dashed]
     \end{tikzcd}
 \end{equation*}
 It turns out that there does not exist such a factorization in general:
 \begin{equation*}
-    \Fun(\mathsf{Fin},\mathsf{Top}) \not\simeq \Fun({\Diskr}_\infty, \mathsf{Top})
+    \Fun(\mathsf{Fin},\mathsf{Top}) \not\simeq \Fun(\Diskir, \mathsf{Top})
 \end{equation*}
-This is stemming from the fact that infinite loop spaces are not the same
-as topological groups.
+This is stemming from the fact that infinite loop spaces are not equivalent to 
+topological groups.
+\marginnote{Expand on what this has to do with $\infty$-categories. Also,
+isn't this the opposite of homotopy invariance?}
 
 \newpage
 
-\section{??? [10/13/2017]}
+\section{Homotopy invariance I [10/13/2017]}
 
-Recall there was to show that there is a continuous assignment $\Maps_c(U,Z)\to\Maps_c(V,Z)$.
-Here we give $\Maps_c(U,Z)$ the subspace topology as inherited from $\Maps_*(U^+,Z)$. If we
-view it as a subspace of $\Maps(U,Z)$ this is statement is not true. For the next homework
-revise this. In addition, do the following exercise, for \textbf{Homework 5}.
+Recall there was a homework problem to show that there is a continuous assignment $\Maps_c(U,Z)\to\Maps_c(V,Z)$.
+I should have specified that we are to give $\Maps_c(U,Z)$ the subspace topology as inherited from $\Maps_*(U^+,Z)$.
+If we view it as a subspace of $\Maps(U,Z)$ this is statement is not true.
+Of course, this not seem to prevent you from proving it\ldots you know what they say---where there's
+a will, there's a way.
+Anyway, for the next homework revise that solution.
+In addition, do the following for \textbf{homework.}
 
 \begin{exercise}
     Prove that there is a homeomorphism $|\Delta[n]|\cong\Delta^n$. Moreover, show that
@@ -1429,18 +1439,21 @@ revise this. In addition, do the following exercise, for \textbf{Homework 5}.
 \end{exercise}
 
 I want to give you a good taste of proofs in quasicategory theory, without having
-to prove absolutely everything. The following should be a good pedagogical example
-with which we can ``get in and get out'' of the theory of quasicategories.
+to prove absolutely everything. The following (the homotopy invariance of colimits)
+should be a good pedagogical example
+with which we can ``get in and get out'' of the theory of quasicategories. The main
+reference will of course be Jacob Lurie's Higher Topos Theory \cite{lurie}.
 \begin{proposition}[HTT proposition 1.2.9.3]
-    Let $P:\mathcal{C}\to\mathcal{D}$ be a map of quasicategories and $j:K\to\mathcal{C}$
-    be any map. Then if $P$ is an equivalence, so is the induced map
+    Let $p:\mathcal{C}\to\mathcal{D}$ be a map of quasicategories and $j:K\to\mathcal{C}$
+    be any map. Then if $p$ is an equivalence, so is the induced map
     \begin{equation*}
         \begin{tikzcd}
-            \mathcal{C}^{j/} \rar{\sim} & \mathcal{D}^{P\circ j/}.
+            \mathcal{C}^{j/} \rar{\sim} & \mathcal{D}^{p\circ j/}.
         \end{tikzcd}
     \end{equation*}
 \end{proposition}
-Matt asked how this relates to pointwise homotopy invariance. John: this result is a bit harder than that one.
+Matt: how does this relate to the notion of pointwise homotopy invariance?
+John: this result is a bit harder than that one.
 
 Let's outline the proof:
 \begin{enumerate}
@@ -1449,13 +1462,13 @@ Let's outline the proof:
     \item Given two left fibrations $\mathcal{C}', \mathcal{C}''$ over $\mathcal{C}$, 
         and a compatible map $g$ between them, then $g$ is an equivalence if it is
         an equivalence on fibers. In other words it is an equivalence if for all $x\in \mathcal{C}$
-        the map $\mathcal{C}'\times_{\mathcal{C}}\{x\} \to \mathcal{C}''\times_{x}$ is
+        the map $\mathcal{C}'\times_{\mathcal{C}}\{x\} \to \mathcal{C}''\times_\mathcal{C}\{x\}$ is
         an equivalence of Kan complexes.
 \end{enumerate}
 
 We'll begin by showing (2). We first need a definition
 \begin{definition}
-    For $X,Y$ simplicial sets, the join $X\star Y$ is the simplicial set given on
+    For $X,Y$ simplicial sets, the \textbf{join} $X\star Y$ is the simplicial set given on
     totally ordered sets as
     \begin{equation*}
         (X\star Y)(J) = \coprod_{J=I\coprod I'} X(I)\times Y(I')
@@ -1477,7 +1490,7 @@ the usual join $C\star D$, which has
     \end{cases}
 \end{equation*}
 has the property that its nerve is the quasicategorical join of the corresponding
-nerves of $C$ and $D$. Similarly for spaces.
+nerves of $C$ and $D$. A similar statement is true for spaces.
 Another thing to check is that $X^\triangleright=X\star \Delta[0]$.
 \textbf{Homework 6:} Check that $\Delta[n]\star\Delta[m]\cong \Delta[n+m+1]$
 \begin{definition}
@@ -1491,7 +1504,7 @@ Another thing to check is that $X^\triangleright=X\star \Delta[0]$.
 \end{definition}
 This notion is important because any map that has a lifting property with respect
 to some class of morphisms $S$ then it will also have the lifting property with respect to 
-the weakly saturated closure (?).
+the weakly saturated closure.
 
 \begin{definition}
     We say that $A\to B$ is \textbf{left/right/inner anodyne} if it belongs to
@@ -1500,7 +1513,8 @@ the weakly saturated closure (?).
     $\{\Lambda_i[n]\hookrightarrow \Delta[n], i>n\}$ (right),
     $\{\Lambda_i[n]\hookrightarrow \Delta[n], 0<i<n\}$ (inner).
 \end{definition}
-Notice that ``anodyne'' is an english word meaning roughly inoffensive, bland, unproblematic.
+Notice that ``anodyne'' is an english word meaning inoffensive, bland,
+or unproblematic.
 
 \begin{lemma}[HTT proposition 2.1.2.3]
     Given inclusions of simplicial sets $f:A_0\subset A, g:B_0\subset B$ such that
@@ -1537,7 +1551,12 @@ Notice that ``anodyne'' is an english word meaning roughly inoffensive, bland, u
 
 This is all to show that $\mathcal{C}^{p/}\to \mathcal{C}$ is a left fibration (and that the domain
 is a quasicategory).
+
 Sam: what does a left fibration geometrically realize to? A quasifibration? John: Yeah.
+
+\newpage
+
+\section{??? [10/16/2017]}
 
 
 \appendix
