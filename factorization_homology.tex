@@ -1553,10 +1553,149 @@ This is all to show that $\mathcal{C}^{p/}\to \mathcal{C}$ is a left fibration (
 is a quasicategory).
 
 Sam: what does a left fibration geometrically realize to? A quasifibration? John: Yeah.
+[Correction next lecture: I meant to say no. There is a paper of Quillen in the Annals,
+    titled something like: ``the geometric realization of a Kan fibration is a Serre fibration.''
+    You can guess what the main theorem is. It turns out that for $X\to Y$ a left (or right)
+    fibration it is not necessarily true that $|X|\to |Y|$ is a quasifibration. As an
+    example, consider the left fibration $\mathcal{C}^{x/}\to\mathcal{C}$. Consider the fiber
+    \begin{equation*}
+        \begin{tikzcd}
+            \Maps_{\mathcal{C}}(x,y) \rar\dar & \mathcal{C}^{x/}\dar \\
+            \{y\} \rar & \mathcal{C}
+        \end{tikzcd}
+    \end{equation*}
+    This cannot possibly yield a quasifibration. Consider a $y'$ with a map
+    $y\to y'$. We get a similar fiber $\Maps_{\mathcal{C}}(x,y)$.
+    But there is no reason for these mapping spaces to be homotopy equivalent
+    (and similarly after taking geometric realization).
+
+    Let's recall Quillen's theorme B. Given $\mathcal{C}\to \mathcal{D}$ and
+    the fiber diagram
+    \begin{equation*}
+        \begin{tikzcd}
+            \mathcal{C}^{d/} \rar\dar & \mathcal{C}\dar\\
+            \{d\} \rar & \mathcal{D}
+        \end{tikzcd}
+    \end{equation*}
+    one might ask when taking classifying spaces yields again a homotopy pullback.
+    This is true if for all $d\to c$ in $\mathcal{D}$, $B\mathcal{C}^{d/}\simeq B\mathcal{C}^{c/}$.]
 
 \newpage
 
-\section{??? [10/16/2017]}
+\section{Homotopy invariance II [10/16/2017]}
+
+Recall that last time we were proving:
+\begin{corollary}[HTT 2.1.2.2]
+    For all $K\xrightarrow{p}\mathcal{C}$ the associated undercategory $\mathcal{C}^{p/}$ is a quasicategory.
+\end{corollary}
+\begin{proof}
+    We claim that $\mathcal{C}^{p/}\to \mathcal{C}$ is a left fibration. Left implies inner, so
+    composing with the map to the point implies that $\mathcal{C}^{p/}\to \mathcal{C}\to \Delta[0]$
+    is an inner fibration whence $\mathcal{C}^{p/}$ is a quasicategory.
+    
+    Hence it remains to show that $\mathcal{C}^{p/}\to \mathcal{C}$ is a left fibration.
+    We show this below.
+\end{proof}
+
+Recall from last time we had shown (if you include the homework) the following.
+\begin{lemma}[HTT 2.1.2.3]
+    Given $f:A_0\hookrightarrow A, g:B_0\hookrightarrow B$ with either $f$ right anodyne
+    or $g$ left anodyne then
+    \begin{equation*}
+        A_0\star B\coprod_{A_0\star B_0}A\star B_0 \hookrightarrow A\star B
+    \end{equation*}
+    is inner anodyne.
+\end{lemma}
+
+This implies
+\begin{proposition}[HTT 2.1]
+    Give $A\subset B\xrightarrow{p} X\xrightarrow{q} S$ with the inclusion denoted $r_0$
+    and the composition $q\circ p =: r$ where $q$ is an inner fibration, then 
+    \begin{equation*}
+        X^{p/} \to X^{p_0/}\times_{S^{r_0/}} S^{r/}
+    \end{equation*}
+    is a left fibration.
+\end{proposition}
+\begin{proof}
+    Recall that the data of a map $J\to \mathcal{C}^{p/}$ for $p:K\to\mathcal{C}$ is precisely the data of
+    a map $K\star J\to \mathcal{C}$ such that $K\star\varnothing\to \mathcal{C}$ is $p$.
+    To check that the given map is a left fibration we look at a diagram
+    \begin{equation*}
+        \begin{tikzcd}
+            \Lambda_k[n]\dar \rar & X^{p/}\dar\\
+            \Delta[n] \rar\ar[ur,dashed] & X^{p_0/}\times_{S^{r_0/}}S^{r/}
+        \end{tikzcd}
+    \end{equation*}
+    Let's apply our adjunction to obtain compatible maps
+    \begin{equation*}
+        \begin{tikzcd}
+            B\star\Lambda_k[n] \rar & X \\
+            A\star \Delta[n] \rar & X \\
+            B\star \Delta[n] \rar & S \\
+            A\star \Delta[n] \rar & S
+        \end{tikzcd}
+    \end{equation*}
+    Putting these together,
+    \begin{equation*}
+        \begin{tikzcd}
+            B\star \Lambda_k[n] \cup_{A\star \Lambda_k[n]} A\star \Delta[n] \rar\ar[d,hook] & X \dar\\
+            B\star \Delta[n] \rar & S
+        \end{tikzcd}
+    \end{equation*}
+    and applying the lemma above, the vertical map on the left is inner anodyne, whence
+    because $X\to S$ is an inner fibration, there exists a left.
+\end{proof}
+
+This now concludes the proof that the undercategory is a quasicategory. To see this,
+we apply the proposition to the case where $X=\mathcal{C}$, $A=\varnothing$, and $B=*$.
+Hence $\mathcal{C}^{p/}\to \mathcal{C}$ is a left fibration.
+
+Sean: is there a time when it matters that these were left fibrations and not just inner?
+John: absolutely. Think of inner as a technical condition but left/right as a homotopy
+invariant property. In particular, every functor is equivalent to an inner fibration.
+This is not at all true for left fibrations. In particular,
+$\mathsf{LFib}_\mathcal{D}\simeq \Fun(\mathcal{D},\mathsf{Spaces})$---they're
+like ``fiber bundles with connection on $\mathcal{D}$.''
+
+\begin{proposition}[HTT 1.2.5.1]
+    For $\mathcal{C}$ a simplicial set the following are equivalent:
+    \begin{enumerate}
+        \item $\mathcal{C}$ is a quasicategory and $\mathsf{h}\mathcal{C}$ is a groupoid;
+        \item $\mathcal{C}\to *$ is a left fibration;
+        \item $\mathcal{C}\to *$ is a right fibration;
+        \item $\mathcal{C}\to *$ is a Kan fibration, i.e. $\mathcal{C}$ is a Kan complex.
+    \end{enumerate}
+    If any of these are try we call $\mathcal{C}$ an \textbf{$\infty$-groupoid} or \textbf{space}.
+\end{proposition}
+
+\begin{proposition}[HTT 1.2.4.3]
+    A morphism $\phi:\Delta[1]\to\mathcal{C}$ in a quasicategory $\mathcal{C}$ is
+    an equivalence if and only if for any extension $f_0$
+    \begin{equation*}
+        \begin{tikzcd}
+            \Delta[1] \dar[hook] \rar{\phi} & \mathcal{C}\\
+            \Lambda_0[n]\dar[hook] \ar[ur]{f_0} & \\
+            \Delta[n]\ar[uur,dashed]{f} &
+        \end{tikzcd}
+    \end{equation*}
+    there is a lift to a map $f$.
+\end{proposition}
+\begin{proof}
+    By adjunction
+    \begin{equation*}
+        \begin{tikzcd}
+            \{0\} \rar\dar & \mathcal{C}/\Delta[n-2]\dar \\
+            \Delta[0<1] \rar\ar[ur,dashed] & \mathcal{C}/\partial\Delta[n-2]
+        \end{tikzcd}
+    \end{equation*}
+    That proves one direction. For the other direction take a map $\phi:x\to y$.
+    We have a filler $\Lambda_0[2]\hookrightarrow\Delta[2]\xrightarrow{\psi} \mathcal{C}$ call it $\sigma$.
+    This 2-simplex $\sigma$ gives a homotopy $\id_x\simeq \psi\circ\phi$. Show that
+    $\phi\circ\psi\simeq \id_y$ for \textbf{homework.}
+\end{proof}
+
+This implies the equivalence of $(1)\iff (2)$ and dually $(1)\iff (2)$. But
+then $(1)\iff (2)+(3)=(4)$.
 
 
 \appendix
