@@ -1697,10 +1697,151 @@ like ``fiber bundles with connection on $\mathcal{D}$.''
 This implies the equivalence of $(1)\iff (2)$ and dually $(1)\iff (2)$. But
 then $(1)\iff (2)+(3)=(4)$.
 
+\newpage
+
+\section{Homotopy invariance III [10/18/2017]}
+
+Recall last time we wanted to prove Proposition 1.2.5.1.
+\begin{proof}
+    To show that $(1)\implies(2)$ notice that every $\Delta[1]\to\mathcal{C}$ is a homotopy equivalence.
+    Choose any $f_0$
+    \begin{equation*}
+        \begin{tikzcd}
+            \Lambda[n] \rar{f_0}\dar[hook] & \mathcal{C} \\
+            \Delta[n]\ar[ur, dashed] 
+        \end{tikzcd}
+    \end{equation*}
+    and now by the previous proposition there exists an extension
+    \begin{equation*}
+        \begin{tikzcd}
+            \Delta[0<1] \ar{rd}\dar \\
+            \Lambda_0[n] \rar\dar[hook] & \mathcal{C} \\
+            \Delta[n]\ar[ur,dashed]{f}
+        \end{tikzcd}
+    \end{equation*}
+    To see that $(2)\implies(1)$ draw the same picture and apply the proposition,
+    which implies that $\phi$ is an equivalence.
+
+    Notice that by taking opposites $(1)\iff(2)$ implies $(1)\iff(3)$, since taking
+    opposites takes left fibrations to right fibrations. Hence $(1)\iff (2)+(3)$.
+    But being a left and right fibration is the same as being a Kan fibration, which
+    completes the proof.
+\end{proof}
+
+\begin{corollary}
+    If $\mathcal{C}$ is a quasicategory there exists a maximal sub-Kan complex
+    $\mathcal{C}^0$ whose morphisms consist of the homotopy equivalences in $\mathcal{C}$.
+    \marginnote{Figure out the HTT number. Fix the notation to tilde.}
+\end{corollary}
+\begin{proof}
+    We can define $\mathcal{C}^0$ as the subsimplicial set with 1-simplices
+    the homotopy equivalences. $\mathcal{C}^0$ is a quasicategory, and $h\mathcal{C}^0$
+    is a groupoid if and only if $\mathcal{C}^0$ is a Kan complex.
+\end{proof}
+In particular we have $\mathsf{Kan}\subset \mathsf{QCat}\subset\mathsf{sSet}$
+and the construction in the corollary is the right adjoint to the inclusion
+$\mathsf{Kan}\hookrightarrow\mathsf{QCat}$.
+
+Recall that our purpose was to show that colimits in quasicategories are invariant
+with respect to categorical equivalence. In particular, given $J\xrightarrow{j}\mathcal{C}\xrightarrow{p}\mathcal{D}$
+where $p$ is a categorical equivalence, we want to show that $\mathcal{C}^{j/}\simeq \mathcal{D}^{p\circ j/}.$
+We first needed the undercategories to be quasicategories. This we showed last time.
+Next we show that the two horizontal arrows
+\begin{equation*}
+    \begin{tikzcd}
+        \mathcal{C}^{j/} \rar\ar[dr] & \mathcal{D}^{p\circ j}\times_\mathcal{D}\mathcal{C} \rar\dar & \mathcal{D}^{p\circ j/}\\
+        & \mathcal{C}
+    \end{tikzcd}
+\end{equation*}
+are equivalences. To see that the first is an equivalence we observe first
+that the vertical maps in the triangle are left fibrations, whence it is
+enough to show that it produces an equivalence on fibers. Thus we need
+the following. Given
+\begin{equation*}
+    \begin{tikzcd}
+        \mathcal{C'}\dar{g}\rar{p} & \mathcal{C}''\ar[dl]{h}\\
+        \mathcal{D}
+    \end{tikzcd}
+\end{equation*}
+where $g$ and $h$ are left fibrations, we wish to show that $p$ is an equivalence
+if and only if $\mathcal{C}'_d\to \mathcal{C}''_d$ is an equivalence of Kan
+complexes for all $d\in\mathcal{D}$. To prove this it's easiest to prove a slightly
+more general result. Then we need
+\begin{lemma}[HTT 2.5.4.1]
+    Given $J\to \mathcal{C}\ \mathcal{D}$ with the map from $\mathcal{C}$ to $\mathcal{D}$
+    an equivalence, then $\mathcal{C}^{j/}\times_\mathcal{C}\{x\}\to\mathcal{D}^{p\circ j/}\times_\mathcal{D}\{px\}$
+    is an equivalence of Kan complexes for all $x\in \mathcal{C}$.
+\end{lemma}
+
+The following picture is good to keep in mind:
+\begin{equation*}
+    \begin{tikzcd}
+        & \text{Kan fibration}\ar[dl]\ar[dr] & \\
+        \text{left fibration}\dar & & \text{right fibration}\dar \\
+        \text{coCartesian fibration}\ar[dr] & & \text{Cartesian fibration}\ar[dl] \\
+        & \text{inner fibration} &
+    \end{tikzcd}
+\end{equation*}
+Recall that an inner fibration is more of a technical condition rather than
+having some homotopy invariant meaning. Each of these fibrations (except for
+inner fibrations) are classified by functors to a representing object.
+\begin{example}
+    Consider a functor $F:[1]\to \mathsf{Cat}$. Call $F(0)=\mathcal{C}, F(1)=\mathcal{D}$.
+    From this we can construct a category $\mathcal{M}=\cyl(F) := \mathcal{C}\times[1]\coprod_{\mathcal{C}\times\{1\}}\mathcal{D}$
+    which sits over $[1]$, $\mathcal{M}\to [1]$. This cylinder construction is
+    a map $\Fun([1],\mathsf{Cat})\to \mathsf{Cat}_{/[1]}$. You should think of this as
+    the most basic example of an ``unstraightening construction''. The categories you
+    obtain are the coCartesian fibrations over $[1]$.
+\end{example}
+\begin{definition}
+    We say that a \textbf{correspondence} between two categories $\mathcal{C}$ and $\mathcal{D}$
+    is a functor $\mathcal{M}\to[1]$ with $\mathcal{M}_0\cong \mathcal{C}$ and $\mathcal{M}_0\cong \mathcal{D}$.
+\end{definition}
+This construction gives us correspondences but not all correspondences arise this way.
+If we consider a span $\mathcal{E}$ from $\mathcal{C}$ to $\mathcal{D}$ we can produce a correspondence.
+In particular take the parameterized join $\mathcal{C}\star_\mathcal{E}\mathcal{D}=\mathcal{C}\coprod_{\mathcal{E}\times\{0\}}\mathcal{E}\times[1]\coprod_{\mathcal{E}\times\{1\}}\mathcal{D}$ over $[1]$.
+
+If our fibrations in our diagram above are over $\mathcal{C}$ (except for the inner fibration, say),
+then we get a diagram before unstraightening
+\begin{equation*}
+    \begin{tikzcd}
+        & \Fun(\mathcal{C}, \mathsf{Gpd}_\infty^0)\ar[ld]\ar[rd] &\\
+        \Fun(\mathcal{C}, \mathsf{Gpd}_\infty)\dar  & & \Fun(\mathcal{C},\mathsf{Gpd}_\infty^\text{op}\dar \\
+        \Fun(\mathcal{C},\mathsf{Cat}_\infty) & & \Fun(\mathcal{C}, \mathsf{Cat}_\infty^\text{op}
+    \end{tikzcd}
+\end{equation*}
+Note: unstraightening is also known as the ``Grothendieck construction.''
+In particular given $F:\mathcal{C}\to \mathsf{Cat}_\infty$ then the fiber is just $F(x)$ over $x$:
+\begin{equation*}
+    \begin{tikzcd}
+        F(x) \rar\dar & \mathcal{C}_F\dar \\
+        \{x\} \rar & \mathcal{C}
+    \end{tikzcd}
+\end{equation*}
+\begin{corollary}
+    Given a map $\mathcal{C}'\to \mathcal{C}''$ of left fibrations over $\mathcal{C}$, if 
+    $\mathcal{C}'=\mathcal{C}_F$ and $\mathcal{C}''=\mathcal{C}_G$ (unstraightening) with
+    the map of fibrations being induced by a natural transformation $\alpha$ sending $F\implies G:\mathcal{C}\to \mathsf{Gpd}_\infty$.
+    Then the map is an equivalence if and only if $\alpha$ is an equivalence if and only if
+    $F(x)\xrightarrow{\alpha}G(x)$ is an equivalence i.e. $\mathcal{C}'_x\to \mathcal{C}''_x$
+    is an equivalence.
+\end{corollary}
+We would have to prove a lot of this stuff to prove our fact.
+
+Principle: any construction from category theory that only uses universal properties
+goes through for $\infty$-categories. 
+
+The reason this unstraightening stuff is important because it's generally easier to
+think about functors out of things instead of fibrations. On the other hand,
+fibrations (unstraightened things) are generally easier to construct.
+
+
+
+
 
 \appendix
 
-% TODO write out this adjoint argument as far as we got
+% TODO write out some of the homeworks/details here
 
 \newpage
 
