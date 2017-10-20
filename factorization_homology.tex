@@ -1268,6 +1268,8 @@ However the corresponding construction is not so easy with quasicategories.
 
 \section{Colimits in $\infty$-categories [10/11/2017]}
 
+\subsection{Colimits in 1-categories}
+
 Recall the definition of a colimit of a functor $F:\mathcal{C}\to \mathcal{D}$ in the theory of ordinary categories.
 We define the \textbf{right cone} $\mathcal{C}^\triangleright$ of $\mathcal{C}$ as follows.
 It has objects the objects of $\mathcal{C}$ together with an object we denote $*$. For morphisms
@@ -1305,6 +1307,8 @@ $G:\mathcal{C}'\to \mathcal{D}$ then there is an equivalence
 $\mathcal{D}^{G/}\cong \mathcal{D}^{G'/}$, where $G':\mathcal{C}\to \mathcal{D}$
 is the restriction of $G$.
 
+\subsection{Colimits in quasicategories}
+
 We'd like to make a similar definition for quasicategories. We will need to
 be able to define equivalence, right cones, and undercategories in that context.
 
@@ -1313,12 +1317,13 @@ be able to define equivalence, right cones, and undercategories in that context.
     we define the \textbf{mapping space} $\Maps_\mathcal{C}(x,y)$ as the fiber
     \begin{equation*}
         \begin{tikzcd}
-            \Maps_\mathcal{C}(x,y) \dar\rar & \Hom_\mathsf{sSet}(\Delta[1],\mathcal{C})\dar{\ev_0\times\ev_1} \\
-            \{x,y\} \rar & \Hom_\mathsf{sSet}(\Delta[0],\mathcal{C})\times\Maps(\Delta[0],\mathcal{C})
+            \Maps_\mathcal{C}(x,y) \dar\rar & \Maps(\Delta[1],\mathcal{C})\dar{\ev_0\times\ev_1} \\
+            \{x,y\} \rar & \Maps(\Delta[0],\mathcal{C})\times\Maps(\Delta[0],\mathcal{C})
         \end{tikzcd}
     \end{equation*}
     Here $\Maps(X,Y)$ for $X$ and $Y$ simplicial sets is a simplicial set
-    whose set of $n$-simplices is the set $\Hom_{\mathsf{sSet}}(X\times\Delta[n],Y)$.
+    whose set of $n$-simplices is the set $\Hom_{\mathsf{sSet}}(X\times\Delta[n],Y)$,
+    i.e. the internal hom. The mapping space is a priori just a simplicial set.
 \end{definition}
 
 Recall that Kan complexes---simplicial sets that satisfy the horn filling condition
@@ -1370,7 +1375,7 @@ One checks that this naturally forms a simplicial set.
 
 \begin{definition}
     We say that $d\in \mathcal{D}$ is a \textbf{colimit} of $F$ if there exists a functor
-    $\overline F:\mathcal{C}^\triangleright\to \mathcal{D}$ with $F(*)=d$ and
+    $\overline F:\mathcal{C}^\triangleright\to \mathcal{D}$ with $\overline F(*)=d$ and
     $\mathcal{D}^{F/}\simeq \mathcal{D}^{\overline F/}$ is a categorical equivalence.
 \end{definition}
 
@@ -1417,8 +1422,8 @@ It turns out that there does not exist such a factorization in general:
 \end{equation*}
 This is stemming from the fact that infinite loop spaces are not equivalent to 
 topological groups.
-\marginnote{Expand on what this has to do with $\infty$-categories. Also,
-isn't this the opposite of homotopy invariance?}
+\marginnote{Expand on what this has to do with $\infty$-categories. Is the point
+that passing to $\infty$-categories will yield an equivalence?}
 
 \newpage
 
@@ -1427,7 +1432,7 @@ isn't this the opposite of homotopy invariance?}
 Recall there was a homework problem to show that there is a continuous assignment $\Maps_c(U,Z)\to\Maps_c(V,Z)$.
 I should have specified that we are to give $\Maps_c(U,Z)$ the subspace topology as inherited from $\Maps_*(U^+,Z)$.
 If we view it as a subspace of $\Maps(U,Z)$ this is statement is not true.
-Of course, this not seem to prevent you from proving it\ldots you know what they say---where there's
+Of course, this did not seem to prevent you from proving it\ldots you know what they say---where there's
 a will, there's a way.
 Anyway, for the next homework revise that solution.
 In addition, do the following for \textbf{homework.}
@@ -1454,6 +1459,7 @@ reference will of course be Jacob Lurie's Higher Topos Theory \cite{lurie}.
 \end{proposition}
 Matt: how does this relate to the notion of pointwise homotopy invariance?
 John: this result is a bit harder than that one.
+\marginnote{How does this imply the statement last lecture about colimits?}
 
 Let's outline the proof:
 \begin{enumerate}
@@ -1466,7 +1472,7 @@ Let's outline the proof:
         an equivalence of Kan complexes.
 \end{enumerate}
 
-We'll begin by showing (2). We first need a definition
+We'll begin by showing (2). We first need a definition.
 \begin{definition}
     For $X,Y$ simplicial sets, the \textbf{join} $X\star Y$ is the simplicial set given on
     totally ordered sets as
@@ -1504,7 +1510,7 @@ Another thing to check is that $X^\triangleright=X\star \Delta[0]$.
 \end{definition}
 This notion is important because any map that has a lifting property with respect
 to some class of morphisms $S$ then it will also have the lifting property with respect to 
-the weakly saturated closure.
+the weakly saturated closure. \marginnote{Did I say this correctly?}
 
 \begin{definition}
     We say that $A\to B$ is \textbf{left/right/inner anodyne} if it belongs to
@@ -1526,11 +1532,12 @@ or unproblematic.
 \end{lemma}
 \begin{proof}
     The two cases are dual so we will just do the case where $f$ is right anodyne.
-    Define $\text{class}=\{f \mid \hookrightarrow \text{ is inner anodyne}\}$, where
-    by the arrow we mean the desired inclusion. We claim that this class is weakly
-    saturated. It suffices to show that it contains $\Lambda_i[n]\subset\Delta[n]$
-    for $0 < i \leqslant n$. Reduce $g: \partial\Delta[m]\subset \Delta[m]$,
-    where the domain is gen. the weakly saturated class of inclusions.
+    Consider the class of all morphisms $f:A_0\to A$ for which the inclusion of the
+    proposition is inner anodyne.
+    This class is weakly saturated whence it suffices to show that it contains
+    $\Lambda_i[n]\subset\Delta[n]$
+    for $0 < i \leqslant n$. We thus suppose that $f$ is of this form.
+    Similarly for $g$: reduce $g: \partial\Delta[m]\subset \Delta[m]$.
     We now have
     \begin{equation*}
         \Lambda_i[n]\star \Delta[m] \coprod_{\Lambda_i[n]\star\partial\Delta[m]}\Delta[n]\star \partial\Delta[m]\hookrightarrow \Delta[n+m+1].
@@ -1569,7 +1576,7 @@ Sam: what does a left fibration geometrically realize to? A quasifibration? John
     But there is no reason for these mapping spaces to be homotopy equivalent
     (and similarly after taking geometric realization).
 
-    Let's recall Quillen's theorme B. Given $\mathcal{C}\to \mathcal{D}$ and
+    Let's recall Quillen's theorem B. Given $\mathcal{C}\to \mathcal{D}$ and
     the fiber diagram
     \begin{equation*}
         \begin{tikzcd}
@@ -1578,23 +1585,25 @@ Sam: what does a left fibration geometrically realize to? A quasifibration? John
         \end{tikzcd}
     \end{equation*}
     one might ask when taking classifying spaces yields again a homotopy pullback.
-    This is true if for all $d\to c$ in $\mathcal{D}$, $B\mathcal{C}^{d/}\simeq B\mathcal{C}^{c/}$.]
+    This is true if for all $d\to c$ in $\mathcal{D}$ we have that $B\mathcal{C}^{d/}\simeq B\mathcal{C}^{c/}$.]
 
 \newpage
 
 \section{Homotopy invariance II [10/16/2017]}
 
-Recall that last time we were proving:
+Today we'll discuss the proof of the following fact, which was (1) in our outline proof
+of homotopy invariance.
 \begin{corollary}[HTT 2.1.2.2]
     For all $K\xrightarrow{p}\mathcal{C}$ the associated undercategory $\mathcal{C}^{p/}$ is a quasicategory.
 \end{corollary}
 \begin{proof}
     We claim that $\mathcal{C}^{p/}\to \mathcal{C}$ is a left fibration. Left implies inner, so
     composing with the map to the point implies that $\mathcal{C}^{p/}\to \mathcal{C}\to \Delta[0]$
-    is an inner fibration whence $\mathcal{C}^{p/}$ is a quasicategory.
+    is an inner fibration (it is easy to check that compositions of fibrations are fibrations directly
+    from the lifting property). We conclude that $\mathcal{C}^{p/}$ is a quasicategory.
     
-    Hence it remains to show that $\mathcal{C}^{p/}\to \mathcal{C}$ is a left fibration.
-    We show this below.
+    It remains to show that $\mathcal{C}^{p/}\to \mathcal{C}$ is a left fibration,
+    which we do below.
 \end{proof}
 
 Recall from last time we had shown (if you include the homework) the following.
@@ -1607,9 +1616,9 @@ Recall from last time we had shown (if you include the homework) the following.
     is inner anodyne.
 \end{lemma}
 
-This implies
+This immediately implies
 \begin{proposition}[HTT 2.1]
-    Give $A\subset B\xrightarrow{p} X\xrightarrow{q} S$ with the inclusion denoted $r_0$
+    Given $A\subset B\xrightarrow{p} X\xrightarrow{q} S$ with the inclusion denoted $r_0$
     and the composition $q\circ p =: r$ where $q$ is an inner fibration, then 
     \begin{equation*}
         X^{p/} \to X^{p_0/}\times_{S^{r_0/}} S^{r/}
@@ -1643,12 +1652,12 @@ This implies
         \end{tikzcd}
     \end{equation*}
     and applying the lemma above, the vertical map on the left is inner anodyne, whence
-    because $X\to S$ is an inner fibration, there exists a left.
+    because $X\to S$ is an inner fibration, there exists a lift.
 \end{proof}
 
-This now concludes the proof that the undercategory is a quasicategory. To see this,
+This concludes the proof that the undercategory is a quasicategory. To see this,
 we apply the proposition to the case where $X=\mathcal{C}$, $A=\varnothing$, and $B=*$.
-Hence $\mathcal{C}^{p/}\to \mathcal{C}$ is a left fibration.
+Hence $\mathcal{C}^{p/}\to \mathcal{C}$ is a left fibration.\marginnote{Huh?}
 
 Sean: is there a time when it matters that these were left fibrations and not just inner?
 John: absolutely. Think of inner as a technical condition but left/right as a homotopy
@@ -1670,7 +1679,7 @@ like ``fiber bundles with connection on $\mathcal{D}$.''
 
 \begin{proposition}[HTT 1.2.4.3]
     A morphism $\phi:\Delta[1]\to\mathcal{C}$ in a quasicategory $\mathcal{C}$ is
-    an equivalence if and only if for any extension $f_0$
+    an equivalence if and only if for any extension $f_0:\Lambda_0[n]\to\mathcal{C}$
     \begin{equation*}
         \begin{tikzcd}
             \Delta[1] \dar[hook] \rar{\phi} & \mathcal{C}\\
@@ -1678,7 +1687,7 @@ like ``fiber bundles with connection on $\mathcal{D}$.''
             \Delta[n]\ar[uur,dashed]{f} &
         \end{tikzcd}
     \end{equation*}
-    there is a lift to a map $f$.
+    there is a lift to a map $f:\Delta[n]\to\mathcal{C}$.
 \end{proposition}
 \begin{proof}
     By adjunction
@@ -1703,7 +1712,7 @@ then $(1)\iff (2)+(3)=(4)$.
 
 Recall last time we wanted to prove Proposition 1.2.5.1.
 \begin{proof}
-    To show that $(1)\implies(2)$ notice that every $\Delta[1]\to\mathcal{C}$ is a homotopy equivalence.
+    To show that (1)$\implies$(2) notice that every $\Delta[1]\to\mathcal{C}$ is a homotopy equivalence.
     Choose any $f_0$
     \begin{equation*}
         \begin{tikzcd}
@@ -1719,7 +1728,7 @@ Recall last time we wanted to prove Proposition 1.2.5.1.
             \Delta[n]\ar[ur,dashed]{f}
         \end{tikzcd}
     \end{equation*}
-    To see that $(2)\implies(1)$ draw the same picture and apply the proposition,
+    To see that (2)$\implies$(1) draw the same picture and apply the proposition,
     which implies that $\phi$ is an equivalence.
 
     Notice that by taking opposites $(1)\iff(2)$ implies $(1)\iff(3)$, since taking
@@ -1735,7 +1744,7 @@ Recall last time we wanted to prove Proposition 1.2.5.1.
 \end{corollary}
 \begin{proof}
     We can define $\mathcal{C}^0$ as the subsimplicial set with 1-simplices
-    the homotopy equivalences. $\mathcal{C}^0$ is a quasicategory, and $h\mathcal{C}^0$
+    the homotopy equivalences. $\mathcal{C}^0$ is a quasicategory, and $\mathsf{h}\mathcal{C}^0$
     is a groupoid if and only if $\mathcal{C}^0$ is a Kan complex.
 \end{proof}
 In particular we have $\mathsf{Kan}\subset \mathsf{QCat}\subset\mathsf{sSet}$
@@ -1749,7 +1758,7 @@ We first needed the undercategories to be quasicategories. This we showed last t
 Next we show that the two horizontal arrows
 \begin{equation*}
     \begin{tikzcd}
-        \mathcal{C}^{j/} \rar\ar[dr] & \mathcal{D}^{p\circ j}\times_\mathcal{D}\mathcal{C} \rar\dar & \mathcal{D}^{p\circ j/}\\
+        \mathcal{C}^{j/} \rar\ar[dr] & \mathcal{D}^{p\circ j/}\times_\mathcal{D}\mathcal{C} \rar\dar & \mathcal{D}^{p\circ j/}\\
         & \mathcal{C}
     \end{tikzcd}
 \end{equation*}
@@ -1768,7 +1777,7 @@ if and only if $\mathcal{C}'_d\to \mathcal{C}''_d$ is an equivalence of Kan
 complexes for all $d\in\mathcal{D}$. To prove this it's easiest to prove a slightly
 more general result. Then we need
 \begin{lemma}[HTT 2.5.4.1]
-    Given $J\to \mathcal{C}\ \mathcal{D}$ with the map from $\mathcal{C}$ to $\mathcal{D}$
+    Given $J\to \mathcal{C}\to \mathcal{D}$ with the map from $\mathcal{C}$ to $\mathcal{D}$
     an equivalence, then $\mathcal{C}^{j/}\times_\mathcal{C}\{x\}\to\mathcal{D}^{p\circ j/}\times_\mathcal{D}\{px\}$
     is an equivalence of Kan complexes for all $x\in \mathcal{C}$.
 \end{lemma}
@@ -1806,8 +1815,8 @@ then we get a diagram before unstraightening
 \begin{equation*}
     \begin{tikzcd}
         & \Fun(\mathcal{C}, \mathsf{Gpd}_\infty^0)\ar[ld]\ar[rd] &\\
-        \Fun(\mathcal{C}, \mathsf{Gpd}_\infty)\dar  & & \Fun(\mathcal{C},\mathsf{Gpd}_\infty^\text{op}\dar \\
-        \Fun(\mathcal{C},\mathsf{Cat}_\infty) & & \Fun(\mathcal{C}, \mathsf{Cat}_\infty^\text{op}
+        \Fun(\mathcal{C}, \mathsf{Gpd}_\infty)\dar  & & \Fun(\mathcal{C},\mathsf{Gpd}_\infty^\text{op})\dar \\
+        \Fun(\mathcal{C},\mathsf{Cat}_\infty) & & \Fun(\mathcal{C}, \mathsf{Cat}_\infty^\text{op})
     \end{tikzcd}
 \end{equation*}
 Note: unstraightening is also known as the ``Grothendieck construction.''
@@ -1819,23 +1828,26 @@ In particular given $F:\mathcal{C}\to \mathsf{Cat}_\infty$ then the fiber is jus
     \end{tikzcd}
 \end{equation*}
 \begin{corollary}
-    Given a map $\mathcal{C}'\to \mathcal{C}''$ of left fibrations over $\mathcal{C}$, if 
+    Suppose we have a map $\mathcal{C}'\to \mathcal{C}''$ of left fibrations over $\mathcal{C}$, if 
     $\mathcal{C}'=\mathcal{C}_F$ and $\mathcal{C}''=\mathcal{C}_G$ (unstraightening) with
     the map of fibrations being induced by a natural transformation $\alpha$ sending $F\implies G:\mathcal{C}\to \mathsf{Gpd}_\infty$.
     Then the map is an equivalence if and only if $\alpha$ is an equivalence if and only if
     $F(x)\xrightarrow{\alpha}G(x)$ is an equivalence i.e. $\mathcal{C}'_x\to \mathcal{C}''_x$
     is an equivalence.
 \end{corollary}
-We would have to prove a lot of this stuff to prove our fact.
+We would have to prove a lot of this stuff to prove our fact, so we will probably take
+it for granted.
 
-Principle: any construction from category theory that only uses universal properties
+\textbf{Principle}: any construction from category theory that only uses universal properties
 goes through for $\infty$-categories. 
 
 The reason this unstraightening stuff is important because it's generally easier to
 think about functors out of things instead of fibrations. On the other hand,
 fibrations (unstraightened things) are generally easier to construct.
 
+\newpage
 
+\section{Homotopy invariance IV [10/20/2017]}
 
 
 
