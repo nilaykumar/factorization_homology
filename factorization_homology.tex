@@ -1804,7 +1804,7 @@ inner fibrations) are classified by functors to a representing object.
 \end{example}
 \begin{definition}
     We say that a \textbf{correspondence} between two categories $\mathcal{C}$ and $\mathcal{D}$
-    is a functor $\mathcal{M}\to[1]$ with $\mathcal{M}_0\cong \mathcal{C}$ and $\mathcal{M}_0\cong \mathcal{D}$.
+    is a functor $\mathcal{M}\to[1]$ with $\mathcal{M}_0\cong \mathcal{C}$ and $\mathcal{M}_1\cong \mathcal{D}$.
 \end{definition}
 This construction gives us correspondences but not all correspondences arise this way.
 If we consider a span $\mathcal{E}$ from $\mathcal{C}$ to $\mathcal{D}$ we can produce a correspondence.
@@ -1847,7 +1847,130 @@ fibrations (unstraightened things) are generally easier to construct.
 
 \newpage
 
-\section{Homotopy invariance IV [10/20/2017]}
+\section{Back to topology [10/20/2017]}
+
+\subsection{Finishing up homotopy invariance}
+
+\begin{lemma}[HTT 2.4.5.1]
+    Given $K\xrightarrow{j}\mathcal{C}\xrightarrow{p}\mathcal{D}$ where $p$ is an
+    equivalence, we wish to show that
+    \begin{equation*}
+        \mathcal{C}^{j/}\times_\mathcal{C}\{x\} \simeq \mathcal{D}^{p\circ j}\times_\mathcal{D}\{px\},
+    \end{equation*}
+    for all $x\in \mathcal{C}$.
+\end{lemma}
+\begin{proof}
+    We will induct on $K$. The base case is where $K=\{c\}$. In this case the left hand side is
+    $\Maps_\mathcal{C}(c,x)$ and the right hand side is $\Maps(pc,px)$. Hence we obtain an
+    equivalence by assumption that $\mathcal{C}\simeq \mathcal{D}$. For the inductive step consider
+    the pushout
+    \begin{equation*}
+        \begin{tikzcd}
+            \partial\Delta[n] \rar{\bar f}\dar & K_\alpha\dar{f} \\
+            \Delta[n] \rar{f} & K_{\alpha+1}
+        \end{tikzcd}
+    \end{equation*}
+    Write $C_\alpha=\mathcal{C}^{j_\alpha/}\times_\mathcal{C}\{x\}$ and
+    $D_\alpha=\mathcal{D}^{j_\alpha\circ p/}\times_\mathcal{D}\{px\}$,
+    where $j_\alpha$ is the restriction of $j$ to $K_\alpha\to K$. Now
+    \begin{equation*}
+        \mathcal{C}^{j_{\alpha+1}/} = \mathcal{C}^{j_\alpha/}\times_\mathcal{C}^{\partial\Delta[n]/} \mathcal{C}^{\Delta[n]/}.
+    \end{equation*}
+    This implies that $C_{\alpha+1}$ is the pullback
+    \begin{equation*}
+        \begin{tikzcd}
+            C_{\alpha+1}\rar\dar & C_\alpha\dar \\
+            C_f \rar & C_{f|_{\partial\Delta[n]}}
+        \end{tikzcd}
+    \end{equation*}
+    Here $C_f=\mathcal{C}^{\Delta[n]/}\times_\mathcal{C}\{x\}$.
+    Now since $\mathcal{C}^{\Delta[n]/}\to \mathcal{C}^{\partial\Delta[n]/}$ is a left fibration
+    we find that the bottom arrow in the square above is a left fibration. However,
+    both the source and the target are Kan complexes, whence the arrow is in fact a Kan
+    fibration (this is a lemma we will not prove---it is just a parameterized version
+    of something we have already proven). Draw the same diagram for $D$
+    \begin{equation*}
+        \begin{tikzcd}
+            D_{\alpha+1}\rar\dar & D_\alpha\dar \\
+            D_f \rar & D_{f|_{\partial\Delta[n]}}
+        \end{tikzcd}
+    \end{equation*}
+    and note that by the inductive step $C_\alpha\simeq D_\alpha$ and $C_f\simeq D_f$.
+    By induction we get equivalences which induce an equivalence $C_{\alpha+1}\simeq D_{\alpha+1}$
+    because the bottom arrows are Kan fibrations.
+\end{proof}
+
+We will implicitly regard 1-categories as $\infty$-categories via the nerve.
+
+\subsection{Back to factorization homology}
+
+\begin{theorem}
+    Let $\mathsf{Spaces}$ be the $\infty$-category of spaces and ${\Disk}_{/M}$
+    be the (nerve of) category of $n$-disks. Then
+    \begin{equation*}
+        \int_M \id := \colim\left( {\Disk}_{/M}\xrightarrow{\id} \mathsf{Spaces} \right) \simeq M
+    \end{equation*}
+\end{theorem}
+
+\begin{definition}
+    An $\infty$-category is \textbf{$\kappa$-filtered}, for $\kappa$ some ordinal, if
+    for any $\kappa$-small $\mathcal{K}$ together with a functor $\mathcal{K}\mathcal{C}$,
+    there exists a factorization
+    \begin{equation*}
+        \begin{tikzcd}
+            \mathcal{K} \rar\dar & \mathcal{C} \\
+            \mathcal{K}^\triangleright \ar[ur, dashed]
+        \end{tikzcd}
+    \end{equation*}
+\end{definition}
+For some intuition recall the analogous 1-categorical definition.
+\begin{definition}
+    For $\mathcal{C}$ an ordinary category, we say that $C$ is \textbf{filtered} if for
+    all finite $\{x_i\}$ there exists $x$ such that there exists $x_i\to x$ for all $i$
+    and for all pairs $f,g:x\to y$, there exists $h:y\to z$ coequalizing $f$ and $g$.
+\end{definition}
+\begin{example}
+    As a simple example consider the category of natural numbers $\N$ with
+    unique morphisms $m\to n$ when $m\leq n$.
+\end{example}
+\begin{example}
+    If $\mathcal{C}$ has a final object then $\mathcal{C}$ is filtered.
+\end{example}
+\begin{example}
+    Consider the subposet of open subsets of $M$ that contain a fixed point $p\in M$,
+    $\mathsf{Opens}(M)_p^\text{op}\subset \mathsf{Opens}(M)^\text{op}$. Notice
+    that $\{p\}$ wants to be a final object, but it need not be open. Let's check
+    that this is filtered. For any finite collection $\{U_i\}$ consider $x=\cap_I U_i$,
+    which gives us the first condition. Now suppose we have $f, g:U_i\to U_j$. In this
+    case we just let $z=U_j$. Hooray.
+\end{example}
+
+\begin{lemma}
+    If $\mathcal{C}$ is filtered as a 1-category then it is filtered as an $\infty$-category.
+\end{lemma}
+To see this, notice that any category can be built as a colimit in $\mathsf{Cat}$ from
+one-point categories.
+\begin{proof}[Proof idea]
+    Induct on $\mathcal{K}$, building by coproducts and equalizers.
+\end{proof}
+Filtered categories are nice because colimits indexed by them enjoy good properties.
+\begin{lemma}[HTT 5.3.1.20]
+    If $\mathcal{C}$ is filtered then $B\mathcal{C}\simeq *$.
+\end{lemma}
+Recall that we are speaking model-independently--- $B$ is the left adjoint to the
+inclusion $\mathsf{Spaces}\hookrightarrow\mathsf{Cat}_\infty$. In particular,
+given a map $\mathcal{C}\to X$ for $X$ a space it factors uniquely up to homotopy
+through the classifying space.
+
+If we think of quasicategories, it is the left-adjoint of the inclusion $\mathsf{Kan}\hookrightarrow \mathsf{QCat}$.
+What does it do? Well it is a colimit-preserving functor, so we should describe it
+on the building blocks $\Delta[n]$. By definition $\Delta[n]=N_\bullet([n])$ where
+by $[n]$ we think of the poset as a category. Define $[n]'$ to be the smallest groupoid
+with objects that of $[n]$. As a category, $[n]'\simeq *$. Recall that $\Delta[n]$ is
+a quasicategory but not a Kan complex. We send $\Delta[n]$ to $N_\bullet([n]')$.
+
+\newpage
+
 
 
 
