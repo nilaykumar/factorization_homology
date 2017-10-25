@@ -1971,7 +1971,139 @@ a quasicategory but not a Kan complex. We send $\Delta[n]$ to $N_\bullet([n]')$.
 
 \newpage
 
+\section{10/25/17}
 
+Goette, Igusa, Williams have a theorem (in the psuedoisotopy range) you get all exotic
+structures from Hatcher's example. This is related to factorization homology.
+
+\begin{proof}[Proof of HTT 5.3.1.20]
+    This proof will be model-dependent. Let $\mathcal{C}$ be a quasicategory. Then
+    $B\mathcal{C}=|\mathcal{C}|$. Take any finite $K\hookrightarrow |\mathcal{C}|$
+    a subcomplex. This is represented by a map $\bar K\to \mathcal{C}$ where $\bar K$
+    is a simplicial set such that $|\bar K|=K$. Since $\mathcal{C}$ is filtered,
+    there exists a factorization of this map through $\bar K^\triangleright\to \mathcal{C}$.
+    Taking geometric realizations we have
+    \begin{equation*}
+        \begin{tikzcd}
+            \;|\bar K| \rar\dar & \mathcal{C}\\
+            *\simeq |\bar K^\triangleright| \ar[ur,dashed]
+        \end{tikzcd}
+    \end{equation*}
+    which implies that any finite subcomplex of $|\mathcal{C}|$ is contractible.
+    We conclude that $|\mathcal{C}|$ is contractible.
+\end{proof}
+
+\begin{theorem}
+    Consider the identity functor $\id:\disk \to \mathsf{Spaces}$. Then
+    \begin{equation*}
+        \int_M \id \simeq M.
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    We use a hypercover argument. Recall that given $\mathcal{C}\subset \mathsf{Opens}(M)\xrightarrow{\id}\mathsf{Spaces}$
+    then $\hocolim_\mathcal{C} \id \simeq M$ if for all $x\in M$ then $B\mathcal{C}_x\simeq *$.
+    Apply this fact to $\mathcal{C}={\disk}_{/M}\to \mathsf{Opens}(M)$. We have to show
+    that $({\disk}_{/M})_x\simeq *$. We will show that $({\disk}_{/M})_x$ is cofiltered.
+    In particular, we need to show (1) for any $U_i\ni x$ then there exists $U$ with $U_i\to U$.
+    Take any $U\cong\R^n\subset\cap_i U_i$ containing $x$. Then we need to show (2) that
+    for any two maps $U_i\to U_j$, there is a map $U\to U_i$ equalizing them. But this
+    is clear because we are in a poset so there is only one map from $U_i$ to $U_j$.
+    Now, using the fact that $B\mathcal{C}\simeq B\mathcal{C}^\text{op}$ (alternatively
+    repeat above arguments with cofiltered and left cones), we are done by the above lemma.
+\end{proof}
+
+\begin{definition}
+    We say that $F:\mathcal{C}\to \mathcal{D}$ and $G:\mathcal{D}\to \mathcal{C}$ is an
+    adjunction if there are natural equivalences
+    \begin{equation*}
+        \Maps_{\mathcal{D}}(Fx, y) \simeq \Maps_{\mathcal{C}}(x, Gy).
+    \end{equation*}
+\end{definition}
+
+\begin{proposition}
+    Left adjoints preserve colimits and right adjoints preserve limits.
+\end{proposition}
+\begin{proof}
+    The proof is the same as the 1-categorical case. Suppose we have $j:J\to \mathcal{C}$.
+    We want to verify that if $\colim_j \simeq x$ then $\colim_J F\circ j\simeq F(x)$.
+    In other words, given $\mathcal{C}^{j/}\simeq \mathcal{C}^{x/}$ we want
+    to show that $\mathcal{D}^{F\circ j/}\simeq \mathcal{D}^{F(x)/}$. But the maps
+    from these latter two to $\mathcal{D}$ is a left fibration whence it suffices to
+    show that the fibers are equivalent: for all $d\in\mathcal{D}$,
+    \begin{equation*}
+        \Maps_\mathcal{D}(F(x), d) \simeq \Maps_{\Fun(J,\mathcal{D})}(F\circ j, \underline{d}).
+    \end{equation*}
+    By our adjunction,
+    \begin{equation*}
+        \Maps_{\mathcal{D}}(F(x),d) \simeq \Maps_\mathcal{C}(x, G(d)) \simeq \Maps_{\Fun(J,\mathcal{C})}(j,\underline{G(d)}).
+    \end{equation*}
+    But
+    \begin{equation*}
+        \Maps_{\Fun(J,\mathcal{C})}(j,\underline{G(d)})\simeq \lim_{z\in J^{\text{op}}}\Maps_{\mathcal{C}}(jz, Gd)
+    \end{equation*}
+    and
+    \begin{equation*}
+        \Maps_{\Fun(J,\mathcal{D})}(F\circ j,\underline{d})\simeq \lim_{z\in J^\text{op}}\Maps_\mathcal{D}(Fjz, d),
+    \end{equation*}
+    which are the same by our adjunction.
+
+    Notice that this is a model independent proof.
+\end{proof}
+
+\begin{example}
+    Here are a few examples of adjunctions (of $\infty$-categories) to keep in mind.
+    \begin{enumerate}
+        \item The singular chains $C_*:\mathsf{Spaces}\to \mathsf{Ch}$ has a right
+            adjoint $G$ such that $\pi_*GV$ is $H_*V$ for $*\geq 0$ and 0 otherwise.
+            This comes from the adjunction between $\mathsf{sSet}$ and $\mathsf{sAb}$
+            given by free abelian group and forgetful funtors. Hence $C_*$ preserves
+            (homotopy) colimits. 
+        \item
+    \end{enumerate}
+\end{example}
+
+Notice that there exists a unique colimit preserving functor $F:\mathsf{Spaces}\to \mathcal{V}$
+for $\mathcal{V}$ any $\infty$-category with colimits with $F(*)=v$ since any space
+is built as a colimit of contractible spaces. In particular, any $X=\colim(\mathcal{U}\xrightarrow{j}\mathsf{Spaces})$
+where $u\mapsto ju\simeq *$, which yields the same colimit as the constant diagram $\mathcal{U}\to \mathcal{V}$
+and $F(X)=\colim(\mathcal{U}\to \mathcal{V})$.
+
+Let's do another calculation. Consider the functor $\Z^\oplus:\disk\to\mathsf{Ch}$
+sending $\coprod_I \R^n\mapsto \Z^{\oplus I}$. Let's calculate $\int_M\Z^\oplus$.
+Notice first that $\Z^{\oplus I}\simeq C_*(\coprod_I\R^n)$. Hence
+\begin{equation*}
+    \int_M \Z^\oplus \simeq \int_M C_*\circ \id = \colim\left( {\disk}_{/M}\xrightarrow{\id}\mathsf{Spaces}\xrightarrow{C_*}\mathsf{Ch}\right).
+\end{equation*}
+Since $C_*$ is colimit preserving,
+\begin{equation*}
+    \int_M \Z^\oplus \simeq C_*\colim\left( {\disk}_{M/}\xrightarrow{\id}\mathsf{Spaces} \right) \simeq C_*\int_M \id \simeq C_* M.
+\end{equation*}
+Similarly for those of you familiar with spectra, there is a adjunction of spaces with spectral
+given by $\Omega^\infty$ and $\Sigma_*^\infty$ and exactly the same proof shows that
+\begin{equation*}
+    \int_M \mathbb{S}^\oplus \simeq \Sigma_*^\infty M.
+\end{equation*}
+
+\begin{definition}
+    Let $\disk^{=1}\subset \disk$ be those $n$-disks with $|I|=1.$
+\end{definition}
+Now repeating the arguments of this lecture for this subcategory, we find
+\begin{equation*}
+    \colim\left( {\disk^{=1}}_{/M}\xrightarrow{\id}\mathsf{Spaces} \right)\simeq M.
+\end{equation*}
+In other words, it is enough to probe manifolds with single-opens. However,
+all of this seeming differential topology washes out.
+\begin{proposition}
+    There is an equivalence of $\infty$-categories ${\Disk^{=1}}_{/M}\simeq M$.
+    Or as quasicategories, ${\Disk^{=1}}_{/M}\simeq \Sing(M)$.
+\end{proposition}
+\begin{proof}[Proof sketch]
+    We construct a functor $\ev_0$ given by evaluation at 0 sending $\phi:\R^n\hookrightarrow M\mapsto \phi(0)\in M$.
+    This functor induces an equivalence on objects so it remains to check on mapping spaces.
+    In particular, need to check $\Maps_{ {\Disk}_{/M}}(\R^n,\R^n)\simeq \Omega M$.
+\end{proof}
+
+Now using that ${\disk}_{/M}\to {\Disk}_{/M}$ is a localization, we find that $\colim_M *\simeq M$.
 
 
 \appendix
