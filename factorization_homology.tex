@@ -27,12 +27,17 @@
 \DeclareMathOperator{\sk}{sk}
 
 \newcommand{\disk}{\mathsf{Disk}_n}
+\newcommand{\diskm}{\mathsf{Disk}_{n/M}}
 \newcommand{\diskf}{\mathsf{Disk}_n^\text{fr}}
 \newcommand{\diskr}{\mathsf{Disk}_n^\text{rect}}
 \newcommand{\Disk}{\mathscr{D}\mathsf{isk}_n}
 \newcommand{\Diskf}{\mathscr{D}\mathsf{isk}_n^\text{fr}}
 \newcommand{\Diskr}{\mathscr{D}\mathsf{isk}_n^\text{rect}}
 \newcommand{\Diskir}{\mathscr{D}\mathsf{isk}_\infty^\text{rect}}
+
+\newcommand{\mfld}{\mathscr{M}\mathsf{fld}_n}
+\newcommand{\mfldm}{\mathscr{M}\mathsf{fld}_{n/M}}
+\newcommand{\mfldd}{\mathscr{M}\mathsf{fld}_n^\partial}
 
 \title{Factorization Homology}
 \author{John Francis}
@@ -1914,7 +1919,7 @@ We will implicitly regard 1-categories as $\infty$-categories via the nerve.
 
 \begin{definition}
     An $\infty$-category is \textbf{$\kappa$-filtered}, for $\kappa$ some ordinal, if
-    for any $\kappa$-small $\mathcal{K}$ together with a functor $\mathcal{K}\mathcal{C}$,
+    for any $\kappa$-small $\mathcal{K}$ together with a functor $\mathcal{K}\to\mathcal{C}$,
     there exists a factorization
     \begin{equation*}
         \begin{tikzcd}
@@ -1925,13 +1930,16 @@ We will implicitly regard 1-categories as $\infty$-categories via the nerve.
 \end{definition}
 For some intuition recall the analogous 1-categorical definition.
 \begin{definition}
-    For $\mathcal{C}$ an ordinary category, we say that $C$ is \textbf{filtered} if for
-    all finite $\{x_i\}$ there exists $x$ such that there exists $x_i\to x$ for all $i$
-    and for all pairs $f,g:x\to y$, there exists $h:y\to z$ coequalizing $f$ and $g$.
+    For $\mathcal{C}$ an ordinary category, we say that $C$ is \textbf{filtered} if
+    \begin{enumerate}
+        \item for any finite set $\{x_i\}$ of objects there exists an $x$ such that there is a map $x_i\to x$ for all $i$,
+        \item and for all $f,g: x\rightrightarrows y$ there exists $h:y\to z$ such that $hf=hg$.
+    \end{enumerate}
 \end{definition}
 \begin{example}
     As a simple example consider the category of natural numbers $\N$ with
-    unique morphisms $m\to n$ when $m\leq n$.
+    unique morphisms $m\to n$ when $m\leq n$. Condition (1) is clear and condition
+    (2) is trivial due to the hom-sets being (at most) one-element sets.
 \end{example}
 \begin{example}
     If $\mathcal{C}$ has a final object then $\mathcal{C}$ is filtered.
@@ -1940,9 +1948,10 @@ For some intuition recall the analogous 1-categorical definition.
     Consider the subposet of open subsets of $M$ that contain a fixed point $p\in M$,
     $\mathsf{Opens}(M)_p^\text{op}\subset \mathsf{Opens}(M)^\text{op}$. Notice
     that $\{p\}$ wants to be a final object, but it need not be open. Let's check
-    that this is filtered. For any finite collection $\{U_i\}$ consider $x=\cap_I U_i$,
-    which gives us the first condition. Now suppose we have $f, g:U_i\to U_j$. In this
-    case we just let $z=U_j$. Hooray.
+    that this is filtered. For any finite collection $\{U_i\}$ the intersection
+    $x=\cap_I U_i$, gives us the first condition.
+    Now suppose we have $f, g:U_i\to U_j$. In this case we just let $z=U_j$: our
+    category is a poset so $f=g$ already. Hooray.
 \end{example}
 
 \begin{lemma}
@@ -1957,7 +1966,7 @@ Filtered categories are nice because colimits indexed by them enjoy good propert
 \begin{lemma}[HTT 5.3.1.20]
     If $\mathcal{C}$ is filtered then $B\mathcal{C}\simeq *$.
 \end{lemma}
-Recall that we are speaking model-independently--- $B$ is the left adjoint to the
+Recall that we are speaking model-independently---$B$ is the left adjoint to the
 inclusion $\mathsf{Spaces}\hookrightarrow\mathsf{Cat}_\infty$. In particular,
 given a map $\mathcal{C}\to X$ for $X$ a space it factors uniquely up to homotopy
 through the classifying space.
@@ -1966,26 +1975,29 @@ If we think of quasicategories, it is the left-adjoint of the inclusion $\mathsf
 What does it do? Well it is a colimit-preserving functor, so we should describe it
 on the building blocks $\Delta[n]$. By definition $\Delta[n]=N_\bullet([n])$ where
 by $[n]$ we think of the poset as a category. Define $[n]'$ to be the smallest groupoid
-with objects that of $[n]$. As a category, $[n]'\simeq *$. Recall that $\Delta[n]$ is
+with objects that of $[n]$.\marginnote{Wouldn't this just be the discrete groupoid?}
+As a category, $[n]'\simeq *$. Recall that $\Delta[n]$ is
 a quasicategory but not a Kan complex. We send $\Delta[n]$ to $N_\bullet([n]')$.
 
 \newpage
 
-\section{10/25/17}
+\section{Computing factorization homology [10/25/17]}
 
-Goette, Igusa, Williams have a theorem (in the psuedoisotopy range) you get all exotic
-structures from Hatcher's example. This is related to factorization homology.
+Goette, Igusa, Williams have a theorem (in the stable range): you get all exotic
+bundle structures through Hatcher's construction. This is related to factorization homology.
+Anyway, back to filtered $\infty$-categories.
 
 \begin{proof}[Proof of HTT 5.3.1.20]
     This proof will be model-dependent. Let $\mathcal{C}$ be a quasicategory. Then
-    $B\mathcal{C}=|\mathcal{C}|$. Take any finite $K\hookrightarrow |\mathcal{C}|$
-    a subcomplex. This is represented by a map $\bar K\to \mathcal{C}$ where $\bar K$
+    $B\mathcal{C}=|\mathcal{C}|$, the geometric realization.
+    Take any finite subcomplex $K\hookrightarrow |\mathcal{C}|$.
+    This is represented by a map $\bar K\to \mathcal{C}$ where $\bar K$
     is a simplicial set such that $|\bar K|=K$. Since $\mathcal{C}$ is filtered,
     there exists a factorization of this map through $\bar K^\triangleright\to \mathcal{C}$.
     Taking geometric realizations we have
     \begin{equation*}
         \begin{tikzcd}
-            \;|\bar K| \rar\dar & \mathcal{C}\\
+            K \rar\dar & \lvert\mathcal{C}\rvert \\
             *\simeq |\bar K^\triangleright| \ar[ur,dashed]
         \end{tikzcd}
     \end{equation*}
@@ -2000,14 +2012,20 @@ structures from Hatcher's example. This is related to factorization homology.
     \end{equation*}
 \end{theorem}
 \begin{proof}
-    We use a hypercover argument. Recall that given $\mathcal{C}\subset \mathsf{Opens}(M)\xrightarrow{\id}\mathsf{Spaces}$
-    then $\hocolim_\mathcal{C} \id \simeq M$ if for all $x\in M$ then $B\mathcal{C}_x\simeq *$.
-    Apply this fact to $\mathcal{C}={\disk}_{/M}\to \mathsf{Opens}(M)$. We have to show
-    that $({\disk}_{/M})_x\simeq *$. We will show that $({\disk}_{/M})_x$ is cofiltered.
-    In particular, we need to show (1) for any $U_i\ni x$ then there exists $U$ with $U_i\to U$.
-    Take any $U\cong\R^n\subset\cap_i U_i$ containing $x$. Then we need to show (2) that
+    We use a hypercover argument. In particular, we will use without proof (for now)
+    that given a functor $\mathcal{C}\subset \mathsf{Opens}(M)\xrightarrow{\id}\mathsf{Spaces}$
+    such that $B\mathcal{C}_x\simeq *$ for all $x\in M$ then
+    \begin{equation*}
+        \hocolim_\mathcal{C} \id \simeq M.
+    \end{equation*}
+    Apply this fact to $\mathcal{C}=\diskm\to \mathsf{Opens}(M)$. We have to show
+    that $(\diskm)_x\simeq *$. We will show that $(\diskm)_x$ is cofiltered.
+    In particular, we need to show that for any finite collection $\{U_i\ni x\}$
+    there exists $U$ with $U\to U_i$.
+    Take any $U\cong\R^n\subset\cap_i U_i$ containing $x$. Then we need to show that
     for any two maps $U_i\to U_j$, there is a map $U\to U_i$ equalizing them. But this
-    is clear because we are in a poset so there is only one map from $U_i$ to $U_j$.
+    is clear because we are in a poset so there is only one map from $U_i$ to $U_j$
+    \marginnote{This is not true unless we are looking at the image of the $n$-disks.}
     Now, using the fact that $B\mathcal{C}\simeq B\mathcal{C}^\text{op}$ (alternatively
     repeat above arguments with cofiltered and left cones), we are done by the above lemma.
 \end{proof}
@@ -2050,17 +2068,12 @@ structures from Hatcher's example. This is related to factorization homology.
     Notice that this is a model independent proof.
 \end{proof}
 
-\begin{example}
-    Here are a few examples of adjunctions (of $\infty$-categories) to keep in mind.
-    \begin{enumerate}
-        \item The singular chains $C_*:\mathsf{Spaces}\to \mathsf{Ch}$ has a right
-            adjoint $G$ such that $\pi_*GV$ is $H_*V$ for $*\geq 0$ and 0 otherwise.
-            This comes from the adjunction between $\mathsf{sSet}$ and $\mathsf{sAb}$
-            given by free abelian group and forgetful funtors. Hence $C_*$ preserves
-            (homotopy) colimits. 
-        \item
-    \end{enumerate}
-\end{example}
+The following is an important adjunction (of $\infty$-categories) to keep in mind.
+The singular chains $C_*:\mathsf{Spaces}\to \mathsf{Ch}$ has a right
+adjoint $G$ such that $\pi_*GV$ is $H_*V$ for $*\geq 0$ and 0 otherwise.
+This comes from the adjunction between $\mathsf{sSet}$ and $\mathsf{sAb}$
+given by free abelian group and forgetful funtors. Hence $C_*$ preserves
+(homotopy) colimits. 
 
 Notice that there exists a unique colimit preserving functor $F:\mathsf{Spaces}\to \mathcal{V}$
 for $\mathcal{V}$ any $\infty$-category with colimits with $F(*)=v$ since any space
@@ -2076,7 +2089,7 @@ Notice first that $\Z^{\oplus I}\simeq C_*(\coprod_I\R^n)$. Hence
 \end{equation*}
 Since $C_*$ is colimit preserving,
 \begin{equation*}
-    \int_M \Z^\oplus \simeq C_*\colim\left( {\disk}_{M/}\xrightarrow{\id}\mathsf{Spaces} \right) \simeq C_*\int_M \id \simeq C_* M.
+    \int_M \Z^\oplus \simeq C_*\colim\left( {\disk}_{/M}\xrightarrow{\id}\mathsf{Spaces} \right) \simeq C_*\int_M \id \simeq C_* M.
 \end{equation*}
 Similarly for those of you familiar with spectra, there is a adjunction of spaces with spectral
 given by $\Omega^\infty$ and $\Sigma_*^\infty$ and exactly the same proof shows that
@@ -2105,8 +2118,497 @@ all of this seeming differential topology washes out.
 
 Now using that ${\disk}_{/M}\to {\Disk}_{/M}$ is a localization, we find that $\colim_M *\simeq M$.
 
+\newpage
+
+\section{Nonabelian Poincar\'e duality I [10/27/2017]}
+
+\begin{example}
+    Recall we have the free $E_n$-algebra on a space $Z$, $A=F(Z)$.
+    This functor $A:\disk\to \mathsf{Spaces}$ sends
+    \begin{equation*}
+        U\mapsto \coprod_{i\geqslant0} \Conf_i(U)\times_{\Sigma_i}Z^i.
+    \end{equation*}
+\end{example}
+
+\begin{proposition}
+    The factorization homology of $A$ is
+    \begin{equation*}
+        \int_{M} F(Z) = \coprod_{i\geqslant 0}\Conf_i(M)\times_{\Sigma_i} Z^i.
+    \end{equation*}
+\end{proposition}
+
+We will need the following lemma.
+\begin{lemma}
+    The map from the homotopy colimit
+    \begin{equation*}
+        \colim_{U\in\diskm} \Conf_i(U)\xrightarrow{\sim} \Conf_I(M)
+    \end{equation*}
+    is a homotopy equivalence.
+\end{lemma}
+\begin{proof}
+    We have
+    $\diskm \hookrightarrow \mathsf{Opens}(M)\xrightarrow{\Conf_i} \mathsf{Spaces}$
+    which we can look at as
+    \begin{equation*}
+        {\disk}_{/M} \xrightarrow{\Conf_i}\mathsf{Opens}(\Conf_i(M))\xrightarrow{\id}\mathsf{Spaces}.
+    \end{equation*}
+    Apply our hypercover lemma to this line: we need to check that for each $\{x_1,\ldots,x_i\}\in\Conf_i(M)$,
+    ${\disk}_{/M, \{x_1,\ldots,x_i\}}$ has a contractible classifying space. We have
+    already done this in the case when $i=1$. In particular, we just check that the
+    category is cofiltered---perform the argument before for each point. Let's check
+    the two conditions: given any finite collection of $U_j$ containing the $x_1,\ldots, x_i$,
+    there exists $U\subset\cap_j U_j$ (the intersection itself is not a disjoint union of disks)
+    with $U\to U_j$ for all $j$. The second condition is again trivial by the fact
+    that our category is a poset.
+\end{proof}
+
+Notice that this lemma holds for $\Conf_i(U)\times_{\Sigma_i}Z^i$, which we will use
+below. Alternatively one might use the fact that products commute with colimits.
+In particular $\colim_J Z\times F_j\to Z\times \colim_{j\in J} F_j$ is an equivalence.
+
+\begin{proof}[Proof of proposition]
+    Formally, colimits commute so we have
+    \begin{align*}
+        \colim_{U\in{\disk}_{/M}} \coprod_{i\geqslant 0} \Conf_i(M)\times_{\Sigma_i}Z^i &= \coprod_{i\geq 0}\colim_{U\in{\disk}_{/M}}\left(\Conf_i(U)\times_{\Sigma_i}Z^i\right) \\
+        &\simeq \coprod_{i\geqslant 0} \left(\colim_{U\in{\disk}_{/M}}\Conf_i(M)\right) \times_{\Sigma_i} Z^i \\
+        &\simeq \coprod_{i\geqslant 0} \Conf_i(M) \times_{\Sigma_i}Z^i,
+    \end{align*}
+    as desired.
+\end{proof}
+This proof is written down in the paper \cite{AF} of Ayala and F.
+
+Let's turn to a more complicated example. Recall that we have a functor ${\disk}\xrightarrow{\Maps_c(-,Z)}\mathsf{Spaces}$
+for $Z$ a pointed space.
+We have a natural map
+\begin{equation*}
+    \colim\left( {\disk}_{/M}\xrightarrow{\Maps_c(-,Z)}\mathsf{Spaces} \right) \to \colim \left( \mathcal{M}\mathsf{fld}_{n/M}\xrightarrow{\Maps_c(-,Z)}\mathsf{Spaces} \right)
+\end{equation*}
+identifying the $n$-disks as manifolds.
+Notice that the colimit on the right hand side has a category with a final object as its source, whence the colimit
+is equivalent to $\Maps_c(M,Z)$. This leads us to the following theorem, due to Segal, Salvatore, and Lurie,
+in various formulations.
+\begin{theorem}[Nonabelian Poincar\'e duality]
+    Let $M$ be an $n$-manifold and $Z$ be an $(n-1)$-connected pointed space. Then the map
+    defined above
+    \begin{equation*}
+        \int_M \Maps_c(-, Z) \xrightarrow{\sim} \Maps_c(M,Z)
+    \end{equation*}
+    is an equivalence.
+    \marginnote{The name comes from the fact that if one takes $Z$ to be an Eilenberg-Maclane space,
+    then recover the usual statement of Poincar\'e duality.}
+\end{theorem}
+
+\begin{remark}
+    Let's see why we need the condition that $\pi_*Z=0$ for $*<n$. Let's first consider the case
+    where $Z=S^0$. Let's look at the left-hand side:
+    \begin{align*}
+        \colim_{U\in{\disk}_{/M}} \Maps_c(U,S^0) \simeq B({\disk}_{/M})
+    \end{align*}
+    which is connected because between any two objects there is a morphism.
+    Now let's look at $\Maps_c(M, S^0)$ for $M$ compact. But now $\Maps_c(M,S^0)=\Maps(M,S^0)$
+    has at least 2 components for $M\neq \varnothing$.
+
+    More formally, note that $\Maps_c(\R^n,Z)\simeq \Omega^nZ$. But using the long exact
+    sequence on the homotopy groups of a fibration repeatedly, we compute
+    \begin{equation*}
+        \pi_*\Omega^nZ = \pi_{*+n}Z \quad\text{for}\quad*\geqslant 0.
+    \end{equation*}
+    In particular, this does not depend on $\pi_*Z$ for $*<n$. So this statement
+    could not possibly be true because we could just change the space such
+    that only the $<n$ homotopy groups change. In particular, take
+    $\tau^{\geq n}Z \xrightarrow{\hofiber} Z \to P_{n-1}Z$ where $P_{n-1}Z$
+    is the $n-1$ Postnikov stage:
+    \begin{equation*}
+        \Maps_c(\R^n,Z) \simeq \Maps_c(\R^n,\tau^{\geq n}Z).
+    \end{equation*}
+    So the functor on the left will not change, but the functor on the right
+    can always detect these by choosing $M$ appropriately. This tells us that
+    we had better choose $Z\simeq \tau^{\geq n}Z$.
+\end{remark}
+
+Grisha: does the left hand side depend on the map $M\to BO(n)$. John: No,
+in particular ${\disk}_{/M}$ only knows about the homeomorphism type of $M$.
+Morevoer there is a cancellation of sorts ${\disk}_{/M}^\text{fr}\simeq {\disk}_{/M}$.
+Again, this is something you can find in the paper \cite{AF}.
+
+We can think of both sides as functors out of $\mathcal{M}\mathsf{fld}_n$. Given a natural
+transformation between to functors out of here, to show it is an equivalence, we might
+first show that it is an equivalence on $\R^n$, and then show that the functors satisfy
+the same ``gluing/cosheaf'' properties. In particular, do these functors satisfy something
+like Mayer-Vietoris?
+
+To prove such a property, one might ``filter'' either $Z$ or $M$. Jacob, in his book, does the
+former (via Postnikov stages), while John does it by breaking down $M$. We'll be doing the latter.
+
+\begin{definition}
+    For $\mathcal{V}$ a symmetric monoidal $\infty$-category, a \textbf{homology theory
+        for $n$-manifolds valued in $\mathcal{V}$} is a symmetric monoidal functor
+        \begin{equation*}
+            \begin{tikzcd}
+                (\mathcal{M}\mathsf{fld}_n,\coprod) \rar & (\mathcal{V},\otimes)
+            \end{tikzcd}
+        \end{equation*}
+        such that whenever $M\cong M' \coprod_{M_\times\R} M''$ for $\dim M_0=n-1$ then
+        \begin{equation*}
+            F(M')\otimes_{F(M_0\times\R)}F(M'')\to F(M)
+        \end{equation*}
+        is an equivalence.
+\end{definition}
+
+\begin{theorem}
+    If we write the collection $\mathcal{H}(\mathcal{M}\mathsf{fld}_n,\mathcal{V})$ for all such
+    homology theories, then there is an equivalence
+    \begin{equation*}
+        \begin{tikzcd}
+            \mathcal{H}(\mathcal{M}\mathsf{fld}_n, \mathcal{V}) \rar[bend left]{\ev_{\disk}} & \mathsf{Alg}_{\disk}(\mathcal{V})\lar[bend left]{\int_-}
+        \end{tikzcd}
+    \end{equation*}
+\end{theorem}
+
+\begin{theorem}
+    $\Maps_c(-,Z)$ and $\int_- \Maps_c(-,Z)$ are homology theories valued in $\mathsf{Spaces}$.
+\end{theorem}
+
+
+\newpage
+
+\section{Nonabelian Poincar\'e duality II [10/30/2017]}
+
+Let $\mathcal{V}$ be a symmetric monoidal $\infty$-category such that $v\otimes -:\mathcal{V}\to \mathcal{V}$
+distributes over all (sifted) colimits, i.e.
+\begin{equation*}
+    \colim_J (v\otimes F_j)\xrightarrow{\cong}v\otimes\colim_J F_j
+\end{equation*}
+for all $F:J\to \mathcal{V}$. In this context we stated the equivalence above.
+First of all: how do we even know that the thing on the left hand side of our 
+excision statement, $F(M')\otimes_{F(M_0\times\R)}F(M'')$, even makes sense?
+
+\begin{definition}
+    Define $\mfldd$ to be the topological category with objects manifolds possibly with
+    boundary, and morphisms open embeddings. In particular, boundaries must be sent to
+    boundaries.
+\end{definition}
+
+We will construct $\Delta^\text{op}\to \mfldm$ given a gluing $M\cong M'\cup_{M_0\times\R}M''$.
+Then, given a functor $F:\mfld\to \mathcal{V}$ (or into $(\mathsf{Spaces},\times)$), we
+can define
+\begin{equation*}
+    F(M')\otimes_{F(M_0\times\R)}F(M'') := \colim_{\Delta^\text{op}} F
+\end{equation*}
+as a colimit over the composite. Suppose
+%\begin{equation*}
+%    \begin{tikzcd}
+%        M' \rar[hook]\dar & M\dar & M''\lar[hook]\dar \\
+%        \{-1\} \rar[hook] & [-1,1] & \{1\}\lar[hook]
+%    \end{tikzcd}
+%\end{equation*}
+\marginnote{Fix this diagram}
+and $M|_{(-1,1)}\cong M_0\times(-1,1)$.
+Here we are using the \textbf{homework} fact that $N\cong N\cup_{\partial N}\partial N\times [0,1)$.
+
+
+\marginnote{Fix the notation here, make the D cal}
+Consider now the functor of topological categories (a bit subtle actually)
+\begin{equation*}
+    \mathsf{Disk}_{1/[-1,1]}^\partial \xrightarrow{\pi^{-1}} \mfldm
+\end{equation*}
+sending $U\hookrightarrow[-1,1]\mapsto \pi^{-1}U$.
+
+\begin{definition}
+    We define $\mathsf{Disk}_n^\partial$ to be the subcategory of $\mfldd$ consisting
+    of $\coprod_U \R^n\coprod_j \R^n_{\geq 0}$. Notice it doesn't contain the disk itself.
+\end{definition}
+
+\begin{lemma}[AF 3.11]
+    There exists a functor $\Delta^\text{op}\to \mathsf{Disk}^{\partial, \text{or}}_{1/[-1,1]}$
+    which is final.
+\end{lemma}
+\begin{proof}
+    Define $\mathcal{S}\subset \mathsf{Disk}_{1/[-1,1]}^{\partial, \text{or}}$ to be the
+    subcategory of objects $U\subset [-1,1]$ such that $\{-1,1\}\subset U$ and
+    \begin{equation*}
+        U=[0,\varepsilon)\coprod \R^{\coprod l}\coprod (\delta,1]\hookrightarrow [-1,1].
+    \end{equation*}
+    This gives us a functor $\mathcal{S}\to \Delta^\text{op}$ sending $U\mapsto \pi_0([-1,1]\setminus U)$,
+    i.e. counting the gaps (order it left to right). In fact we claim that $S\simeq \Delta^\text{op}$.
+    This is an obvious bijection on the collections of objects. We need to check that
+    the spaces of maps
+    \begin{equation*}
+        \mathsf{Disk}_{1/[-1,1]}^{\partial,\text{or}}([0,\varepsilon)\coprod\R^{\coprod i}\coprod (\delta, 1], [0,\varepsilon')\coprod\R^{\coprod i'}\coprod (\delta',1]) \simeq \Delta([i'],[i]).
+    \end{equation*}
+    Concretely, let's check that
+    \begin{equation*}
+        \mathcal{M}\mathsf{fld}_{1/[-1,1]}^{\partial,\text{or}}(\R,\R)\simeq *.
+    \end{equation*}
+    But this is the homotopy pullback
+    \begin{equation*}
+        \begin{tikzcd}
+            \mathcal{M}\mathsf{fld}_{1/[-1,1]}^{\partial,\text{or}}(\R,\R)\dar \rar & \mathcal{M}\mathsf{fld}_1^{\partial,\text{or}}(\R,\R)\dar \\
+            * \rar & \Maps(\R, [-1,1])
+        \end{tikzcd}
+    \end{equation*}
+    by definition of $\infty$-categorical overcategories.
+    But the two spaces on the right hand side are contractible, hence we obtain what we wanted.
+    This implies the discreteness and hence the equivalence of the mapping spaces.
+
+
+    Let us check that the functor is final. We use Quillen's theorem A. In particular, we show that
+    $B(\mathcal{S}^{V/}\simeq *$ for $V\in\mathsf{Disk}_{1/[-1,1]}^{\partial,\text{or}}$. We have
+    \begin{equation*}
+        V=[0,\varepsilon)^{\coprod ?} \coprod \R^{\coprod i}\coprod (\delta,1)^{\coprod ?}.
+    \end{equation*}
+    If $V\in \mathcal{S}$ then $\mathcal{S}^{V/}$ has an initial object whence $B\mathcal{S}^{V/}\simeq *$.
+    On the other hand, if $V\in\mathcal{S}$ has neither 0 nor 1 then
+    \begin{equation*}
+        V' = V\coprod [0,\varepsilon) \coprod (\delta,1]
+    \end{equation*}
+    is initial in $\mathcal{S}^{V/}$. Indeed, we claim that given any $W\subset [-1,1]$ and an embedding
+    $V\hookrightarrow W$, the space of factorizations through $V'$ is contractible.
+    But this is just that
+    \begin{equation*}
+        \mathcal{M}\mathsf{fld}_{/[-1,1]}([0,\varepsilon),[0,\varepsilon'))\simeq *.
+    \end{equation*}
+    Hence $\mathcal{S}$ is final.
+\end{proof}
+
+Now, given $M'\cup_{M_0\times\R}M''$, and a functor $F:\mfld\to \mathcal{V}$, we define
+\begin{equation*}
+    F(M')\otimes_{F(M_0\times\R)F(M'')}=\colim_{\Delta^\text{op}}F
+\end{equation*}
+where the functor is the composite
+\begin{equation*}
+    \Delta^\text{op}\to \mathcal{M}\mathsf{fld}_{1/[-1,1]}^{\partial, \text{or}}\to \mfld\to \mathcal{V},
+\end{equation*}
+which if $F$ is symmetric monoidal then this is just a two-sided bar construction.
+
+Sam: why did we do this construction instead of just writing it as a bar construction
+in the first place?
+John: this is not just a normal simplicial object. It's a simplicial object in an
+$\infty$-category. Indeed, there is no functor $\Delta^\text{op}\to \mathsf{Mfld}_{n/M}$. We
+are useful a flexibility of isotopies and contractibilities to actually build this object.
+
+Now, if $A$ is an $n$-disk algebra in $\mathcal{V}$, we would like to show that $\int_- A$
+is a $\otimes$-homology theory, i.e.
+\begin{equation*}
+    \int_{M'}A\otimes_{\int_{M_0\times \R}A}\int_{M''}A \simeq \int_M A.
+\end{equation*}
+In fact we will prove something stronger. We will write down a pushforward formula.
+Say we are given $f:M\to (N,\partial N)$ with $M|_{int(N)}\to int(N)$ and $M|_{\partial N}\to \partial N$
+fiber bundles.
+\begin{theorem}
+    Given the pushforward
+    \begin{equation*}
+        f_*A:\mathsf{Disk}_{n/N}^\partial \xrightarrow{f^{-1}}\mfldm\xrightarrow{\int A}\mathcal{V},
+    \end{equation*}
+    there is an equivalence
+    \begin{equation*}
+        \int_M A\simeq \int_N f_*A.
+    \end{equation*}
+\end{theorem}
+This will imply that factorization homology is a $\otimes$-homology theory.
+
+\newpage
+
+\section{Nonabelian Poincar\'e duality III [11/01/2017]}
+
+We were proving a pushforward formula for factorization homology. Recall that we have
+a map $f:M\to N\supset \partial N$ with the restriction of $f$ to the interior and boundary of $N$
+both being fiber bundles.
+\begin{definition}
+    We define $\mathsf{Disk}_f$ to be the limit of the diagram\marginnote{fix this diagram}
+%    \begin{equation*}
+%        \begin{tikzcd}
+%            \diskm\ar[dr] && \text{Ar}(\mfldm)\ar[dl]{\ev_0}\ar[dr]{\ev_1} && \mathsf{Disk}^\partial_{k/N}\ar[dl]{f^{1}} \\
+%            & \mfldm && \mfldm
+%        \end{tikzcd}
+%    \end{equation*}
+    i.e. triples consisting of $k$-disks $U\subset N$, $n$-disks $V\subset M$, with $V\hookrightarrow f^{-1}U$.
+\end{definition}
+\begin{lemma}
+    The map $\mathsf{Disk}_f\xrightarrow{\ev_0}\diskm$ sending $(U,V,V\hookrightarrow f^{-1}U)\mapsto V$
+    is final.
+\end{lemma}
+This lemma is important because it means that the factorization homology can be computed on $\mathsf{Disk}_f$.
+Also, looking back at this, it's way more technical than John remembers\ldots he thought that that was his
+least technical paper\ldots and maybe it is---just everything he writes is incomprehensible.
+
+\begin{lemma}
+    The map $\mathsf{Disk}_{n/M}\to\mathcal{D}\mathsf{isk}_{n/M}$ is a localization.
+\end{lemma}
+\begin{corollary}
+    The map above is final, whence $\int_M A$ is a colimit over either
+    $\mathsf{Disk}_{n/M}$ or $\mathcal{D}\mathsf{isk}_{n/M}$.
+\end{corollary}
+\begin{corollary}
+    For any functor $A:\disk\to\mathcal{V}$,
+    \begin{equation*}
+        \int_M A \simeq \colim\left( \mathsf{Disk}_f\xrightarrow{\ev_0}\mathcal{D}\mathsf{isk}_{n/M}\xrightarrow{A} \mathcal{V} \right).
+    \end{equation*}
+\end{corollary}
+
+\begin{theorem}
+    We have the pushforward formula
+    \begin{equation*}
+        \int_M A \simeq \int_N f_*A
+    \end{equation*}
+    where $f_*A:\mathcal{D}\mathsf{isk}_{k/N}^\partial \xrightarrow{f^{-1}} \mathcal{M}\mathsf{fld}_{n/M}\xrightarrow{\int A}\mathcal{V}$.
+\end{theorem}
+
+We have
+\begin{equation*}
+    \begin{tikzcd}
+        \mathsf{Disk}_f\dar\rar{\ev_0} &  \mathcal{D}\mathsf{isk}_{n/M}\rar{A} & \mathcal{V} \\
+        \mathsf{Disk}^\partial_{k/N}\dar{q} \\
+        *
+    \end{tikzcd}
+\end{equation*}
+We note that
+\begin{equation*}
+    \colim \left( \mathcal{D}\mathsf{isk}_{n/M}\xrightarrow{A} \mathcal{V} \right)\simeq \colim (\mathcal{D}\mathsf{isk}_f\xrightarrow{A\circ\ev_0}\mathcal{V}).
+\end{equation*}
+If we call the vertical composite $p$, the left-hand side is just $\mathsf{LKan}_p(A\circ\ev_1$ since
+colimits are just left Kan extensions to the terminal $\infty$-category. But
+\begin{equation*}
+    \mathsf{LKan}_p(A\circ\ev_0)\simeq \mathsf{LKan}_q\mathsf{LKan}_{\ev_1}(A\circ \ev_0).
+\end{equation*}
+Now we need to figure out how to evalute the left Kan extension at 1. Let's take a brief vacation from the proof.
+
+The evaluation maps $\ev_0,\ev_1$ from the category $\text{Ar}(\mathcal{D})$ to $\mathcal{D}$
+have some nice properties. The fiber over some object $d\in \mathcal{D}$ is just the undercategory
+$\mathcal{D}^{d/}$. Consider
+\begin{equation*}
+    \mathcal{D}^{d/} \hookrightarrow \text{Ar}(\mathcal{D})^{\ev_0}\times_{\mathcal{D}}\mathcal{D}^{d/} = \text{Ar}(\mathcal{D})^{d/}.
+\end{equation*}
+This map is a left adjoint. The right adjoint is simple: just compose.\marginnote{John: check this for yourself.}
+On the other hand,
+\begin{equation*}
+    \mathcal{D}_{/d}\hookrightarrow \text{Ar}(\mathcal{D})^{\ev_1}\times_\mathcal{D}\mathcal{D}_{/d}
+\end{equation*}
+is a right adjoint (again the other is given by composition).
+Now recall that left adjoints are initial functors and right adjoints are final.
+Observe that given $\pi:\mathcal{A}\to \mathcal{D}$ such that $\mathcal{A}_d\hookrightarrow \mathcal{A}_{/d}=\mathcal{A}\times_\mathcal{D}\mathcal{D}_{/d}$
+is final for any $d$, then
+\begin{equation*}
+    \mathsf{LKan}_\pi F \simeq \colim_{\mathcal{A}_{/d}} F \simeq \colim_{\mathcal{A}_d} F.
+\end{equation*}
+\begin{definition}
+    Such a functor $\pi$ is called a \textbf{locally Cartesian fibration}.
+\end{definition}
+What we have seen above is that evaluation at 0 and 1 are locally coCartesian and Cartesian fibrations.
+
+Returning from our vacation (which are never as relaxing as you expect) we find that
+by the Cartesian fibration property,
+\begin{equation*}
+    \mathsf{LKan}_{\ev_0}(A\circ \ev_1)(U) \simeq \colim(\mathsf{Disk}_f|_{U}\xrightarrow{A\circ \ev_0} \mathcal{V}).
+\end{equation*}
+But $\mathsf{Disk}_f|_{U}=\mathsf{Disk}_{n/f^{-1}U}$. Hence we find
+\begin{equation*}
+    \mathsf{LKan}_{\ev_0}(A\circ \ev_1)(U)=\colim (\mathsf{Disk}_{n/f^{-1}U}\xrightarrow{A} \mathcal{V}) = \int_{f^{-1}U} A =: f_*A(U).
+\end{equation*}
+But now $\int_M A\simeq \int_N f_*A$, which completes the proof (using the finality of the localization).
+
+There is a bit of a gap here: we used the locally Cartesian fibration property. However, really what
+we had was a pullback of a locally Cartesian fibration property. Unfortunately, this property is not
+preserved under pullbacks. However we are ok because we have Cartesian, not just locally Cartesian.
+
+What's left is two lemmas. The localization result and the finality result.
+
+\begin{lemma}
+    The map $\ev_0:\mathcal{D}\mathsf{isk}_f \to \mathcal{D}\mathsf{isk}_{n/M}$ is final.
+\end{lemma}
+\begin{proof}
+    We use Quillen's theorem A, which says that $\mathcal{F}\to \mathcal{D}$ is final if
+    $B(\mathcal{F}^{d/})\simeq *$ for all $d\in \mathcal{D}$. So for any $V\in\mathcal{D}\mathsf{isk}_{n/M}$
+    we need to check that $B(\mathcal{D}\mathsf{isk}_f^{V/})\simeq *$. Recall that $\ev_0$
+    is a (locally) Cartesian fibration. This means that the fiber of $\ev_0$ included into
+    the undercategory
+    \begin{equation*}
+        \mathcal{D}\mathsf{isk}_f|_{V}\hookrightarrow \mathcal{D}\mathsf{isk}_f^{V/}
+    \end{equation*}
+    is a left adjoint.
+    Now we recall that if we are given an adjunction between $\mathcal{C}$ and $\mathcal{D}$ by $F$ and $G$.
+    This implies an equivalence of classifying spaces $B\mathcal{C}\simeq B\mathcal{D}$ (just
+    a special case of being final or initial since the classifying space functor is a colimit
+    of the constant functor; alternatively just look at how the unit/counit maps give you homotopies).
+    This implies that we can show instead that the fiber over $V$, $\mathcal{D}\mathsf{isk}_f|_{V}$, has
+    contractible classifying space. This category consists of $k$-disks $U\subset N$ with
+    $V\hookrightarrow f^{-1}U$. We don't have much time left, but the basic idea is to use the
+    hypercover argument.
+\end{proof}
+
+Yajit: how to make the ``colliding points'' picture of factorization homology precise?
+John: consider the subcategory $\mathcal{D}\mathsf{isk}_{n/M}^\text{surj}\subset \mathsf{Disk}_{n/M}$
+which is surjective on $\pi_0$. This subcategory is the exit-path infinity category of the Ran
+space $\mathsf{Ran}(M)$. But $\Fun(\text{Exit}(\mathsf{Ran} M), \mathcal{V})$ are constructible
+cosheaves on $\mathsf{Ran}(M)$, and then $\int_M A=\Gamma(\mathsf{Ran}, A)$.
+
+
+\newpage
+
+
+
+
+
+
+
+
+\newpage
 
 \appendix
+
+\section{Exercises}
+
+\begin{exercise}
+    Construct homotopy equivalences
+    \begin{equation*}
+        \Emb(\R^n,\R^n) \simeq \Diff(\R^n) \simeq GL(n) \simeq O(n).
+    \end{equation*}
+\end{exercise}
+
+\begin{exercise}
+    Show that homotopy pullbacks are homotopy invariant.
+\end{exercise}
+
+\begin{exercise}
+    Show that compactly supported maps are covariant along open inclusions; in particular given an
+    open inclusion $U\hookrightarrow V$, the induced map of spaces
+    $\Maps_c(U,Z)\to \Maps_c(V,Z)$ is continuous. Here the topology on the mapping spaces is
+    inherited from $\Maps_*(U^+,Z)$.
+\end{exercise}
+
+\begin{exercise}
+    Fill in the details of the proof that $\hocolim$ is homotopy invariant.
+\end{exercise}
+
+\begin{exercise}
+    Prove that there is a homeomorphism $|\Delta[n]|\cong \Delta^n$. Moreover, show that
+    the geometric realization $|X|$ of a simplicial set $X$ has the structure of a CW
+    complex with an $n$-cell for each nondegenerate $n$-simplex.
+\end{exercise}
+
+\begin{exercise}
+    Show $\Delta[n]\star \Delta[m]\cong \Delta[n+m+1]$ and the corresponding statement
+    for horns.
+\end{exercise}
+
+\begin{exercise}
+    Fill in the proof of Proposition 1.2.4.3 of HTT. In particular, show that $\phi$ and
+    $\psi$ are indeed inverse.
+\end{exercise}
+
+\begin{exercise}
+    Prove that a localization $\mathcal{C}\to \mathcal{D}$ of $\infty$-categories are
+    both initial and final.
+\end{exercise}
+
+\begin{exercise}
+    Show, for functors between ordinary categories, that a left Kan extension of a
+    functor $F:\mathcal{C}\to \mathcal{E}$ along a functor $g:\mathcal{C}\to \mathcal{D}$
+    is given by the formula
+    \begin{equation*}
+        g_!F(d) = \colim_{\mathcal{C}/d} F.
+    \end{equation*}
+\end{exercise}
 
 % TODO write out some of the homeworks/details here
 
