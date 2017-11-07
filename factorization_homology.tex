@@ -2245,10 +2245,10 @@ former (via Postnikov stages), while John does it by breaking down $M$. We'll be
         for $n$-manifolds valued in $\mathcal{V}$} is a symmetric monoidal functor
         \begin{equation*}
             \begin{tikzcd}
-                (\mathcal{M}\mathsf{fld}_n,\coprod) \rar & (\mathcal{V},\otimes)
+                F: (\mathcal{M}\mathsf{fld}_n,\coprod) \rar & (\mathcal{V},\otimes)
             \end{tikzcd}
         \end{equation*}
-        such that whenever $M\cong M' \coprod_{M_\times\R} M''$ for $\dim M_0=n-1$ then
+        such that whenever $M\cong M' \coprod_{M_0\times\R} M''$ for $\dim M_0=n-1$ then
         \begin{equation*}
             F(M')\otimes_{F(M_0\times\R)}F(M'')\to F(M)
         \end{equation*}
@@ -2373,7 +2373,7 @@ sending $U\hookrightarrow[-1,1]\mapsto \pi^{-1}U$.
 
 Now, given $M'\cup_{M_0\times\R}M''$, and a functor $F:\mfld\to \mathcal{V}$, we define
 \begin{equation*}
-    F(M')\otimes_{F(M_0\times\R)F(M'')}=\colim_{\Delta^\text{op}}F
+    F(M')\otimes_{F(M_0\times\R)}F(M'')=\colim_{\Delta^\text{op}}F
 \end{equation*}
 where the functor is the composite
 \begin{equation*}
@@ -2545,11 +2545,241 @@ cosheaves on $\mathsf{Ran}(M)$, and then $\int_M A=\Gamma(\mathsf{Ran}, A)$.
 
 \newpage
 
+\section{Nonabelian Poincar\'e duality IV [11/03/2017]}
+
+\begin{proposition}[AF 2.19]
+    The map $\mathsf{Disk}_{n/M}\to \mathcal{D}\mathsf{isk}_{n/M}$ is a localization,
+    i.e. $\mathcal{D}\mathsf{isk}_{n/M}$ is the universal $\infty$-category under $\mathsf{Disk}_{n/M}$ such that
+    isotopy equivalences to equivalence. More precisely, for any functor $\mathsf{Disk}_{n/M}\to \mathcal{C}$
+    sending isotopy equivalences to equivalences, there exists a unique factorization
+    through $\mathcal{D}\mathsf{isk}_{n/M}$.
+\end{proposition}
+There are two parts: a formal criterion for localizations, and a topological argument via
+hypercovers. Let's look at the former. Here's a naive guess: a functor $\mathcal{C}\to \mathcal{D}$ a localization with
+respect to $\mathcal{I}\subset \mathcal{C}$ if the space of objects of $\mathcal{D}=B\mathcal{I}$.
+If, say $\mathcal{I}$ was the underlying groupoid of $\mathcal{C}$ (the trivial localization),
+then this checks out. Moreover, for the space of morphisms take $B\left( \Fun^\mathcal{I}([1],\mathcal{C} \right)$.
+Likewise for $p$-tuples (not just spans). This is a sufficient condition. 
+
+\begin{proof}
+    We check that the space of objects is that of a localization. The rest can be found
+    in the paper. In particular we check that
+    \begin{equation*}
+        B\Fun^\text{iso eq}([p],\mathsf{Disk}_{n/M}) \simeq \Maps([p], \mathcal{D}\mathsf{isk}_{n/M})
+    \end{equation*}
+    for $p=0$. In this case the left hand side is $\mathsf{Disk}_{n/M}^\text{iso eq}$ which
+    is just $\coprod_{k\geq 0}(\mathsf{Disk}_{n/M}^{=k})^\text{iso eq}$ and the right
+    hand side is the underlying groupoid $\mathcal{D}\mathsf{isk}_{n/M}$ which is just
+    $\coprod_{k\geq 0}(\mathcal{D}\mathsf{isk}_{n/M}^{=k})^0$.\marginnote{Change the underlying
+    groupoid notation.}
+
+    Let's start with the right hand side. For $k=1$ it has objects $\R^n\hookrightarrow M$
+    so $\mathcal{D}\mathsf{isk}_{n/M}^{=1}\simeq M$ where we think of $M$ as an $\infty$-groupoid.
+    The functor giving the equivalence is given by evaluation at 0 (one needs to actually check
+    that this is a functor). To check that it's an equivalence we check that
+    \begin{align*}
+        \Emb_{/M}(\phi:\R^n\to M, \psi:\R^n\to M) &\simeq \Maps_M(\phi(0),\psi(0)) \\
+        &=\{\gamma:[0,1]\to M\mid \gamma(0)=\phi(0), \gamma(1)=\psi(0)\}.
+    \end{align*}
+    The left hand side is the homotopy fiber
+    \begin{equation*}
+        \begin{tikzcd}
+            \Emb_{/M}(\phi,\psi) \rar\dar & \Emb(\R^n,\R^n)\dar \\
+            * \rar & \Emb(\R^n,M)
+        \end{tikzcd}
+    \end{equation*}
+    The top right is $O(n)$ and the bottom right is the frame bundle of the tangent bundle.
+    But the homotopy fiber of the inclusion of the fiber into the frame bundle is,
+    by the Puppe sequence, just $\Omega M$. That's exactly the right hand side.
+    This proves it for $k=1$.
+
+    For general $k$, the evaluation at 0 maps to the unordered configuration space $\Conf_k(M)_{\Sigma_k}$.
+    Apply the exact same argument as the $k=1$ case. Hence
+    \begin{equation*}
+        \mathcal{D}\mathsf{isk}_{n/M}^0 \simeq \coprod_{k\geq 0}\Conf_k(M)_{\Sigma_k}.
+    \end{equation*}
+    We want to modify our hypercover argument from earlier to tell us that
+    \begin{equation*}
+        \colim_{\mathsf{Disk}_{n/M}^{=k, \text{iso eq}}}(\R^n)^k_{\Sigma_k} \xrightarrow{\sim}\Conf_k(M)_{\Sigma_k}
+    \end{equation*}
+    is an equivalence. Notice that it is important that the $k$'s on the left and the
+    right are the same. But $(\R^n)^k\simeq *$ whence the colimit is equivalent to
+    $B(\mathsf{Disk}_{n/M}^{=k, \text{iso eq}}\simeq\Conf_k(M)_{\Sigma_k}\simeq \mathcal{D}isk_{n/M}^\text{=k, \text{iso eq}}$.
+\end{proof}
+
+This is a handy result which, since localizations are both final and initial,
+allows us to compute factorization homology along either category.
+\begin{lemma}[AF 3.1]
+    With $f,M,N$ as in last lecture, the map $\mathcal{D}\mathsf{isk}_f\to\mathcal{D}\mathsf{isk}_{/M}$ is final.
+\end{lemma}
+\begin{proof}
+    We use Quillen's theorem A: show $B(\mathcal{D}\mathsf{isk}_f^{U/})^{U\hookrightarrow M}\simeq *.$
+    Notice that we have
+    \begin{equation*}
+        \mathcal{D}\mathsf{isk}_{k/N}^\partial \xrightarrow{f^{-1}} \mathcal{M}\mathsf{fld}_{n/M} \xrightarrow{\Emb_{/M}(U,-_)} \mathsf{Spaces}
+    \end{equation*}
+    and as a general feature of unstraightening,
+    \begin{equation*}
+        B(\mathcal{D}\mathsf{isk}_f^{U/}) = \colim_{\mathcal{D}\mathsf{isk}_{k/N}^\partial} \Emb_{/M}(U, f^{-1}V)
+    \end{equation*}
+    The right hand side is equivalent to $*$ since
+    \begin{equation*}
+        \colim_{\mathcal{D}\mathsf{isk}_{k/N}^\partial} \Emb(U, f^{-1}V) \xrightarrow{\simeq} \Emb(U,M).
+    \end{equation*}
+
+    Okay, so since I've lost basically all of you, I'll simplify the proof and finish the proof in the case of $\Emb^\text{fr}$.
+    We need to show that
+    \begin{equation*}
+        \colim_{\mathcal{D}\mathsf{isk}_{k/N}^\partial} \Emb^\text{fr}(U, f^{-1}V)\to \Emb^\text{fr}(U,M).
+    \end{equation*}
+    Replace the index category with $\mathsf{Disk_{k/N}^\partial}$ by the proposition above. We thus need
+    to show that we have an equivalence
+    \begin{equation*}
+        \colim_{\mathsf{Disk}_{k/N}^\partial} \Conf_{\pi_0U}(f^{-1}V)\hookrightarrow{\text{open}} \Conf_{\pi_0U}(M).
+    \end{equation*}
+    Now we apply the hypercover argument. Set $|\pi_0U|=K$. For points $\{x_1,\ldots,x_k\}\in\Conf_k(M)$,
+    want to show $B(\mathsf{Disk}_{k/N}^\partial)_{\{x_1,\ldots,x_k\}})\simeq*$. First we check that it's
+    nonempty. Notice under $f$ these points get sent to $\{fx_1,\ldots,fx_k\}\in N^k$. We can choose $k$
+    little disks containing these images, call it $V$. Take the inverse image of $V$ and this inverse image
+    will now contain the disk. The argument that the category is cofiltered goes as usual.
+
+    For the non-framed case, the argument is similar, which you can find the in the paper.
+\end{proof}
+
+Sam: we're showing localization for handles of index 0. Can we do this for higher index handles?
+John: If you enhance by some stratification story, yes. Otherwise there's an issue about convergence
+of the Goodwillie-Weiss tower.
+
+\newpage
 
 
+\section{Factorization homology is a homology theory [11/06/2017]}
 
+John: Where is $\mathsf{Disk}_{n/M}$ better than the script version? Call them A and B.
+For A we can apply our hypercover lemma since A is a poset. B is better because
+we have a pushforward formula coming from the fact that $\mathsf{Disk}_f\to \mathcal{D}\mathsf{isk}_{n/M}$
+is final. In particular B is what is known as a sifted $\infty$-category, which
+we will talk about later. This is not true about A.
 
+Recall that we want to prove that homology theories for manifolds valued in $\mathcal{V}$
+are equivalent to $n$-disk algebras in $\mathcal{V}$ by the evaluation on the point morphism.
+We will prove this using handle decompositions. Recall that a handle attachment of index $q$ to $W^n$
+is a map
+\begin{equation*}
+    \begin{tikzcd}
+        \partial D^q\times\R^{n-q} \rar[hook]\dar[hook] & D^q\times\R^{n-q}\ar[dd] \\
+        \partial W\dar[hook] \\
+        W \rar[hook] & W\cup_{\partial D^q\times \R^q} D^q\times\R^{n-q}
+    \end{tikzcd}
+\end{equation*}
+\begin{theorem}[Smale, after Morse]
+    Every smooth manifold can be built from the empty $n$-manifold from a sequence of
+    handle attachments.
+\end{theorem}
+\begin{proof}
+    See, for instance Milnor's Morse theory (but you will have to fill in some details).
+    It might be in Milnor's h-cobordism book. \textbf{Don't} look at Smale's paper on it.
+    Or any of his papers, for that matter.
+\end{proof}
 
+Let's now turn to the classification of homology theories.
+\begin{proof}
+    Given any $F:\mathcal{M}\mathsf{fld}_n\to \mathcal{V}$ we have a map
+    \begin{equation*}
+        \int_- F|_{\mathcal{D}\mathsf{isk}_n} \to \mathcal{F}
+    \end{equation*}
+    which is the counit of the adjunction between restriction (evaluation at the point) and $\mathsf{LKan}$
+    (factorization homology). For $F$ a homology theory we will prove that the counit is
+    an equivalence by induction on a handle presentation.
+
+    As a warmup, consider the case of thickened spheres: $S^k\times\R^{n-k}$. We wish to prove
+    that the map
+    \begin{equation*}
+        \int_{S^k\times\R^{n-k}} F|_{\mathcal{D}\mathsf{isk}_n}\to F(S^k\times\R^{n-k})
+    \end{equation*}
+    is an equivalence by induction on $k$. The base case is that of $k=0$. In this case,
+    since $F$ is symmetric monoidal, $F(S^0\times\R^n)=F(\R^n)\otimes F(\R^n)$. Recall
+    that in the case where $\mathcal{V}$ is $\mathsf{Spaces}$ the tensor product is nothing
+    but the Cartesian product. Since factorization homology is symmetric monoidal (see
+    the lemma below) the left hand side also splits as a tensor product. This proves the base
+    case (it also obviously follows from the fact that the restriction of the Kan extension
+    yields what you started with).
+
+    We now turn to the inductive step (still for the thickened sphere). Assume
+    \begin{equation*}
+        \int_{S^j\times\R^{n-j}} F|_{\mathcal{D}\mathsf{isk}_n}\xrightarrow{\sim} F(S^j\times\R^{n-j})
+    \end{equation*}
+    is an equivalence for $j<k$.
+    We use that we can write $S^k\times \R^{n-k} = \R^{k}_+\times\R^{n-k}\cup_{S^{k-1}\times\R\times\R^{n-k}}\R^k_-\times\R^{n-k}$.
+    Now apply our excision result
+    \begin{align*}
+        \int_{S^k\times\R^{n-k}}F|_{\mathcal{D}\mathsf{isk}_n} &\simeq \int_{\R^k_+\times\R^{n-k}}F|_{\mathcal{D}\mathsf{isk}_n}\otimes_{S^{k-1}\times\R\times\R^{n-k}} \int_{\R^k_-\times\R^{n-k}} F|_{\mathcal{D}\mathsf{isk}_n}
+    \end{align*}
+    and notice that
+    \begin{equation*}
+        F(S^k\times\R^{n-k}) \simeq F(\R^k_+\times\R^{n-k})\otimes_{F(S^{k-1}\times\R\times\R^{n-k})} F(\R^k_-\times \R^{n-k}).
+    \end{equation*}
+    Applying the induction hypothesis to what we are taking the tensor product over, and applying
+    homotopy invariance of this tensor product (recall that it was defined as a homotopy colimit),
+    we obtain the desired equivalence. This completes the proof for thickened spheres.
+
+    Now let's turn to a general sequence of handle attachments starting from the empty set.
+    Inductively, we assume the counit map is an equivalence for $k-1$ and we show it for $k$.
+    Look at the diagram for $W$ above in our description of Smale's theorem.
+    By the inductive hypothesis, for $W$ with fewer than $k$-handles,
+    \begin{equation*}
+        \int_W F|_{\mathcal{D}\mathsf{isk}_n}\xrightarrow{\sim} F(W)
+    \end{equation*}
+    and similarly for (a thickened version of) the manifold on the top left and the manifold on the top right.
+    Now applying the $\otimes$-excision principle and the induction hypothesis concludes the proof.
+\end{proof}
+
+\begin{lemma}
+    For $A\in\mathsf{Alg}_{\mathcal{D}\mathsf{isk}_n}(\mathcal{V})$, the factorization
+    homology is symmetric monoidal if $\otimes$ in $\mathcal{V}$ preserves colimits.
+\end{lemma}
+\begin{proof}
+    Consider the composite
+    \begin{equation*}
+        \begin{tikzcd}
+            \mathcal{D}\mathsf{isk}_{n/M\sqcup N}\rar{\sim} & \mathcal{D}\mathsf{isk}_{n/M}\times \mathcal{D}\mathsf{isk}_{n/N}\rar{A\times A} & \mathcal{V}\times\mathcal{V}\rar{\otimes} & \mathcal{V}
+        \end{tikzcd}
+    \end{equation*}
+    Then since $\otimes$ preserves colimits
+    \begin{align*}
+        \int_{M\sqcup N}A &\simeq \colim\left( \mathcal{D}\mathsf{isk}_{n/M}\times\mathcal{D}\mathsf{isk}_{n/N} \xrightarrow{\otimes\circ A\times A} \mathcal{V}\right) \\
+        &\simeq \otimes \colim\left( \mathcal{D}\mathsf{isk}_{n/M}\times \mathcal{D}\mathsf{isk}_{n/N}\to \mathcal{V}\times \mathcal{V} \right) \\
+        &\simeq \int_M A \otimes \int_N A.
+    \end{align*}
+\end{proof}
+
+\begin{lemma}
+    For $Z$ an $n$-connective pointed space, the functor $\mathsf{Mfld}_n\to\mathsf{Spaces}$
+    sending $M\mapsto \Maps_c(-,Z)$ is a $\times$-homology theory.
+\end{lemma}
+
+\begin{remark}
+    There is an equivalence of infinity-categories, for $G$ any topological group,
+    \begin{equation*}
+        \mathsf{Spaces}_{/BG} \simeq G-\mathsf{Spaces}.
+    \end{equation*}
+    More generally, there is an equivalence $\mathsf{LFib}_\mathcal{C}\simeq \Fun(\mathcal{C},\mathsf{Spaces})$.
+    But we can deduce it more directly---in more point-set terms the left hand side
+    is considered as spaces that are fibrations over $BG$ and the right hand side as
+    $G$-spaces where the $G$-action is free. There is a map from the right to the left
+    taking quotients, and the map from the left to the right is taking the fiber above
+    the distinguished point over $BG$. If we omit the words fibration/free we replace
+    quotient/fiber with homotopy quotient/homotopy fiber. The reason this is true is
+    that taking homotopy fibers preserves homotopy colimits.\footnote{Check, for instance,
+    that taking set-theoretic fibers preserves colimits along closed inclusions.}
+    Suppose we are given a
+    space $E\to BG$ with fiber $F$. There is a map $F\times_G EG\to E$ over $BG$. Hence
+    we have a map of two homotopy fiber sequences, so the LES in homotopy groups for
+    a fibration shows us that $\pi_*E\cong\pi_* F\times_GEG$. Hence every space over
+    $BG$ is the fiber of the quotient of the induced action of $G$. Similarly
+    for the converse: if $G$ acts on $F$ then the fiber of $F_G\to BG$ is just $F$
+    again.
+\end{remark}
 
 
 \newpage
