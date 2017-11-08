@@ -40,7 +40,7 @@
 \newcommand{\mfldd}{\mathscr{M}\mathsf{fld}_n^\partial}
 
 \title{Factorization Homology}
-\author{John Francis}
+\author{}
 \date{Fall 2017}
 
 \begin{document}
@@ -2609,7 +2609,7 @@ Likewise for $p$-tuples (not just spans). This is a sufficient condition.
 
 This is a handy result which, since localizations are both final and initial,
 allows us to compute factorization homology along either category.
-\begin{lemma}[AF 3.1]
+\begin{lemma}[AF 3.21]
     With $f,M,N$ as in last lecture, the map $\mathcal{D}\mathsf{isk}_f\to\mathcal{D}\mathsf{isk}_{/M}$ is final.
 \end{lemma}
 \begin{proof}
@@ -2686,7 +2686,7 @@ Let's now turn to the classification of homology theories.
 \begin{proof}
     Given any $F:\mathcal{M}\mathsf{fld}_n\to \mathcal{V}$ we have a map
     \begin{equation*}
-        \int_- F|_{\mathcal{D}\mathsf{isk}_n} \to \mathcal{F}
+        \int_- F|_{\mathcal{D}\mathsf{isk}_n} \to F
     \end{equation*}
     which is the counit of the adjunction between restriction (evaluation at the point) and $\mathsf{LKan}$
     (factorization homology). For $F$ a homology theory we will prove that the counit is
@@ -2703,7 +2703,7 @@ Let's now turn to the classification of homology theories.
     but the Cartesian product. Since factorization homology is symmetric monoidal (see
     the lemma below) the left hand side also splits as a tensor product. This proves the base
     case (it also obviously follows from the fact that the restriction of the Kan extension
-    yields what you started with).
+    yields what you started with, since $S^0\times\R^n$ is an $n$-disk).
 
     We now turn to the inductive step (still for the thickened sphere). Assume
     \begin{equation*}
@@ -2779,6 +2779,125 @@ Let's now turn to the classification of homology theories.
     $BG$ is the fiber of the quotient of the induced action of $G$. Similarly
     for the converse: if $G$ acts on $F$ then the fiber of $F_G\to BG$ is just $F$
     again.
+\end{remark}
+
+
+\section{Nonabelian Poincar\'e duality VI [11/08]}
+
+Nilay: could you quickly go over again how the pushforward formula implies
+$\otimes$-excision of factorization homology?
+John: Sure. Choose a map $M\to [-1,1]$ that exhibits the decomposition of $M$ into $M'$ and $M''$
+(there's a diagram we drew before).
+The pushforward formula tells us that
+\begin{equation*}
+    \int_{[-1,1]} f_*A = \int_M A
+\end{equation*}
+and we used finality to pass from a colimit over Disk partial or over $[-1,1]$ to
+a colimit over $\Delta^\text{op}$ to reduce to the two-sided bar construction which
+is precisely the $\otimes$-excision.
+
+We now return to the proof of nonabelian Poincar\'e duality. Recall the $n$-disk algebra
+$\Omega^nZ:=\Maps_c(\R^n,)$, for $Z$ an $n$-connective pointed space.
+\begin{proof}
+    We just need to show that $\Maps_c(-,Z)$ is a $\times$-homology theory in $\mathsf{Spaces}$
+    and then apply our classification of $\otimes$-homology theories to conclude that it
+    is given by factorization homology. In other words in suffices to prove the
+    last lemma from last lecture.
+\end{proof}
+
+\marginnote{Learn the 2-sided bar construction.}
+
+\begin{proof}
+    Choose a decomposition $M\cong M'\cup_{M_0\times\R}M''$. We need to show that
+    the natural map $\Maps_c(M',Z)\times\Maps_c(M'',Z))_{\Maps_c(M_0\times\R,Z)}\to\Maps_c(M,Z)$.
+    is an equivalence. The source is the quotient by the $E_1$-algebra,
+    $\Maps_c(M_0\times\R, Z)$, in $\mathsf{Spaces}$ where the structure is given by the
+    monoidal map
+    \begin{equation*}
+        \mathsf{Disk}_1\xrightarrow{M_0\times-}\mathcal{M}\mathsf{fld}_n\xrightarrow{\Maps_c(-,Z)}\mathsf{Spaces}.
+    \end{equation*}
+    Observe that $M_0\hookrightarrow M$ is proper, whence we obtain a restriction
+    map $\Maps_c(M,Z)\to \Maps_c(M_0,Z)$. Observe that this restriction map is a Serre
+    fibration with a connected base because $Z$ is $n$-connective and $M_0$ is
+    $(n-1)$-dimensional (every map in the base is homotopic to the constant map).
+    Let's look at the fibers of this map.
+    \begin{equation*}
+        \begin{tikzcd}
+            \Maps_c( (M,M_0),(Z,Z*)) \rar\dar & \Maps_c(M,Z)\dar \\
+            *\rar{M_0\to *\to Z} & \Maps_c(M_0,Z)
+        \end{tikzcd}
+    \end{equation*}
+    However, this space of compactly supported maps of pairs is
+    \begin{equation*}
+        \Maps_c( (M,M_0), (Z,*)) \simeq \Maps_c(M\setminus M_0, Z).
+    \end{equation*}
+    Recall that this is the same argument as $\Omega^nZ\simeq \Maps_c(int(D^n),Z)$.
+    Finally, notice that $M\setminus M_0\cong M'\sqcup M''$ (shrinking collars).
+
+    Since the bottom right of the square is a connected space we find
+    \begin{equation*}
+        \Maps_c(M'\sqcup M'',Z)_{\Omega\Maps_c(M_0,z)}\xrightarrow{\sim}\Maps_c(M,Z)
+    \end{equation*}
+    from the equivalence of $\Omega K\mathsf{-Spaces}$ with $\mathsf{Spaces}_{/K}$
+    for $K$ connected (for which we have $B\simeq B(\Omega K)$ and $G\simeq \Omega BG$).
+    Now, since, $\Omega\Maps_c(M_0,Z)\simeq\Maps_c(M_0\times\R,Z)$ and since compactly
+    supported maps functor sends disjoint unions to products, we obtain the
+    desired result.
+\end{proof}
+
+This completes the proof of nonabelian Poincar\'e duality.
+
+Matt: how difficult is the hypercover lemma?
+John: I wouldn't think of it as too difficult. There's a proof in Jacob's appendix of hypercovers.
+A better place to start is Segal's Classifying Spaces paper, which has the essential idea.
+Then various glossed up versions are due to Dugger and Isaaksen.
+
+
+\begin{remark}
+    Nonabelian Poincar\'e duality in this form is the best route to computing $H_*\Maps_c(M,Z)$
+    when $M$ is a manifold. Of course, factorization homology looks a lot more complicated than
+    this but on the plus side, it has a lot more handles attached.
+\end{remark}
+\begin{example}
+    Let $Z=\Sigma^nK$ for $K$ connected. We know
+    \begin{align*}
+        C_*\Maps_c(M,\Sigma^nK) \simeq \int_M C_*(\Omega^n\Sigma^nK) = \oplus_{i\geq 0}C_*\left( \Conf_i(M)\times_{\Sigma_i}K^{\wedge i} \right)
+    \end{align*}
+    since the argument is a free $n$-disk algebra in chain complexes.
+    How would you do this otherwise? Even Sam is allowed to contribute. This is a hard problem.
+    
+    Sam: rational homotopy theory?
+    John: hmm\ldots okay, but that depends on simply-connectedness and characteristic zero.
+
+    However, this result predates factorization homology, c.f. McDuff, Segal, Boedigheimer.
+\end{example}
+
+\begin{remark}
+    Let's quickly look at why nonabelian Poincar\'e duality reduces to Poincar\'e duality.
+    Let $Z=K(A,i)$, with $i\geq n$. Consider
+    \begin{equation*}
+        \pi_j\Maps_c(M,K(A,i)) \cong [M, \Omega^jK(A,i)]_c \cong H^{i-j}_c(M;A),
+    \end{equation*}
+    so we have cohomology on the right hand side. On the other side we have
+    \begin{equation*}
+        \int_M \Omega^nK(A,i).
+    \end{equation*}
+    This takes some arguing that we haven't done but I'll tell you the end result.
+    There is the Dold-Kan functor followed by geometric realization
+    $\mathsf{DK}:\mathsf{Ch}\to\mathsf{Spaces}$ sending $A[i]\mapsto K(A,i)$. Now recall that
+    \begin{equation*}
+        \int_M V \simeq C_*(M,V)
+    \end{equation*}
+    for a chain complex $V$. Set $V$ to be $A[i-n]$. Hence
+    \begin{align*}
+        \int_M \Omega^n K(A,i) \simeq |C_*(M, A[i-n])|.
+    \end{align*}
+
+    Nilay: what happened to orientation?
+    John: notice that these are $n$-disk algebras, and not $E_n$-algebras. In particular
+    there is a nontrivial action of $O(n)$ on $K(A,i)$. The $\Z/2$ of the components of
+    $O(n)$ is giving us the orientation twist. In particular, the left hand side yields
+    the \textit{twisted homology}.
 \end{remark}
 
 
