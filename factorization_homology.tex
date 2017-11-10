@@ -2900,8 +2900,162 @@ Then various glossed up versions are due to Dugger and Isaaksen.
     the \textit{twisted homology}.
 \end{remark}
 
+\newpage
+
+\section{Commutative algebras [11/10]}
+
+\begin{exercise}
+    This is \textbf{Homework 11}, due next Friday.
+    Suppose we have a functor $\mathcal{K}\to \mathsf{Opens}(X)\to\mathsf{Top}$
+    (of ordinary categories). When is the ordinary colimit isomorphic to $X$? More precisely, what is the weakest
+    condition on $\mathcal{K}_x, x\in X$ to ensure an homeomorphism. Hint: the condition will be weaker
+    than required the classifying space be contractible.
+\end{exercise}
+
+\begin{definition}
+    The \textbf{Hochschild homology} of a dga $A$ is the derived tensor product
+    $A\otimes_{A\otimes A^\text{op}} A$ (the subscript tensor product is also derived).
+    Here the $A\otimes A^\text{op}$ module structure on $A$ is given by the map
+    from the derived tensor product to the usual tensor product.
+\end{definition}
+
+\begin{corollary}
+    Factorization homology of the circle is Hochschild homology
+    \begin{equation*}
+        \int_{S^1} A \simeq HH_*A.
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    We can write $S^1=\R_+\cup_{S^0\times\R}\R_-$ so the excisiveness of factorization homology yields
+    \begin{equation*}
+        \int_S^1 A\simeq \int_{\R_+}A \otimes_{\int_{S^0\times\R}A}\int_{\R^-}A \simeq A\otimes_{A\otimes A^\text{op}}A.
+    \end{equation*}
+\end{proof}
+
+\begin{example}
+    Recall we had a functor $\mathcal{D}\mathsf{isk}_n\xrightarrow{\pi_0} \mathsf{Fin}$ sending
+    a disjoint union of $I$ copies of $\R^n$ to $I$. This yields amap
+    \begin{equation*}
+        \mathsf{Alg}_\text{com}(\mathcal{V}) \to \mathsf{Alg}_{\mathcal{D}\mathsf{isk}_n}(\mathcal{V}).
+    \end{equation*}
+\end{example}
+
+\begin{definition}
+    We say that $\mathcal{C}$ is \textbf{tensored over $\mathsf{Spaces}$} if for all
+    $c\in \mathcal{C}$, $X\in\mathsf{Spaces}$, there exists $x\boxtimes c\in\mathcal{C}$
+    such that $\Maps_\mathcal{C}(X\boxtimes c,-)\simeq \Maps_{\mathcal{C}}(c,-)^X$.
+    Here $Y^X:=\Maps(X,Y)$.
+\end{definition}
+
+\begin{exercise}
+    This is \textbf{homework 12}. Check that $x\boxtimes c\simeq \colim(X\to *\xrightarrow{c} \mathcal{C})$.
+    Here we regard $X$ as an $\infty$-groupoid.
+\end{exercise}
+
+\begin{theorem}
+    If $A\in\mathsf{Alg}_\text{com}(\mathcal{V})$ then
+    \begin{equation*}
+        \int_M A \simeq M\boxtimes A
+    \end{equation*}
+    where on the right we have a tensor of $A\in\mathsf{Alg}_\text{com}(\mathcal{V})$.
+\end{theorem}
+\begin{proof}
+    We induct on a handle presentation of $M$. Case 1 is when $M=\R^n$, in which case $\int_{\R^n}A\simeq A$.
+    The right hand side is $\R^n\boxtimes A\simeq *\boxtimes A\simeq A$. Case 1' is when $M$
+    is a disjoint union of $\R^n$'s, so on the left we have $A^{\otimes I}$. On the right we have
+    $I\boxtimes A$. Notice that
+    \begin{equation*}
+        \Maps(I\boxtimes A,-)\simeq \Maps(A,-)^I
+    \end{equation*}
+    shows that $I\boxtimes A$ is the coproduct. For instance, if we work in the case of
+    chain complexes, we get $\otimes_I A$.
+
+    We want to show that
+    \begin{equation*}
+        \mathsf{Mfld}_n\to\mathsf{Spaces}\xrightarrow{-\boxtimes A}\mathsf{Alg}_\text{com}(\mathcal{V})\to \mathcal{V}
+    \end{equation*}
+    is $\otimes$-excisive. Check $(M'\boxtimes A)\otimes_{M_0\times\R\boxtimes A}(M''\boxtimes A)\simeq M\boxtimes A$.
+    In particular, it's enough to show by Yoneda,
+    \begin{equation*}
+        \Maps_{\mathsf{Alg}_\text{com}}((M'\boxtimes A)\otimes_{M_0\times\R\boxtimes A}(M''\boxtimes A),c)\simeq \Maps_{\mathsf{Alg}_\text{com}}(A,c)^M.
+    \end{equation*}
+    We will take it for granted that $B\otimes_AB'$ is a pushout in the $\infty$-category $\mathsf{Alg}_\text{com}(\mathcal{V})$
+    (for the 1-categorical statement see the exercise below). Applying $\Maps$ we obtain a homotopy fiber
+    product
+    \begin{align*}
+        \Maps(M'\boxtimes A,c) \times_{\Maps(M_0\times\R\boxtimes A,c)}\Maps(M''\otimes A,c) &\simeq \Maps(A,c)^{M'}\times_{\Maps(A,c)^{M_0\times\R}}\Maps(A,c)^{M''} \\
+        &\simeq \Maps(A,c)^{M'\sqcup_{M_0\times\R}M''} \\
+        &\simeq \Maps(A,c)^m \simeq \Maps(A\boxtimes A,C),
+    \end{align*}
+    so we are done.
+\end{proof}
+
+\begin{exercise}
+    This is \textbf{Homework 13}. Show that the usual pushout in the 1-category of commutative algebras
+    is the two-sided tensor product you expect. Notice that this is a special feature
+    of commutative algebras, not associative algebras in general.
+
+    The $\infty$-categorical formulation is more difficult. You prove it for coproducts
+    and then show that the forgetful functor of commutative algebras in $\mathcal{V}$ to $\mathcal{V}$
+    preserves geometric realization.
+\end{exercise}
+
+\begin{theorem}
+    Given $Z$ $n$-connected,
+    \begin{equation*}
+        M\boxtimes C^*Z \simeq C^*(\Maps(M,Z)).
+    \end{equation*}
+    This makes sense because infinity-categorically, $\mathsf{Alg}_\text{com}(\mathsf{Ch})\simeq\mathsf{Alg}_{\mathcal{E}_\infty}(\mathsf{Ch})$.
+\end{theorem}
+
+\begin{remark}
+    The condition on $Z$ can be weakened considerably, but the statement above is good
+    enough for our purposes.
+\end{remark}
+
+\begin{theorem}[Convergence of the Eilenberg-Moore spectral sequence]
+    Given a homotopy pullback diagram of spaces satisfying some conditions (say $Y$ simply connected for simplicity),
+    \begin{equation*}
+        \begin{tikzcd}
+            X' \rar\dar & X\dar \\
+            Y' \rar & Y
+        \end{tikzcd}
+    \end{equation*}
+    then the usual map
+    \begin{equation*}
+        C^*(Y')\otimes_{C^*(Y)}C^*(X)\to C^*(X')
+    \end{equation*}
+    is an equivalence.
+\end{theorem}
+
+\begin{proof}
+    The statement is definitely true for when $M=*$. Now we have shown that
+    \begin{equation*}
+        M'\sqcup_{M_0\times\R}M'' \boxtimes C^*Z \simeq M'\boxtimes C^*Z\otimes_{M_0\boxtimes C^*Z}M''\boxtimes C^*Z
+    \end{equation*}
+    so we induct. The inductive hypothesis is that
+    \begin{equation*}
+        M'\sqcup_{M_0\times\R}M'' \boxtimes C^*Z \simeq C^*\Maps(M',Z)\otimes_{C^*\Maps(M_0,Z)}C^*\Maps(M'',Z)
+    \end{equation*}
+    Apply the spectral sequence theorem above for
+    \begin{equation*}
+        X'=\Maps(M,Z)\quad Y'=\Maps(M',Z)\quad X=\Maps(M'',Z)\quad Y=\Maps(M_0,Z)
+    \end{equation*}
+    yields the desired result.
+\end{proof}
+
+Sean: is there a reason to use the factorization homology definition of Hochschild homology?
+John: well I never like using the old definition, because there's no mention of the circle, even
+though I don't know a result about Hochschild homology that I can't do without factorization
+homology.
+
+\textbf{No class next Friday.}
+
+
+
 
 \newpage
+
 
 \appendix
 
