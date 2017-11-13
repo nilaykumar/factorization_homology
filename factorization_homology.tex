@@ -25,6 +25,7 @@
 \DeclareMathOperator{\hocolim}{hocolim}
 \DeclareMathOperator{\ev}{ev}
 \DeclareMathOperator{\sk}{sk}
+\DeclareMathOperator{\coker}{coker}
 
 \newcommand{\disk}{\mathsf{Disk}_n}
 \newcommand{\diskm}{\mathsf{Disk}_{n/M}}
@@ -2902,7 +2903,7 @@ Then various glossed up versions are due to Dugger and Isaaksen.
 
 \newpage
 
-\section{Commutative algebras [11/10]}
+\section{Commutative algebras [11/10/2017]}
 
 \begin{exercise}
     This is \textbf{Homework 11}, due next Friday.
@@ -3025,7 +3026,7 @@ Then various glossed up versions are due to Dugger and Isaaksen.
     \begin{equation*}
         C^*(Y')\otimes_{C^*(Y)}C^*(X)\to C^*(X')
     \end{equation*}
-    is an equivalence.
+    from the derived tensor product is an equivalence.
 \end{theorem}
 
 \begin{proof}
@@ -3051,8 +3052,161 @@ homology.
 
 \textbf{No class next Friday.}
 
+\newpage
+
+\section{Local systems and dualities [11/13/2017]}
+
+\subsection{Local systems}
+
+Recall the statement about the convergence of the Eilenberg-Moore spectral sequence from
+last time. This spectral sequence is given
+%\begin{equation*}
+%    \text{Tor}^{H^*Y}(H^*Y',H^*X) \implies H^X'
+%\end{equation*}
+under certain conditions. There is always a convergent spectral sequence given a diagram
+\begin{equation*}
+    \begin{tikzcd}
+        B \rar\dar & A\dar\\
+        B' \rar & A'\cong B'\otimes_{B}A
+    \end{tikzcd}
+\end{equation*}
+such that
+%\begin{equation*}
+%    \text{Tor}^{H^*B}(H^*B',H*A)\implies H^*A'.
+%\end{equation*}
+\marginnote{Fix these two Tor's}
+This is just a purely algebraic fact about dgas.
+Converting it into the first spectral sequence above is just given by the statement from last time.
+
+For a proof sketch of the statement from last time, see lecture 23 from Lurie's class
+on the Sullivan conjecture at MIT. We will follow those notes.
+We say that a \textbf{local system of chain complexes} on $Y$ is a functor
+$L:Y\to \mathsf{Ch}$ of $\infty$-categories. In terms of quasicategories,
+it is a map $\Sing Y\to \mathsf{Ch}$. We define the cohomology
+\begin{equation*}
+    C^*(Y,L) := \lim Y\xrightarrow{L}\mathsf{Ch}
+\end{equation*}
+For $L=A$ the constant local system, $C^*(Y,L)$ is the usual cohomology with
+coefficients in $A$ because $C_*(X,L)=\colim_Y L$, and we can just take linear
+duals.
+
+Observe now that given $f:X\to Y$ there is a local system $L_0:Y\to\mathsf{Ch}$ that,
+heuristically, sends $y\in Y$ to $C^*(f^{-1}\{y\})$.  Similarly for $g:Y'\to Y$
+we get a localy system $L_1$.
+This yields
+\begin{equation*}
+    C^*L_0\otimes_{C^*Y}C^*L_1 \to C^*(L_0\otimes L_1)\simeq C^*X'
+\end{equation*}
+where we have used the Kunneth theorem (assume finite-dimensional cohomology groups
+in each degree). We say that $L$ is \textbf{good}
+\begin{enumerate}
+    \item if $H^*(L(y))=0$ for $*<0$ and all $y\in Y$,
+    \item and if for any $L'$ satisfying (1), the natural map
+        \begin{equation*}
+            C^*L\otimes_{C^*Y}C^*L'\to C^*(L\otimes L')
+        \end{equation*}
+        is an equivalence.
+\end{enumerate}
+Now, is \textit{good}? Well, of course, this is not real life so we're good. For instance
+the zero local system is good because zero equals zero. So that's good. A less trivial
+example is the constant local system with value $\Z$, as is easy to check.
+The class of good local systems is closed under extensions, i.e. if we have
+\begin{equation*}
+    \begin{tikzcd}
+        L_1 \rar[hook] & L\dar \\
+        & L_2
+    \end{tikzcd}
+\end{equation*}
+such that $L_2=\coker(L_1\to L)$ then if $L_1,L_2$ are good then so is $L$. This is
+because the source and target of condition 2 preserve finite colimits.
+
+If $\pi_1(Y)$ is nilpotent and if $L$ is finite-dimensional concentrated in
+a single degree then it is a sequence of extensions by trivial $\pi_1Y$-representations
+(this is some representation theory). Now induct on $L\to \varprojlim\tau^{\leq k}L$
+\begin{equation*}
+    \begin{tikzcd}
+        \tau^{\leq k}L\dar & A[k]\lar \\
+        \tau^{\leq k-1}L
+    \end{tikzcd}
+\end{equation*}
+where we are using condition 1 to have a base case (really all we need is boundedness).
 
 
+\subsection{Spooky duality}
+
+Recall that we showed
+\begin{equation*}
+    \int_M C^*X \simeq M\boxtimes C^*X \simeq C^*\Maps(M,X)
+\end{equation*}
+where we interpret $C^*X$ as a commutative algegbra $\infty$-categorically,
+and the second equivalence assumes some conditions on $X$.
+This coincidentally looks familiar; we also have the statement
+\begin{equation*}
+    \int_M C_*(\Omega^nX) \simeq C_*\Maps_c(M,X)
+\end{equation*}
+for $X$ pointed $n$-connective, which is NAPD.
+Observe that if $M$ is a closed $n$-manifold, this implies that
+\begin{equation*}
+    \left(\int_M C_*(\Omega^nX)\right)^\vee \simeq \int_M C^*X.
+\end{equation*}
+This is not a coincidence! What we will talk about next is Koszul duality. It is a
+general feature of $n$-disk algebras which generalizes this relation here.
+
+Recall that given a functor $A:\mathcal{D}\mathsf{isk}_n^\partial\to \mathcal{V}$, we define
+\begin{equation*}
+    \int_M A \simeq \colim A.
+\end{equation*}
+Now there are two fundamental objects of $\mathcal{V}$: $A(\R^n)$ and $A(\R^n_{\geq 0})$.
+Now notice that NAPD also works for manifolds with boundary, where
+$\Omega^nX:\mathcal{D}\mathsf{isk}_n^\partial \to \mathsf{Spaces}$.
+The same proof works verbatim---not even \textit{mutatis mutandis}.
+
+\begin{example}
+    Consider
+    \begin{equation*}
+        \int_{D^n}\Omega^nX \simeq \Maps_c(D^n,X) \simeq \Maps(D^n,X)\simeq X
+    \end{equation*}
+    where $D^n$ is the closed $N$-disk. In other words, taking factorization
+    homology over the closed $n$-disk deloops!
+
+    Notice, for future reference, that
+    \begin{equation*}
+        C^*X \simeq \left( \int_{D^n}C_*\Omega^nX \right)^\vee.
+    \end{equation*}
+    What happens if we do
+    \begin{equation*}
+        \int_{D^n}C^*X = ?
+    \end{equation*}
+    Let's not get greedy---consider $n=1$.
+    Here the $n$-disk algebra sends $\R_{\geq 0}\mapsto \Z$ and $\R\mapsto A$ for some $A$.
+    Picture putting the algebra $A$ on the interior and $\Z$ on the boundary.
+    But
+    \begin{equation*}
+        \int_{D^1}C^*X\simeq\Z\otimes_{C^*X}\Z \simeq C^*(\Omega X)
+    \end{equation*}
+    from the proof of NAPD, where we had finality of $\Delta^\text{op}\hookrightarrow \mathcal{D}\mathsf{isk}_{1/[-1,1]}^{\partial,\text{or}}$.
+    Using the pushforward formula for $D^n=(D^1)^n\to D^{n-1}$, we identify
+    \begin{equation*}
+        \int_{D^n} C^*X \simeq \int_{D^1}\cdots \int_{D^1}C^*X \simeq C^*(\Omega^nX).
+    \end{equation*}
+    What if we do it \textit{again}? Given some finiteness conditions, we see that
+    \begin{equation*}
+        C_*\Omega^n X \simeq \left( \int_{D^n}C^*X \right)^\vee.
+    \end{equation*}
+\end{example}
+
+In light of this example, here's an idea: maybe there's a functor
+\begin{equation*}
+    \mathbb{D}:\mathsf{Alg}_{\mathcal{D}\mathsf{isk}_n^\text{aug}}(\mathcal{V}) \to \mathsf{Alg}_{\mathcal{D}\mathsf{isk}_n^\text{aug}}(\mathcal{V})
+\end{equation*}
+such that
+\begin{equation*}
+    \left( \int_M A \right)^\vee \simeq \int_M \mathbb{D}A
+\end{equation*}
+when $M$ is closed.
+
+Matt: what does dualizing mean in $\mathcal{V}$.
+John: this will only apply when $\mathcal{V}$ is stable.
 
 \newpage
 
