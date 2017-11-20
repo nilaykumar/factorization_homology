@@ -2943,14 +2943,14 @@ Then various glossed up versions are due to Dugger and Isaaksen.
 
 \begin{definition}
     We say that $\mathcal{C}$ is \textbf{tensored over $\mathsf{Spaces}$} if for all
-    $c\in \mathcal{C}$, $X\in\mathsf{Spaces}$, there exists $x\boxtimes c\in\mathcal{C}$
+    $c\in \mathcal{C}$, $X\in\mathsf{Spaces}$, there exists $X\boxtimes c\in\mathcal{C}$
     such that $\Maps_\mathcal{C}(X\boxtimes c,-)\simeq \Maps_{\mathcal{C}}(c,-)^X$.
     Here $Y^X:=\Maps(X,Y)$.
 \end{definition}
 
 \begin{exercise}
-    This is \textbf{homework 12}. Check that $x\boxtimes c\simeq \colim(X\to *\xrightarrow{c} \mathcal{C})$.
-    Here we regard $X$ as an $\infty$-groupoid.
+    This is \textbf{homework 12}. Check that $X\boxtimes c\simeq \colim(X\to *\xrightarrow{c} \mathcal{C})$.
+    On the right we regard $X$ as an $\infty$-groupoid.
 \end{exercise}
 
 \begin{theorem}
@@ -3152,12 +3152,14 @@ Observe that if $M$ is a closed $n$-manifold, this implies that
 This is not a coincidence! What we will talk about next is Koszul duality. It is a
 general feature of $n$-disk algebras which generalizes this relation here.
 
-Recall that given a functor $A:\mathcal{D}\mathsf{isk}_n^\partial\to \mathcal{V}$, we define
+Let's recall how factorization homology works for manifolds with boundary.
+Given a functor $A:\mathcal{D}\mathsf{isk}_n^\partial\to \mathcal{V}$, we define
 \begin{equation*}
-    \int_M A \simeq \colim A.
+    \int_M A \simeq \colim A
 \end{equation*}
+as usual.
 Now there are two fundamental objects of $\mathcal{V}$: $A(\R^n)$ and $A(\R^n_{\geq 0})$.
-Now notice that NAPD also works for manifolds with boundary, where
+Notice that NAPD also works for manifolds with boundary, where
 $\Omega^nX:\mathcal{D}\mathsf{isk}_n^\partial \to \mathsf{Spaces}$.
 The same proof works verbatim---not even \textit{mutatis mutandis}.
 
@@ -3167,9 +3169,9 @@ The same proof works verbatim---not even \textit{mutatis mutandis}.
         \int_{D^n}\Omega^nX \simeq \Maps_c(D^n,X) \simeq \Maps(D^n,X)\simeq X
     \end{equation*}
     where $D^n$ is the closed $N$-disk. In other words, taking factorization
-    homology over the closed $n$-disk deloops!
+    homology over the closed $n$-disk is an $n$-fold delooping!
 
-    Notice, for future reference, that
+    Notice, for future reference, that this implies
     \begin{equation*}
         C^*X \simeq \left( \int_{D^n}C_*\Omega^nX \right)^\vee.
     \end{equation*}
@@ -3205,8 +3207,258 @@ such that
 \end{equation*}
 when $M$ is closed.
 
-Matt: what does dualizing mean in $\mathcal{V}$.
-John: this will only apply when $\mathcal{V}$ is stable.
+Matt: what does dualizing mean in a general $\mathcal{V}$?
+John: what I've said will only apply when $\mathcal{V}$ is stable.
+
+\newpage
+
+\section{Koszul duality [11/15/2017]}
+
+Koszul duality is something not about algebras, but about augmented algebras.
+\begin{definition}
+    We say that $A$ is an augmented $k$-algebra, for $k$ commutative, if we are given a map
+    $A\to k$ of $k$-algebras.
+\end{definition}
+In particular, the unit map composed with the augmentation $k\to A\to k$ is necessarily
+the identity map on $k$. If we now recall that a commutative algebra in $\mathcal{V}$
+(symmetric monoidal) is equivalent to the data of a symmetric monoidal functor $\mathsf{Fin}\xrightarrow{A}\mathcal{V}$
+sending $I\mapsto A^{\otimes I}$.
+\begin{definition}
+    An \textbf{augmented commutative algebra in $\mathcal{V}$} is a symmetric monoidal
+    functor $\mathsf{Fin}_*\xrightarrow{A}\mathcal{V}$ (where the monoidal structure on
+    finite pointed sets is, if you like, the wedge product).
+\end{definition}
+If we think of the algebra as the value of the functor $A$ on $\langle 1\rangle_*$,
+there is a map $A(\langle 1\rangle_*)\to A(*)$. This is exactly our classical augmentation.
+There is of course a functor from $\mathsf{Fin}$ to $\mathsf{Fin}_*$ so restriction
+along this functor is the forgetting of the augmentation data.
+This yields the following definition.
+\begin{definition}
+    An \textbf{augmented $n$-disk algebra} is a symmetric monoidal functor
+    \begin{equation*}
+        \mathcal{D}\mathsf{isk}_{n,*} \xrightarrow{A} \mathcal{V}.
+    \end{equation*}
+    Here the domain has objects $\coprod\R^n\sqcup *$, and morphisms, away from
+    the components that they send to $*$, are embeddings. The symmetric monoidal
+    structure is the wedge product.
+\end{definition}
+Observe that an augmented commutative algebra yields an augmented $n$-disk algebra,
+by the usual restriction.
+
+Notice that there is a symmetric monoidal functor
+\begin{equation*}
+    \mathcal{D}\mathsf{isk}_n^\partial \to \mathcal{D}\mathsf{isk}_{n,*}
+\end{equation*}
+sending
+\begin{equation*}
+    \coprod_I\R^n\sqcup\coprod_J\R^n_{\geq 0} \mapsto \coprod_I\R^n\sqcup *.
+\end{equation*}
+From this observation we find that there is a restriction functor
+$\mathsf{Alg}_{\mathcal{D}\mathsf{isk}_n}^\text{aug}(\mathcal{V})\to\mathsf{Alg}_{\mathcal{D}\mathsf{isk}_n^\partial}(\mathcal{V})$,
+which yields
+\begin{corollary}
+    For $A$ an augmented $n$-disk algebra, we can define
+    \begin{equation*}
+        \int_M A = \colim_{\mathcal{D}\mathsf{isk}_n^\partial/M} A
+    \end{equation*}
+    for $M$ a manifold with boundary.
+\end{corollary}
+One might say that $n$-disk boundary algebras are more general, so why bother
+restricting when working with manifolds with boundary? The reason is because
+Koszul duality applies to the augmented algebras.
+
+\begin{theorem}
+    There exists a contravariant functor
+    \begin{equation*}
+        \begin{tikzcd}
+            \mathsf{Alg}_{\mathcal{D}\mathsf{isk}_n}^\text{aug}(\mathsf{Ch})^\text{op} \rar & \mathsf{Alg}_{\mathcal{D}\mathsf{isk}_n}^\text{aug}(\mathsf{Ch})
+        \end{tikzcd}
+    \end{equation*}
+    that on underlying objects assigns
+    \begin{equation*}
+        A\mapsto \left(\int_{D^n} A\right)^\vee.
+    \end{equation*}
+\end{theorem}
+Here we are stating the theorem in minimal generality---what we need is that $\mathcal{V}$ is stable.
+
+Last time we saw that
+\begin{equation*}
+    \left(\int_{D^n}C_*(\Omega^nX)\right)^\vee \simeq  \left( C_*\Maps_c(D^n,X) \right)^\vee \simeq C^*X.
+\end{equation*}
+Here $C_*X$ is of course augmented. Given some (finiteness, etc.) conditions we also saw that
+\begin{equation*}
+    \left(\int_{D^n}C^*X\right)^\vee \simeq \left(C^*\Omega^nX\right)^\vee \simeq C_*\Omega^nX.
+\end{equation*}
+
+\begin{exercise}
+    Recall that if $M$ is without boundary then we had
+    \begin{equation*}
+        \int_M \mathsf{Free}_n(V) \simeq \coprod_{i\geq 0}\Conf_i(M)\times_{\Sigma_i}V^i
+    \end{equation*}
+    It is easy to see that the free $n$-disk algebra on the space $V$ is augmented. Similarly
+    for $V\in(\mathcal{V},\otimes)$,
+    \begin{equation*}
+        \int_M \mathsf{Free}_n(V) \simeq \coprod_{i\geq 0} \Conf_i(M)\boxtimes_{\Sigma_i}V^{\otimes i}.
+    \end{equation*}
+    For \textbf{homework 14}, allow $M$ to have a boundary and let $\mathcal{V}=\mathsf{Ch}$. Show that
+    \begin{equation*}
+        \int_M\mathsf{Free}_n(V) \simeq \bigoplus_{i\geq 0}\Conf_i(M)/\partial \boxtimes_{\Sigma_i} V^{\otimes i}.
+    \end{equation*}
+    Here $\Conf_i(M)/\partial$ is the subspace of $\Conf_i(M)$ such that at least one point
+    lies in $\partial M$. Note also that $\boxtimes$ is the tensor with pointed spaces.
+    Then show that for $M=D^n$,
+    \begin{equation*}
+        \int_{D^n} \mathsf{Free}_n(V) \simeq \Z\oplus V[n].
+    \end{equation*}
+    Let me give you some hints. First note that the tensor $X\boxtimes V\simeq \tilde C_*(X)\otimes V$
+    is reduced chains.
+    For $i=0$ we get $*\boxtimes_{\Sigma_0}V^{\otimes 0}=\Z$. For $i=1$ we have
+    \begin{equation*}
+        \Conf_1(D^n)/\partial \boxtimes_{\Sigma_1}V \simeq D^n/\partial D^n\boxtimes V\simeq V[n]
+    \end{equation*}
+    since $\tilde C_*(S^n)\otimes V=\Z[n]$. What I've left for you for homework is to show
+    that $\Conf_i(D^n)/\partial\simeq *$.
+
+    For future reference, what is the $n$-disk algebra structure on the dual of this? We have
+    \begin{equation*}
+        \left( \int_{D^n}\mathsf{Free}_n(V) \right)^\vee \simeq \Z\oplus V^\vee[-n].
+    \end{equation*}
+    This is a general feature of Koszul duality---the dual of a free algebra is a trivial
+    algebra.
+\end{exercise}
+
+\marginnote{Add picture here}
+
+\newpage
+
+\section{??? [11/20/2017]}
+
+Let's think about one of the past homework problems together.
+\begin{lemma}
+    We have that $\Conf_i(D^n)/\partial\simeq *$ for $i\geq 2$.
+\end{lemma}
+\begin{proof}
+    Note that for $N^{n-1}$ with $\partial N=\varnothing$ then
+    \begin{equation*}
+        \partial\Conf_k\left( N\times [-1,0) \right)\to \Conf_k(N\times[-1,0))
+    \end{equation*}
+    is a homotopy equivalence. We can do this by exhibiting a deformation retraction
+    of this map. Let me sketch how this works for the circle (see sketch in notebook).
+    Notice that this argument does not work for $k=0$. In that case the right hand
+    side is a point and the left hand side is the empty set and there are no maps from
+    the point to the empty set. Now notice that by translating the first point to
+    the center $\Conf_i(D^n)\simeq\Conf_{i-1}(D^n-\{0\})$ (can show this by replacing
+    $D^n$ with $\R^n$ and noting that $\Conf_i(\R^n)\to\R^n$ has the right fiber).
+\end{proof}
+
+Okay, back to Koszul duality. It is in fact more general than just the form
+it takes for $n$-disk algebras. Recall that the way we stated it we had a contravariant
+functor $(\int_{D^n}-)^\vee:\mathsf{Alg}_n^\text{op}\to\mathsf{Alg}_n$ (abbreviating
+our notation of $n$-disk algebas and omitting the augmentated that is implicit everywhere).
+For each $n$ Koszul duality looks symmetric but in the limit where $n\to\infty$, the symmetry is broken:
+\begin{equation*}
+    \begin{tikzcd}
+        \mathsf{Alg}_\text{comm} \rar[bend left]{T} & \mathsf{Alg}_\text{Lie}\lar[bend left]{C^*_\text{Lie}} \\
+        \mathsf{Alg}_n^\text{op} \rar & \mathsf{Alg}_n \\
+        \mathsf{Alg}_{n-1}^\text{op} \rar  & \mathsf{Alg}_{n-1}
+    \end{tikzcd}
+\end{equation*}
+
+Let's explain the maps at the very top, i.e. standard Koszul duality, in two versions.
+In version 1, suppose we have
+some algebraic structure $\mathcal{O}$ such that there is a trivial algebra functor
+\begin{equation*}
+    \mathsf{Ch} \xrightarrow{\Z\oplus-} \mathsf{Alg}_{\mathcal{O}}(\mathsf{Ch}).
+\end{equation*}
+This functor always preserves limits because it's a right adjoint. More explicitly
+given $J\xrightarrow{A}\mathsf{Alg}\xrightarrow{\mathsf{fgt}}\mathsf{Ch}$ one
+shows that the limit of this composite functor has an algebra structure. Have
+\begin{equation*}
+    \begin{tikzcd}
+        \lim f\circ A\otimes \lim f\circ A \ar[rr, dashed] \ar[dr] && \lim f\circ A\\
+        & \lim (J\times J\xrightarrow{A\otimes A}\mathsf{Ch})\ar[ur]
+    \end{tikzcd}
+\end{equation*}
+which gives us what we want. This is all to say that there exists a left adjoint
+from $\mathsf{Alg}_\mathcal{O}(\mathsf{Ch})\to\mathsf{Ch}$, call it $L$ for the
+``cotangent space'' at the augmentation.
+\marginnote{Big diagram here}
+Hence we see that $L\circ\mathsf{Free}_{\mathcal{O}}$ is left adjoint to $\mathsf{fgt}\circ\mathsf{triv}=\id$,
+which implies that $L\circ\mathsf{Free}_\mathcal{O}\simeq \id$. Observe now that $L$
+sends free algebras to what they are free on $L(\mathsf{Free}_\mathcal{O}V)= V$.
+Moreover $L$ preserves colimits. Geometrically if you think of $\Spec A$ then
+the augmentation is a point $A\to\Z$ and $L$ is the cotangent space encoding
+infinitesimal data near the point.
+
+If $\mathcal{O}$ is the operad for commutative algebras then $\mathsf{Free}_{\mathcal{O}}(V)=\Sym(V)=\mathcal{O}(\A_V)$
+that is naturally augmented to $\Z$. Then $L(\Sym V)=V$ is the usual Zariski cotangent space at 0.
+
+\begin{theorem}
+    For $A$ an $n$-disk algebra,
+    \begin{equation*}
+        \Z\oplus LA[n] \simeq \int_{D^n}A.
+    \end{equation*}
+\end{theorem}
+I'll maybe only sketch this proof (the details are in my Ph.D. thesis).
+\begin{proof}[Proof sketch]
+    We have already calculated that for $A=\mathsf{Free}_n(V)$,
+    \begin{equation*}
+        \int_{D^n}\mathsf{Free}_n(V) \simeq \Z\oplus V[n],
+    \end{equation*}
+    which followed from the fact that $\Conf_i(D^n)/\partial\simeq*$ for $i\geq 2$.
+    On the other hand, $L\mathsf{Free}_n(V)=V$ so
+    \begin{equation*}
+        \int_{D^n}A\simeq \Z\oplus LA[n].
+    \end{equation*}
+    for $A$ free. Thus the two agree on free algebras.
+
+    The next step is to show that
+    \begin{equation*}
+        \int_{D^n} - :\mathsf{Alg}^\text{aug}_n(\mathsf{Ch})\to\mathsf{Ch}
+    \end{equation*}
+    preserves homotopy colimits of $\Delta^\text{op}$-diagrams, i.e. for any
+    \begin{equation*}
+        \Delta^\text{op}\xrightarrow{A_\bullet}\mathsf{Alg}_n^\text{aug}\xrightarrow{\int_{D^n}}\mathsf{Ch}
+    \end{equation*}
+    there is always a map $|\int_{D^n}A_\bullet|\to \int_{D^n}|A_\bullet|$ and this map
+    is an equivalence. This statement is a consequence of the fact that all reasonable
+    functors (those appearing above such as $\mathsf{fgt}$ and $\mathsf{Free}$) preserve
+    geometric realization. We have the iterated free forget simplicial resolution (monadic?) for $A$
+    and this computes $|\mathsf{Free}_n^\bullet A|$ which tells us that
+    \begin{equation*}
+        \int_{D^n} A\simeq \int_{D^n} |\mathsf{Free}_n^\bullet A|\simeq |\int_{D^n}\mathsf{Free}_n^\bullet A|\simeq |\Z\oplus L\mathsf{Free}_n^\bullet A[n]|\simeq \Z\oplus LA[n].
+    \end{equation*}
+\end{proof}
+
+Since we have only a bit of time left let me give some intuition for why the geometric
+realization is preserved.
+\begin{lemma}
+    The functor $\Delta^\text{op}\to\Delta^\text{op}\times\Delta^\text{op}$ is final (i.e.
+    $\Delta^\text{op}$ is ``sifted'').
+\end{lemma}
+We don't have time to prove this. Now consider the composite functor $\Delta^\text{op}\xrightarrow{A^\bullet}\mathsf{Alg}\xrightarrow{\mathsf{fgt}}\mathsf{Ch}$
+which we denote by $A_\bullet$. We produce a multiplication on $|A_\bullet|$. We have
+\begin{equation*}
+    \Delta^\text{op}\to\Delta^{\text{op}}\times\Delta^\text{op}\xrightarrow{A\times A}\mathsf{Ch}\times\mathsf{Ch}\xrightarrow{\otimes}\mathsf{Ch}
+\end{equation*}
+sending $n$ to $A_n\otimes A_n$. Now $\colim(\Delta^\text{op}\to\mathsf{Ch})=|A\otimes A|\to |A_\bullet|$
+By finality this is equivalent to $\colim(\Delta^\text{op}\times\Delta^\text{op}\xrightarrow{A\otimes A}\mathsf{Ch}$.
+But this map goes through $\mathsf{Ch}\times\mathsf{Ch}$ via tensor product. Since tensor product preserves
+colimits this is equivalent to $\colim(\Delta^\text{op}\xrightarrow{\Delta}\mathsf{Ch})\otimes\colim A$.
+
+Grisha: can you do something similar for more general things like monads?
+John: it's not true in that level of generality as can be seen by the if and only
+if statement in the Bar-Beck theorem.
+
+
+
+
+%Here the vertical map on the left is the monoidal forgetful
+%functor $\mathcal{D}\mathsf{isk}_{n-1}\xrightarrow{-\times\R}\mathcal{D}\mathsf{isk}_n$.
+
+
+
+
 
 \newpage
 
