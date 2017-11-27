@@ -40,6 +40,9 @@
 \newcommand{\mfldm}{\mathscr{M}\mathsf{fld}_{n/M}}
 \newcommand{\mfldd}{\mathscr{M}\mathsf{fld}_n^\partial}
 
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\aug}{\mathrm{aug}}
+
 \title{Factorization Homology}
 \author{}
 \date{Fall 2017}
@@ -3331,7 +3334,7 @@ Here $C_*X$ is of course augmented. Given some (finiteness, etc.) conditions we 
 
 \newpage
 
-\section{??? [11/20/2017]}
+\section{The cotangent functor [11/20/2017]}
 
 Let's think about one of the past homework problems together.
 \begin{lemma}
@@ -3353,8 +3356,8 @@ Let's think about one of the past homework problems together.
 
 Okay, back to Koszul duality. It is in fact more general than just the form
 it takes for $n$-disk algebras. Recall that the way we stated it we had a contravariant
-functor $(\int_{D^n}-)^\vee:\mathsf{Alg}_n^\text{op}\to\mathsf{Alg}_n$ (abbreviating
-our notation of $n$-disk algebas and omitting the augmentated that is implicit everywhere).
+functor $(\int_{D^n}-)^\vee:\mathsf{Alg}_n^{\aug,\op}\to\mathsf{Alg}_n^{\aug}$ (abbreviating
+our notation of $n$-disk algebas).
 For each $n$ Koszul duality looks symmetric but in the limit where $n\to\infty$, the symmetry is broken:
 \begin{equation*}
     \begin{tikzcd}
@@ -3371,12 +3374,12 @@ some algebraic structure $\mathcal{O}$ such that there is a trivial algebra func
     \mathsf{Ch} \xrightarrow{\Z\oplus-} \mathsf{Alg}_{\mathcal{O}}(\mathsf{Ch}).
 \end{equation*}
 This functor always preserves limits because it's a right adjoint. More explicitly
-given $J\xrightarrow{A}\mathsf{Alg}\xrightarrow{\mathsf{fgt}}\mathsf{Ch}$ one
+given $J\xrightarrow{A}\mathsf{Alg}_\mathcal{O}(\mathsf{Ch})\xrightarrow{\mathsf{fgt}}\mathsf{Ch}$ one
 shows that the limit of this composite functor has an algebra structure. Have
 \begin{equation*}
     \begin{tikzcd}
-        \lim f\circ A\otimes \lim f\circ A \ar[rr, dashed] \ar[dr] && \lim f\circ A\\
-        & \lim (J\times J\xrightarrow{A\otimes A}\mathsf{Ch})\ar[ur]
+        \lim \mathsf{fgt}\circ A\otimes \lim \mathsf{fgt}\circ A \ar[rr, dashed] \ar[dr] && \lim \mathsf{fgt}\circ A\\
+        & \lim \left(J\times J\xrightarrow{(\mathsf{fgt}\circ A)\otimes(\mathsf{fgt}\circ A)}\mathsf{Ch}\right)\ar[ur]
     \end{tikzcd}
 \end{equation*}
 which gives us what we want. This is all to say that there exists a left adjoint
@@ -3450,13 +3453,156 @@ Grisha: can you do something similar for more general things like monads?
 John: it's not true in that level of generality as can be seen by the if and only
 if statement in the Bar-Beck theorem.
 
+\newpage
 
+\section{??? [11/27/2017]}
 
+Observe the following. For $\mathcal{K}$ a sifted category (nonempty with the diagonal functor final),
+given a diagram $\mathcal{K}\xrightarrow{A}\mathsf{Alg}(\mathcal{V})\xrightarrow{\mathsf{fgt}}\mathcal{V}$.
+Then $\colim(\mathcal{K}\xrightarrow{A}\mathcal{V})$ is an algebra. This is because we have the composite
+\begin{equation*}
+    \mathcal{K}\to \mathcal{K}\times\mathcal{K}\xrightarrow{A\times A}\mathcal{V}\times\mathcal{V}\xrightarrow{\otimes}\mathcal{V}
+\end{equation*}
+and a natural transformation (via multiplication) from this composite to the functor $A$. Hence we obtain
+a map
+\begin{equation*}
+    \colim(\mathcal{K}\to\mathcal{K}\times\mathcal{K}\to \mathcal{V}) \to \colim(\mathcal{K}\xrightarrow{A}\mathcal{V}).
+\end{equation*}
+By finality and the fact that the $\otimes$ in $\mathcal{V}$ preserves colimits, we obtain
+\begin{equation*}
+    \colim(\mathcal{K}\times\mathcal{K}\to \mathcal{V}\times \mathcal{V}\xrightarrow{\otimes}\mathcal{V}) \simeq \otimes \colim(\mathcal{K}\times\mathcal{K}\to \mathcal{V}\times\mathcal{V})\simeq \colim(\mathcal{K}\to \mathcal{V})^{\otimes 2}.
+\end{equation*}
+Hence siftedness is important for preserving algebraic structures.
 
-%Here the vertical map on the left is the monoidal forgetful
-%functor $\mathcal{D}\mathsf{isk}_{n-1}\xrightarrow{-\times\R}\mathcal{D}\mathsf{isk}_n$.
+The following more general result can be found in Lurie's Higher Algebra, though it is an
+older result.
+\begin{theorem}
+    The forgetful functor $\mathsf{fgt}:\mathsf{Alg}_\mathcal{O}(\mathcal{V}^\otimes)\to \mathcal{V}^\otimes$
+    preserves sifted colimits if $\otimes$ distributes over sifted colimits.
+\end{theorem}
 
+\begin{lemma}
+    The category $\Delta^\op$ is sifted.
+\end{lemma}
 
+We will need to recall how subdivision works for simplicial sets.
+Write $\mathsf{nd}[p]$ or the nondegenerate simplices of $[p]$, which is the nerve of the poset ordered
+by inclusion. Clearly $\mathsf{nd}[0]=[0]$. One checks that
+\begin{equation*}
+    \mathsf{nd}[1] = 0 \xrightarrow{} 01 \xleftarrow{} 1.
+\end{equation*}
+For $\mathsf{nd}[2]$ one obtains the usual picture of the barycentric subdivision of the two-simplex.
+A little bit of work shows that we obtain a functor $\mathsf{nd}:\Delta\to\mathsf{sSet}$.
+We now define the barycentric subdivision as the left Kan extension of $\mathsf{nd}$:
+\begin{equation*}
+    \begin{tikzcd}
+        \Delta \rar{\mathsf{nd}}\dar[hook] & \mathsf{sSet} \\
+        \mathsf{sSet}\ar[ur, dashed]%{\mathsf{sd}=\mathsf{LKan} \mathsf{nd}}
+    \end{tikzcd}
+\end{equation*}
+In other words,
+\begin{equation*}
+    \mathsf{sd} X := \colim_{\Delta} \mathsf{nd}.
+\end{equation*}
+
+\begin{lemma}
+    For $X$ a simplicial set, $|X|\cong|\mathsf{sd} X|.$
+\end{lemma}
+\begin{proof}[Proof sketch]
+    I'll leave the details for you, but the first case is when $X=\Delta[p]$. Then
+    check that $|\Delta[p]|=\Delta^p\cong|\mathsf{nd}[p]|$.
+    More generally, reduce $|X|$ to each cell and apply the above logic.
+\end{proof}
+
+\begin{lemma}
+    The diagonal functor $\Delta^\op\to\Delta^\op\times\Delta^\op$ is final.
+\end{lemma}
+\begin{proof}
+    We use Quillen's theorem $A$ and show that for any $[p],[q]$, the classifying
+    space
+    \begin{equation*}
+        B\left( \Delta^\op\times_{\Delta^\op\times\Delta^\op}(\Delta^\op\times\Delta^\op)^{[p]\times[q]/} \right)\simeq *
+    \end{equation*}
+    is contractible. This is a bit clunky but we can rewrite as showing
+    \begin{equation*}
+        B\left( \Delta_{/[p]}\times_\Delta\Delta_{/[q]} \right) =: B(\Delta_{/\Delta[p]\times\Delta[q]})
+    \end{equation*}
+    by using the fact that $B$ doesn't care about taking opposites.
+    Notice that
+    \begin{equation*}
+        \Delta_{/\Delta[p]\times\Delta[q]}^\mathrm{inj} \hookrightarrow \Delta_{/\Delta[p]\times\Delta[q]}
+    \end{equation*}
+    where the left is the subset of $T-[p],T-[q]$ such that $T-[p]\times[q]$ is injective (for $T$ an element
+    of the right), has an adjoint. This adjoint is
+    \begin{equation*}
+        \Delta^\mathrm{inj}_{/\Delta[p]\times\Delta[q]}\leftarrow \Delta_{/\Delta[p]\times\Delta[q]}
+    \end{equation*}
+    given by
+    %\begin{equation*}
+    %    \text{image}(g)\hookrightarrow [p]\times[q] \leftmapsto T \xrightarrow{g} [p]\times[q].
+    %\end{equation*}
+    \marginnote{Fix this}
+    Hence
+    \begin{equation*}
+        B(\Delta^\mathrm{inj}_{\Delta[p]\times\Delta[q]}=B(\Delta_{/\Delta[p]\times\Delta[q]}.
+    \end{equation*}
+    But the left hand side is precisely $|\mathsf{sd}\Delta[p]\times\Delta[q]|\simeq *$.
+\end{proof}
+
+So far we've described what the factorization homology over the $n$-disk has to do with the cotangent space,
+but lets return to the general story.
+
+\begin{theorem}[Ayala, Francis - Poincar\'e/Koszul duality]
+    For $k$ a field, consider $A\in\mathsf{Alg}^\aug_{\Disk}(\mathsf{Ch}_k)$ such that $\bar A=\ker(A\to k)$
+    is connected (i.e. $H_*\bar A=0$ for $*\leq 0$) and $H_kA$ is finite-dimensional.
+    Write $\mathbb{D}^nA = \int_{D^n}A)^\vee$. Then for $M$ a closed $n$-manifold, there is an equivalence
+    \begin{equation*}
+        \left( \int_M A \right)^\vee \simeq \int_M \mathbb{D}^n A.
+    \end{equation*}
+\end{theorem}
+
+We have seen this already when $A$ is an $\mathcal{E}_n$-enveloping algebra of a Lie algebra or is chains
+on a $n$-fold loop spaces. The idea for the proof in general is to filter both sides and show that the
+layers are the same. We will filter $\int_MA$ using Goodwillie functor calculus and we will filter
+$\int_M\mathbb{D}^n A$ using Goodwilie-Weiss manifold calculus. In particular, one of the surprises
+in this context is that Goodwillie functor calculus, here, is Koszul dual to Goodwillie-Weiss manifold
+calculus. Indeed, we spoke to people at conferences who worked with both subjects, and they were pretty
+surprised, so hopefully this isn't obvious to you.
+
+\subsection{Goodwillie calculus}
+
+\begin{definition}
+    A functor $A:\mathsf{Alg}^\aug_{\Diskf}\to \mathsf{Ch}_k$ is \textbf{$i$-homogeneous} if there exist $F_i\in\mathsf{Ch}_k$
+    equipped with actions of $\Sigma_i$ on $F_i$ such that $A\mapsto F_i\otimes_{\Sigma_i}(LA)^{\otimes i}.$
+\end{definition}
+
+\begin{definition}
+    We say that $F$ is \textbf{$n$-excisive} if it belongs to the closure of $\ell$-homogeneous
+    functors for $\ell\leq n$ under all limits in $\Fun(\mathsf{Alg}^\aug_{\Diskf},\mathsf{Ch}_k).$
+\end{definition}
+
+\begin{definition}
+    The \textbf{$n$-excisive approximation} $P_nF$ to $F$ is the universal $n$-excisive functor with
+    a natural transformation $F\to P_nF$.
+\end{definition}
+
+\begin{lemma}
+    Write, for $A\in\mathsf{Alg}_{\mathcal{E}_n}$,
+    \begin{equation*}
+        \left( P_k\int_M \right)(A) =: P_k\int_M A.
+    \end{equation*}
+    There is a tower
+    \begin{equation*}
+        P_k\int_MA\to P_{k-1}\int_MA\to\cdots\to P_1\int_M A
+    \end{equation*}
+    such that the fiber is given
+    \begin{equation*}
+        \begin{tikzcd}
+            C_*(\Conf_k(M))\otimes_{\Sigma_k}(LA)^{\otimes k}\rar\dar & P_k\int_MA\dar \\
+            k\rar & P_{k-1}\int_MA
+        \end{tikzcd}
+    \end{equation*}
+\end{lemma}
 
 
 
