@@ -3455,7 +3455,7 @@ if statement in the Bar-Beck theorem.
 
 \newpage
 
-\section{??? [11/27/2017]}
+\section{Koszul duality II [11/27/2017]}
 
 Observe the following. For $\mathcal{K}$ a sifted category (nonempty with the diagonal functor final),
 given a diagram $\mathcal{K}\xrightarrow{A}\mathsf{Alg}(\mathcal{V})\xrightarrow{\mathsf{fgt}}\mathcal{V}$.
@@ -3604,6 +3604,151 @@ surprised, so hopefully this isn't obvious to you.
     \end{equation*}
 \end{lemma}
 
+
+\newpage
+
+\section{Manifold calculus [11/29/2017]}
+
+\subsection{Goodwillie-Weiss manifold calculus}
+
+Last time we gave the quickest introduction to Goodwillie calculus known to mankind.
+Let's now look at another ``filtration'', the cardinality filtration.
+
+\begin{definition}
+    Consider the category $\mathcal{D}\mathsf{isk}_{n/M}^\text{nu}$ which has objects
+    $n$-disks embedding into $M$ where the embeddings are surjections on $\pi_0$. The
+    morphisms are the $\pi_0$-surjective embeddings. The ``nu'' stands for nonunital,
+    as algebras over this will no longer have units. This category is a (not full)
+    $\infty$-subcategory of $\mathcal{D}\mathsf{isk}_{n/M}$.
+\end{definition}
+
+For the following it is important that our categories are $\infty$-categories and not
+just posets.
+\begin{lemma}
+    The map $\mathcal{D}\mathsf{isk}_{n/M}^\text{nu}\to\mathcal{D}\mathsf{isk}_{n/M}$
+    is final.
+\end{lemma}
+\begin{proof}
+    Left as an exercise.
+\end{proof}
+
+Define $\mathcal{D}\mathsf{isk}_{n/M}^{\text{nu},\leq i}\subset \mathcal{D}\mathsf{isk}_{n/M}^\text{nu}$
+to be the subcategory of $n$-disks that have $|I|\leq i$ components. Then we define
+\begin{equation*}
+    \tau^{\leq i}\int_M A = \colim\left( \mathcal{D}\mathsf{isk}_{n/M}^{\text{nu},\leq i}\to \mathsf{Ch}_k \right).
+\end{equation*}
+Observe that since we can write $\mathcal{D}\mathsf{isk}_{n/M}^\text{nu}=\varinjlim \mathcal{D}\mathsf{isk}_{n/M}^{\text{nu},\leq i}$ 
+as a sequential colimit and because colimits over colimits of categories are just iterated colimits (do this 
+abstract nonsense yourself, and note that it's not true for limits), we find that
+\begin{equation*}
+    \int_M A = \varinjlim_{i}\tau^{\leq i}\int_MA
+\end{equation*}
+via the above lemma.
+
+What are the layers in this filtration?
+\begin{lemma}
+    For $M$ closed, the following is a (homotopy) pushout:
+    \begin{equation*}
+        \begin{tikzcd}
+            \tau^{\leq i-1}\int_M A \dar \rar &\tau^{\leq i}\int_M A\dar\\
+            k\rar &\Conf_i(M)^+ \otimes_{\Sigma_i}A^{\otimes i}
+        \end{tikzcd}
+    \end{equation*}
+    Here we are taking the one-point compactification of the configuration space.
+    If you like, the bottom right can be written as twisted chains
+    $\tilde C_*(\Conf_i(M)^+_{\Sigma_i},A^{\otimes i})$
+\end{lemma}
+\begin{proof}[Proof idea]
+    We have already shown that $\mathcal{D}\mathsf{isk}_{n/M}^{\text{nu},=i}\simeq \Conf_i(M)_{\Sigma_i}$.
+    So what we want to study is the quotient
+    \begin{equation*}
+        \mathcal{D}\mathsf{isk}_{n/M}^{\text{nu},\leq i}/\mathcal{D}\mathsf{isk}_{n/M}^{\text{nu},\leq i-1}\simeq \Conf_i(M)^+_{\Sigma_i}
+    \end{equation*}
+    and then apply some formal nonsense.
+\end{proof}
+
+
+\begin{proposition}
+    For $k\oplus V$ a trivial $\mathcal{E}_n$-algebra the cardinality filtration splits as
+    \begin{equation*}
+        \int_M k\oplus V \simeq \bigoplus_{i\geq 0}\Conf_i(M)^+\otimes_{\Sigma_i}V^{\otimes i}.
+    \end{equation*}
+\end{proposition}
+
+Compare this to the case of Goodwillie calculus for free algebras where we have a splitting
+\begin{equation*}
+    \int_M \mathsf{Free}_{\mathcal{E}_n}(W) \simeq \bigoplus_{i\geq 0}\Conf_i(M)\otimes_{\Sigma_i} W^{\otimes i}
+\end{equation*}
+which is quite similar.
+By Koszul duality,
+\begin{equation*}
+    \mathbb{D}^n(\mathsf{Free}_{\mathcal{E}_n} W) \simeq \left( \int_{D^n}\mathsf{Free}_{\mathcal{E}_n}W \right)^\vee \simeq (k\oplus W[n])^\vee
+    \simeq k\oplus W^\vee[-n].
+\end{equation*}
+
+\begin{proposition}
+    For $A$ with connected augmentation ideal and $H_*A$ finite rank, we have that
+    \begin{equation*}
+        \left( \int_M A \right)^\vee \simeq \int_M\mathbb{D}^n A.
+    \end{equation*}
+\end{proposition}
+\begin{proof}
+    We will play this proof slightly fast and loose, for lack of time.
+    Suppose $A=\mathsf{Free}_{\mathcal{E}_n}V$. Then on the left we have
+    \begin{equation*}
+        \left( \int_M\mathsf{Free}_{\mathcal{E}_n}V \right)^\vee = \left(\bigoplus \Conf_i(M)\otimes_{\Sigma_i}V^{\otimes i} \right)^\vee
+        = \prod_{i\geq 0}\left( \Conf_i(M)\otimes_{\Sigma_i}V^{\otimes i} \right)^\vee.
+    \end{equation*}
+    Observe now the following important fact. We always have a map $\oplus_{i\geq 0}B_i\to\prod_{i\geq 0}B_i$.
+    This is an equivalence if $B_i$ is (for simplicity) $i$-connective as $i\to\infty$ (since
+    finite sums and finite products are the same).
+    Recall that $V$ is 1-connective, whence $V^{\otimes i}$ is $i$-connective.\footnote{Recall
+    that the definition between connected and connective is just a shift.} Hence
+    $\Conf_i(M)^\otimes V^{\otimes i}$ is $i$-connective. Quotienting by $\Sigma_i$ preserves
+    this, as colimits preserve connectivity because we have an adjunction
+    \begin{equation*}
+        \begin{tikzcd}
+            \mathsf{Ch}_k^{\geq i} \rar[bend left]{left} & \mathsf{Ch}_k \lar[bend left]{\tau^{\geq i}}.
+        \end{tikzcd}
+    \end{equation*}
+    Now the observation above allows us to simplify, up to equivalence, the direct product to a direct sum:
+    \begin{equation*}
+        \bigoplus_{i\geq 0}\left(\Conf_i(M)\otimes_{\Sigma_i}V^{\otimes i}\right)^\vee.
+    \end{equation*}
+
+    We want this to be the same as
+    \begin{equation*}
+        \int_{M}\mathbb{D}^n(\mathsf{Free}_{\mathcal{E}_n}V) \simeq \int_M k\oplus V^\vee[-n] \simeq \bigoplus_{i\geq 0}\Conf_i(M)^+\otimes_{\Sigma_i}(V^\vee[-n])^{\otimes i}
+    \end{equation*}
+    In particular we want
+    \begin{equation*}
+        \left( \Conf_i(M)\otimes_{\Sigma_i} V^{\otimes i} \right)^\vee \simeq \Conf_i(M)^+\otimes_{\Sigma_i}(V^\vee[-n])^{\otimes i}.
+    \end{equation*}
+    Let's play with the left. The dual of a colimit is a limit so we have
+    \begin{align*}
+        \left( \Conf_i(M)\otimes_{\Sigma_i} V^{\otimes i} \right)^\vee & \simeq  \left( C_*(\Conf_i(M))\otimes_{\Sigma_i}V^{\otimes i} \right)^\vee \\
+        & \simeq \left( C_*(\Conf_i(M))^\vee \otimes (V^\otimes i)^\vee \right)^{\Sigma_i} \\
+        & \simeq C_*(\Conf_i(M))^\vee \otimes^{\Sigma_i}(V^{\otimes i})^\vee \\
+        & \simeq C^*(\Conf_i(M))\otimes^{\Sigma_i}(V^\vee)^{\otimes i}
+    \end{align*}
+    using the finiteness data that we have.
+    On the right we have, playing a little loose (due to local coefficient issues)
+    \begin{align*}
+        \tilde C_*(\Conf_i(M)^+)\otimes_{\Sigma_i}\left( V^\vee[-n] \right)^{\otimes i} &\sim \tilde C_*\Conf_i(M)^+\otimes_{\Sigma_i}\left( V^\vee \right)^{\otimes i}[-ni] \\
+        &\sim \tilde C_*\Conf_i(M)^+\otimes^{\Sigma_i}\left( V^\vee \right)^{\otimes i}[-ni]
+    \end{align*}
+    using the norm map being an equivalence (since $\Conf_i(M)$ is a finite CW complex on which the symmetric
+    group acts freely). Finally we apply usual Poincar\'e duality, to obtain the left. This proves it for
+    the free algebra.
+
+    For details, see AF's paper Poincar\'e/Koszul duality.
+\end{proof}
+Grisha: is it obvious that the Goodwillie tower converges here?
+John: we need the connectedness of the augmentation ideal. Otherwise the result is false. There is
+a more general result which is true, where Koszul dual of an algebra is a formal moduli problem.
+There is a form of factorization homology that takes as input a formal moduli problem. In this case
+all the conditions may be removed\ldots notice also that here it was vital that we worked
+over a field so that we might swap connectivity and coconnectivity.
 
 
 \newpage
